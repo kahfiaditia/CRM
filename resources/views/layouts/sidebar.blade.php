@@ -34,7 +34,7 @@
                         @if (Auth::user()->roles == 'Administrator')
                             <li><a href="{{ route('supplier.index') }}" key="t-products">Supplier</a></li>
                             <li><a href="{{ route('jenis.index') }}" key="t-product-detail">Jenis</a></li>
-                            <li><a href="#" key="t-product-detail">Obat</a></li>
+                            <li><a href="{{ route('obat.index') }}" key="t-product-detail">Obat</a></li>
                             <li><a href="#" key="t-product-detail">Pelanggan</a></li>
                         @endif
                         {{-- <li><a href="#" key="t-orders">Voting</a></li> --}}

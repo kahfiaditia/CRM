@@ -13,7 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SupplierController extends Controller
 {
-    protected $title = 'faeyza farma';
+    protected $title = 'Supplier';
     protected $menu = 'Master Data';
     /**
      * Display a listing of the resource.

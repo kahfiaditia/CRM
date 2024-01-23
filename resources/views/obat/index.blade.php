@@ -17,7 +17,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 {{-- @if (in_array('148', $session_menu)) --}}
-                                <a href="{{ route('supplier.create') }}" type="button"
+                                <a href="{{ route('obat.create') }}" type="button"
                                     class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
                                     <i class="mdi mdi-plus me-1"></i> Tambah
                                 </a>
@@ -35,7 +35,7 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button fw-medium <?php if (isset($_GET['supplier'])) {
+                                        <button class="accordion-button fw-medium <?php if (isset($_GET['obat'])) {
                                         } else {
                                             echo 'collapsed';
                                         } ?>" type="button"
@@ -47,8 +47,8 @@
                                     </h2>
 
                                     <div id="collapseOne" class="accordion-collapse collapse <?php
-                                    if (isset($_GET['supplier']) or isset($_GET['alamat']) or isset($_GET['kontak']) or isset($_GET['telp']) or isset($_GET['status'])) {
-                                        if ($_GET['supplier'] != null or $_GET['alamat'] != null or $_GET['kontak'] != null or $_GET['telp'] != null or $_GET['status'] != null) {
+                                    if (isset($_GET['nama_kegiatan']) or isset($_GET['nama_hari']) or isset($_GET['jam_mulai']) or isset($_GET['jam_selesai']) or isset($_GET['name'])) {
+                                        if ($_GET['nama_kegiatan'] != null or $_GET['nama_hari'] != null or $_GET['jam_mulai'] != null or $_GET['jam_selesai'] != null or $_GET['name'] != null) {
                                             echo 'show';
                                         }
                                     }
@@ -172,14 +172,14 @@
                                 </div>
                             </div>
 
-                            <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
+                            <table id="datatable" class="table table-striped dt-responsive nowrap w-100 mt-3">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Supplier</th>
-                                        <th>Alamat</th>
-                                        <th>Kontact</th>
-                                        <th>Telp</th>
+                                        <th>Obat</th>
+                                        <th>Stok</th>
+                                        <th>Harga Jual</th>
+                                        <th>Harga Jual</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
