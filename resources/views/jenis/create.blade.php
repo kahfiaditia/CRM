@@ -27,7 +27,8 @@
                                             <div class="mb-6">
                                                 <label for="jenis" class="form-label">Nama</label>
                                                 <input type="text" class="form-control" name="jenis" id="jenis"
-                                                    autocomplete="off" required>
+                                                    oninput="this.value = this.value.toUpperCase()" autocomplete="off"
+                                                    required>
                                             </div>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
@@ -38,12 +39,8 @@
                                             <div class="mb-6">
                                                 <label for="descr" class="form-label">Deskripsi</label>
                                                 <input type="text" class="form-control" name="descr" id="descr"
-                                                    autocomplete="off">
+                                                    oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                                             </div>
-                                            <div class="invalid-feedback">
-                                                Data wajib diisi.
-                                            </div>
-                                            {!! $errors->first('descr', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
                                 </div>

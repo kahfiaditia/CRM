@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisController;
+use App\Http\Controllers\ObatController;
 use App\Http\Controllers\SupplierController;
 
 /*
@@ -40,5 +41,6 @@ Route::group(
         route::resource('/supplier', SupplierController::class);
         Route::get('/data_list', [SupplierController::class, 'data_list'])->name('supplier.data_list');
         route::resource('/jenis', JenisController::class);
+        route::resource('/obat', ObatController::class);
     }
 );

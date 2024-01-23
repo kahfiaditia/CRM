@@ -28,7 +28,8 @@
                                             <div class="mb-4">
                                                 <label for="jenis" class="form-label">Jenis</label>
                                                 <input type="text" class="form-control" name="jenis" id="jenis"
-                                                    value="{{ old('jenis', $editjenis->jenis) }}" autocomplete="off"
+                                                    value="{{ old('jenis', $editjenis->jenis) }}"
+                                                    oninput="this.value = this.value.toUpperCase()" autocomplete="off"
                                                     required>
                                             </div>
                                             <div class="invalid-feedback">
@@ -40,7 +41,8 @@
                                             <div class="mb-4">
                                                 <label for="descr" class="form-label">Deskripsi</label>
                                                 <input type="text" class="form-control" name="descr" id="descr"
-                                                    value="{{ old('jenis', $editjenis->deskripsi) }}" autocomplete="off">
+                                                    value="{{ old('jenis', $editjenis->deskripsi) }}"
+                                                    oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                                             </div>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.

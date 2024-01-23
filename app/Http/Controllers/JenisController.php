@@ -50,9 +50,9 @@ class JenisController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'jenis' => 'required',
-            'deskripsi' => 'required',
         ]);
 
         DB::beginTransaction();
@@ -66,17 +66,13 @@ class JenisController extends Controller
             $produk->save();
 
             DB::commit();
-            return response()->json([
-                'code' => 200,
-                'message' => 'Berhasil Input Data',
-            ]);
+            AlertHelper::addAlert(true);
+            return redirect('/jenis');
         } catch (\Throwable $err) {
-            DB::rollBack();
+            DB::rollback();
             throw $err;
-            return response()->json([
-                'code' => 404,
-                'message' => 'Gagal Input Data',
-            ]);
+            AlertHelper::addAlert(false);
+            return back();
         }
     }
 
@@ -141,9 +137,10 @@ class JenisController extends Controller
      */
     public function destroy($id)
     {
+        $id_decrypt = Crypt::decryptString($id);
         DB::beginTransaction();
         try {
-            $hapus = JenisModel::findOrFail($id);
+            $hapus = JenisModel::findOrFail($id_decrypt);
             $hapus->deleted_at = Carbon::now();
             $hapus->user_deleted = Auth::user()->id;
             $hapus->save();
