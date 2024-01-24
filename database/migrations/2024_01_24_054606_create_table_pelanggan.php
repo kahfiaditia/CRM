@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('telp', 16)->nullable();
             $table->string('alamat', 25)->nullable();
             $table->string('status', 1)->nullable();
-            $table->unsignedBigInteger('jenis_id')->nullable();
-            $table->foreign('jenis_id')->references('id')->on('jenis');
             $table->unsignedBigInteger('user_created')->nullable();
             $table->foreign('user_created')->references('id')->on('users');
             $table->unsignedBigInteger('user_updated')->nullable();

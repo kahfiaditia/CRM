@@ -46,15 +46,8 @@
                         <span key="t-ecommerce">Pembelian</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="" key="t-products">Kegiatan</a></li>
-                        <li><a href="" key="t-products">Pembina</a></li>
-                        <li><a href="" key="t-product-detail">Jadwal</a></li>
-                        <li><a href="" key="t-orders">Ikuti</a></li>
-                        <li><a href="" key="t-orders">Daftar Kegiatan</a>
-                        </li>
-                        <li><a href="" key="t-orders">Absensi</a></li>
-                        <li><a href="" key="t-orders">Absen Mandiri</a></li>
-                        <li><a href="" key="t-orders">Data Absensi</a></li>
+                        <li><a href="" key="t-products">Pembelian Vendor</a></li>
+                        <li><a href="" key="t-products">Retur Pembelian</a></li>
                     </ul>
                 </li>
                 <li>

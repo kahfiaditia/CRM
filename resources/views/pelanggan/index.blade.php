@@ -17,7 +17,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 {{-- @if (in_array('148', $session_menu)) --}}
-                                <a href="{{ route('supplier.create') }}" type="button"
+                                <a href="{{ route('pelanggan.create') }}" type="button"
                                     class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
                                     <i class="mdi mdi-plus me-1"></i> Tambah
                                 </a>
@@ -44,6 +44,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($indexpelanggan as $pelanggan)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $pelanggan->nama }}</td>
+                                            <td>{{ $pelanggan->alamat }}</td>
+                                            <td>{{ $pelanggan->telp }}</td>
+                                            <td>{{ $pelanggan->status == 1 ? 'Aktive' : 'Non Aktive' }}</td>
+                                            <td>
+                                                <form class="delete-form"
+                                                    action="{{ route('pelanggan.destroy', Crypt::encryptString($pelanggan->id)) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="d-flex gap-3">
+
+                                                        <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
+                                                            class="text-success"><i
+                                                                class="mdi mdi-pencil font-size-18"></i></a>
+                                                        <a href class="text-danger delete_confirm"><i
+                                                                class="mdi mdi-delete font-size-18"></i></a>
+
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

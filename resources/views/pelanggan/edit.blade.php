@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <form class="needs-validation" action="{{ route('supplier.update', $editsuplier->id) }}" method="POST"
+            <form class="needs-validation" action="{{ route('pelanggan.update', $editpelanggan->id) }}" method="POST"
                 novalidate>
                 @csrf
                 @method('PATCH')
@@ -25,77 +25,45 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
-                                                <label for="supplier" class="form-label">Supplier</label>
-                                                <input type="text" class="form-control" name="supplier" id="supplier"
-                                                    value="{{ old('supplier', $editsuplier->supplier) }}"
-                                                    autocomplete="off">
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
+                                                <label for="nama" class="form-label">Nama <code>*</code></label>
+                                                <input type="text" class="form-control" name="nama" id="nama"
+                                                    oninput="this.value = this.value.toUpperCase()"
+                                                    value="{{ old('nama', $editpelanggan->nama) }}" autocomplete="off">
                                             </div>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
-                                            {!! $errors->first('supplier', '<div class="invalid-validasi">:message</div>') !!}
+                                            {!! $errors->first('nama', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="mb-3">
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
                                                 <label for="alamat" class="form-label">Alamat</label>
                                                 <input type="text" class="form-control" name="alamat" id="alamat"
-                                                    value="{{ old('alamat', $editsuplier->alamat) }}" autocomplete="off">
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Data wajib diisi.
-                                            </div>
-                                            {!! $errors->first('alamat', '<div class="invalid-validasi">:message</div>') !!}
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-2">
-                                                <label for="alamat" class="form-label">Kontak</label>
-                                                <input type="text" class="form-control" name="kontak" id="kontak"
                                                     oninput="this.value = this.value.toUpperCase()"
-                                                    value="{{ old('kontak', $editsuplier->kontak) }}" autocomplete="off">
+                                                    value="{{ old('alamat', $editpelanggan->alamat) }}" autocomplete="off">
                                             </div>
-                                            <div class="invalid-feedback">
-                                                Data wajib diisi.
-                                            </div>
-                                            {!! $errors->first('kontak', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-2">
-                                                <label for="telp" class="form-label">Telp</label>
+                                        <div class="col-md-4">
+                                            <div class="mb-4">
+                                                <label for="telp" class="form-label">Telp <code>*</code></label>
                                                 <input type="text" class="form-control" name="telp" id="telp"
                                                     oninput="this.value = this.value.toUpperCase()"
-                                                    value="{{ old('telp', $editsuplier->telp) }}" autocomplete="off">
+                                                    value="{{ old('telp', $editpelanggan->telp) }}" autocomplete="off">
                                                 <div class="invalid-feedback">
                                                     Data wajib diisi.
                                                 </div>
                                                 {!! $errors->first('telp', '<div class="invalid-validasi">:message</div>') !!}
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="mb-2">
-                                                <label for="status1" class="form-label">Status</label>
-                                                <select class="form-control select select2 status1" name="status1"
-                                                    id="status1" required>
-                                                    <option value=""> -- Pilih --</option>
-                                                    <option value="1"
-                                                        @if ($editsuplier->status == 1) selected @endif> Aktif </option>
-                                                    <option value="2"
-                                                        @if ($editsuplier->status == 2) selected @endif> Tidak Aktif
-                                                    </option>
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    Data wajib diisi.
-                                                </div>
-                                                {!! $errors->first('status1', '<div class="invalid-validasi">:message</div>') !!}
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
 
                                 <div class="row mt-4">
                                     <div class="col-sm-12">
-                                        <a href="{{ route('supplier.index') }}"
+                                        <a href="{{ route('pelanggan.index') }}"
                                             class="btn btn-secondary waves-effect">Batal</a>
                                         <button class="btn btn-primary" type="submit" style="float: right">Simpan</button>
                                     </div>

@@ -7,6 +7,7 @@ use App\Models\PelangganModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -51,30 +52,22 @@ class PelangganController extends Controller
 
         DB::beginTransaction();
         try {
-
-            for ($i = 0; $i < count($request->dataTabel); $i++) {
-                $produk = new PelangganModel();
-                $produk->supplier =  $request->dataTabel[$i]['nama'];
-                $produk->alamat =  $request->dataTabel[$i]['alamat'];
-                $produk->kontak =  $request->dataTabel[$i]['kontak'];
-                $produk->telp =  $request->dataTabel[$i]['telp'];
-                $produk->status =  1;
-                $produk->user_created = Auth::user()->id;
-                $produk->save();
-            }
+            $produk = new PelangganModel();
+            $produk->nama =  $request->nama;
+            $produk->alamat =  $request->alamat;
+            $produk->telp =  $request->telp;
+            $produk->status =  1;
+            $produk->user_created = Auth::user()->id;
+            $produk->save();
 
             DB::commit();
-            return response()->json([
-                'code' => 200,
-                'message' => 'Berhasil Input Data',
-            ]);
+            AlertHelper::addAlert(true);
+            return redirect('/pelanggan');
         } catch (\Throwable $err) {
-            DB::rollBack();
+            DB::rollback();
             throw $err;
-            return response()->json([
-                'code' => 404,
-                'message' => 'Gagal Input Data',
-            ]);
+            AlertHelper::addAlert(false);
+            return back();
         }
     }
 
@@ -91,12 +84,13 @@ class PelangganController extends Controller
      */
     public function edit($id)
     {
+        $id_decrypt = Crypt::decryptString($id);
         $data = [
             'title' => $this->title,
             'menu' => $this->menu,
             'submenu' => 'Edit pelanggan',
             'label' => 'Edit pelanggan',
-            'editsuplier' => PelangganModel::findOrfail($id)
+            'editpelanggan' => PelangganModel::findOrfail($id_decrypt)
         ];
         return view('pelanggan.edit')->with($data);
     }
@@ -107,18 +101,15 @@ class PelangganController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'supplier' => 'required',
-            'alamat' => 'required',
-            'kontak' => 'required',
+            'nama' => 'required',
             'telp' => 'required',
         ]);
 
         DB::beginTransaction();
         try {
             $produk = PelangganModel::findOrFail($id);
-            $produk->supplier = $request->supplier;
+            $produk->nama = $request->nama;
             $produk->alamat = $request->alamat;
-            $produk->kontak = $request->kontak;
             $produk->telp = $request->telp;
             $produk->status = $request->status1;
             $produk->user_updated = Auth::user()->id;
@@ -140,9 +131,10 @@ class PelangganController extends Controller
      */
     public function destroy($id)
     {
+        $id_decrypt = Crypt::decryptString($id);
         DB::beginTransaction();
         try {
-            $hapus = PelangganModel::findOrFail($id);
+            $hapus = PelangganModel::findOrFail($id_decrypt);
             $hapus->deleted_at = Carbon::now();
             $hapus->user_deleted = Auth::user()->id;
             $hapus->save();
