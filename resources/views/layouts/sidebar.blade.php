@@ -43,11 +43,12 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-log-in-circle"></i>
-                        <span key="t-ecommerce">Pembelian</span>
+                        <span key="t-file-manager">Pembelian</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="" key="t-products">Pembelian Vendor</a></li>
-                        <li><a href="" key="t-products">Retur Pembelian</a></li>
+                        <li><a href="{{ route('pembelian.index') }}" key="t-product-detail">Pembelian</a>
+                        </li>
+                        {{-- <li><a href="" key="t-products">Retur Pembelian</a></li> --}}
                     </ul>
                 </li>
                 <li>
