@@ -141,9 +141,16 @@ class ObatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $data = [
+            'title' => $this->title,
+            'menu' => $this->menu,
+            'submenu' => 'Edit Obat',
+            'label' => 'Edit Obat',
+            'viewobat' => ObatModel::findOrfail($id)
+        ];
+        return view('obat.show')->with($data);
     }
 
     /**
@@ -154,9 +161,9 @@ class ObatController extends Controller
         $data = [
             'title' => $this->title,
             'menu' => $this->menu,
-            'submenu' => 'Edit supplier',
-            'label' => 'Edit supplier',
-            'editsuplier' => ObatModel::findOrfail($id)
+            'submenu' => 'Edit Obat',
+            'label' => 'Edit Obat',
+            'editobat' => ObatModel::findOrfail($id)
         ];
         return view('obat.edit')->with($data);
     }

@@ -11,4 +11,9 @@ class ObatModel extends Model
     use HasFactory, SoftDeletes;
     protected $table = "obat";
     protected $guarded = [];
+
+    public function jenis()
+    {
+        return $this->belongsTo(JenisModel::class, 'jenis_id');
+    }
 }
