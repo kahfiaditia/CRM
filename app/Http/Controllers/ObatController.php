@@ -40,10 +40,10 @@ class ObatController extends Controller
             // $search_rak = str_replace(' ', '', $search);
             $userdata->where(function ($where) use ($search) {
                 $where
-                    ->orWhere('supplier', 'like', '%' . $search . '%')
-                    ->orWhere('alamat', 'like', '%' . $search . '%')
-                    ->orWhere('kontak', 'like', '%' . $search . '%')
-                    ->orWhere('telp', 'like', '%' . $search . '%')
+                    ->orWhere('obat', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                    ->orWhere('stok_minimal', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_id', 'like', '%' . $search . '%')
                     ->orWhere('status', 'like', '%' . $search . '%');
             });
 
@@ -52,34 +52,38 @@ class ObatController extends Controller
             if ($search != null) {
                 $userdata->where(function ($where) use ($search) {
                     $where
-                        ->orWhere('supplier', 'like', '%' . $search . '%')
-                        ->orWhere('alamat', 'like', '%' . $search . '%')
-                        ->orWhere('kontak', 'like', '%' . $search . '%')
-                        ->orWhere('telp', 'like', '%' . $search . '%')
+                        ->orWhere('obat', 'like', '%' . $search . '%')
+                        ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                        ->orWhere('stok_minimal', 'like', '%' . $search . '%')
+                        ->orWhere('jenis_id', 'like', '%' . $search . '%')
                         ->orWhere('status', 'like', '%' . $search . '%');
                 });
             }
         } else {
-            if ($request->get('supplier') != null) {
-                $supplier = $request->get('supplier');
-                $userdata->where('supplier', '=', $supplier);
+            if ($request->get('obat') != null) {
+                $obat = $request->get('obat');
+                $userdata->where('obat', '=', $obat);
             }
-            if ($request->get('alamat') != null) {
-                $alamat = $request->get('alamat');
-                $userdata->where('alamat', '=', $alamat);
+            if ($request->get('deskripsi') != null) {
+                $deskripsi = $request->get('deskripsi');
+                $userdata->where('deskripsi', '=', $deskripsi);
             }
-            if ($request->get('kontak') != null) {
-                $kontak = $request->get('kontak');
-                $userdata->where('kontak', '=', $kontak);
+            if ($request->get('stok_minimal') != null) {
+                $stok_minimal = $request->get('stok_minimal');
+                $userdata->where('stok_minimal', '=', $stok_minimal);
             }
-            if ($request->get('telp') != null) {
-                $telp = $request->get('telp');
-                $userdata->where('telp', '=', $telp);
+            if ($request->get('jenis_id') != null) {
+                $jenis_id = $request->get('jenis_id');
+                $userdata->where('jenis_id', '=', $jenis_id);
+            }
+            if ($request->get('status') != null) {
+                $status = $request->get('status');
+                $userdata->where('status', '=', $status);
             }
         }
 
         return DataTables::of($userdata)
-            ->addColumn('action', 'supplier.aksi')
+            ->addColumn('action', 'obat.akse')
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -104,16 +108,16 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-
+        // dd($request->dataTabel);
         DB::beginTransaction();
         try {
 
             for ($i = 0; $i < count($request->dataTabel); $i++) {
                 $produk = new ObatModel();
-                $produk->supplier =  $request->dataTabel[$i]['nama'];
-                $produk->alamat =  $request->dataTabel[$i]['alamat'];
-                $produk->kontak =  $request->dataTabel[$i]['kontak'];
-                $produk->telp =  $request->dataTabel[$i]['telp'];
+                $produk->obat =  $request->dataTabel[$i]['obat'];
+                $produk->jenis_id =  $request->dataTabel[$i]['jenis'];
+                $produk->stok_minimal =  $request->dataTabel[$i]['minimal'];
+                $produk->deskripsi =  $request->dataTabel[$i]['deskripsi'];
                 $produk->status =  1;
                 $produk->user_created = Auth::user()->id;
                 $produk->save();

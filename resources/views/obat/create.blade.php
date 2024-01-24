@@ -112,7 +112,6 @@
     <script>
         $(document).ready(function() {
 
-
             function tambahDataTabel() {
                 // Ambil nilai dari input form
                 let selectedJenisText = $("#jenis option:selected").text();
@@ -164,8 +163,8 @@
                 $("#tableObat tbody tr").each(function() {
                     let rowData = {
                         obat: $(this).find("td:eq(0)").text(),
-                        selectedJenisText: $(this).find("td:eq(1)").text(),
-                        jenis: $(this).find("td:eq(2)").text(),
+                        jenis: $(this).find("td:eq(1)").text(),
+                        selectedJenisText: $(this).find("td:eq(2)").text(),
                         minimal: $(this).find("td:eq(3)").text(),
                         deskripsi: $(this).find("td:eq(4)").text(),
                     };
@@ -185,7 +184,7 @@
                             if (response.code === 200) {
                                 Swal.fire(
                                     'Success',
-                                    'Data Supplier Berhasil dimasukkan',
+                                    'Data Obat Berhasil dimasukkan',
                                     'success'
                                 ).then(() => {
                                     var APP_URL = {!! json_encode(url('/')) !!}

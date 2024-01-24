@@ -47,8 +47,8 @@
                                     </h2>
 
                                     <div id="collapseOne" class="accordion-collapse collapse <?php
-                                    if (isset($_GET['nama_kegiatan']) or isset($_GET['nama_hari']) or isset($_GET['jam_mulai']) or isset($_GET['jam_selesai']) or isset($_GET['name'])) {
-                                        if ($_GET['nama_kegiatan'] != null or $_GET['nama_hari'] != null or $_GET['jam_mulai'] != null or $_GET['jam_selesai'] != null or $_GET['name'] != null) {
+                                    if (isset($_GET['obat']) or isset($_GET['jenis']) or isset($_GET['harga_jual']) or isset($_GET['harga_beli']) or isset($_GET['stok'])) {
+                                        if ($_GET['obat'] != null or $_GET['jenis'] != null or $_GET['harga_jual'] != null or $_GET['harga_beli'] != null or $_GET['stok'] != null) {
                                             echo 'show';
                                         }
                                     }
@@ -65,33 +65,33 @@
                                                         <div class="col-md-12">
                                                             <div class="row">
                                                                 <div class="col-md-2 mb-2">
-                                                                    <input type="text" name="supplier" id="supplier"
-                                                                        value="{{ isset($_GET['supplier']) ? $_GET['supplier'] : null }}"
-                                                                        class="form-control" placeholder="Supllier"
+                                                                    <input type="text" name="obat" id="obat"
+                                                                        value="{{ isset($_GET['obat']) ? $_GET['obat'] : null }}"
+                                                                        class="form-control" placeholder="Obat"
                                                                         autocomplete="off">
                                                                 </div>
                                                                 <div class="col-sm-2 mb-2">
-                                                                    <input type="text" name="alamat" id="alamat"
-                                                                        value="{{ isset($_GET['alamat']) ? $_GET['alamat'] : null }}"
-                                                                        class="form-control" placeholder="Alamat"
+                                                                    <input type="text" name="jenis" id="jenis"
+                                                                        value="{{ isset($_GET['jenis']) ? $_GET['jenis'] : null }}"
+                                                                        class="form-control" placeholder="Jenis"
                                                                         autocomplete="off">
                                                                 </div>
                                                                 <div class="col-sm-2 mb-2">
-                                                                    <input type="text" name="kontak" id="kontak"
-                                                                        value="{{ isset($_GET['kontak']) ? $_GET['kontak'] : null }}"
-                                                                        class="form-control" placeholder="Kontak"
+                                                                    <input type="text" name="harga_jual" id="harga_jual"
+                                                                        value="{{ isset($_GET['harga_jual']) ? $_GET['harga_jual'] : null }}"
+                                                                        class="form-control" placeholder="Harga Jual"
                                                                         autocomplete="off">
                                                                 </div>
                                                                 <div class="col-sm-2 mb-2">
-                                                                    <input type="text" name="telp" id="telp"
-                                                                        value="{{ isset($_GET['telp']) ? $_GET['telp'] : null }}"
-                                                                        class="form-control" placeholder="Telp"
+                                                                    <input type="text" name="harga_beli" id="harga_beli"
+                                                                        value="{{ isset($_GET['harga_beli']) ? $_GET['harga_beli'] : null }}"
+                                                                        class="form-control" placeholder="Harga Beli"
                                                                         autocomplete="off">
                                                                 </div>
                                                                 <div class="col-sm-2 mb-2">
-                                                                    <input type="text" name="status" id="status"
-                                                                        value="{{ isset($_GET['status']) ? $_GET['status'] : null }}"
-                                                                        class="form-control" placeholder="Status"
+                                                                    <input type="text" name="stok" id="stok"
+                                                                        value="{{ isset($_GET['stok']) ? $_GET['stok'] : null }}"
+                                                                        class="form-control" placeholder="Stok"
                                                                         autocomplete="off">
                                                                 </div>
                                                             </div>
@@ -126,11 +126,11 @@
                                                                 class="btn btn-secondary w-md">Batal</a>
                                                             @if (isset($_GET['id_ketua']) or isset($_GET['id_ketua']))
                                                                 <?php
-                                                                $supplier = $_GET['supplier'];
-                                                                $alamat = $_GET['alamat'];
-                                                                $kontak = $_GET['kontak'];
-                                                                $telp = $_GET['telp'];
-                                                                $status = $_GET['status'];
+                                                                $obat = $_GET['obat'];
+                                                                $jenis = $_GET['jenis'];
+                                                                $harga_jual = $_GET['harga_jual'];
+                                                                $harga_beli = $_GET['harga_beli'];
+                                                                $stok = $_GET['stok'];
                                                                 $search_manual = $_GET['search_manual'];
                                                                 if (isset($_GET['like'])) {
                                                                     $like = $_GET['like'];
@@ -139,17 +139,17 @@
                                                                 }
                                                                 ?>
                                                                 <a href="{{ route(
-                                                                    'supplier.index',
-                                                                    'supplier=' .
-                                                                        $supplier .
-                                                                        '&alamat=' .
-                                                                        $alamat .
-                                                                        '&kontak=' .
-                                                                        $kontak .
-                                                                        '&telp=' .
-                                                                        $telp .
-                                                                        '&status=' .
-                                                                        $status .
+                                                                    'obat.index',
+                                                                    'obat=' .
+                                                                        $obat .
+                                                                        '&jenis=' .
+                                                                        $jenis .
+                                                                        '&harga_jual=' .
+                                                                        $harga_jual .
+                                                                        '&harga_beli=' .
+                                                                        $harga_beli .
+                                                                        '&stok=' .
+                                                                        $stok .
                                                                         '&search_manual=' .
                                                                         $search_manual .
                                                                         '&like=' .
@@ -159,7 +159,7 @@
                                                                     class="btn btn-success btn-rounded waves-effect waves-light w-md"><i
                                                                         class="bx bx-cloud-download me-1"></i>Unduh</a>
                                                             @else
-                                                                <a href="{{ route('supplier.index') }}"
+                                                                <a href="{{ route('obat.index') }}"
                                                                     class="btn btn-success btn-rounded waves-effect waves-light w-md"><i
                                                                         class="bx bx-cloud-download me-1"></i>Unduh</a>
                                                             @endif
@@ -199,11 +199,11 @@
         function toggleCheckbox() {
             like = document.getElementById("like").checked;
             if (like == true) {
-                document.getElementById("supplier").value = null;
-                document.getElementById("alamat").value = null;
-                document.getElementById("kontak").value = null;
-                document.getElementById("telp").value = null;
-                document.getElementById("status").value = null;
+                document.getElementById("obat").value = null;
+                document.getElementById("jenis").value = null;
+                document.getElementById("harga_jual").value = null;
+                document.getElementById("harga_beli").value = null;
+                document.getElementById("stok").value = null;
                 $('#type').val("").trigger('change')
                 document.getElementById("id_where").style.display = 'none';
                 document.getElementById("id_like").style.display = 'block';
@@ -218,11 +218,11 @@
         $(document).ready(function() {
             like = document.getElementById("like").checked;
             if (like == true) {
-                document.getElementById("supplier").value = null;
-                document.getElementById("alamat").value = null;
-                document.getElementById("kontak").value = null;
-                document.getElementById("telp").value = null;
-                document.getElementById("status").value = null;
+                document.getElementById("obat").value = null;
+                document.getElementById("jenis").value = null;
+                document.getElementById("harga_jual").value = null;
+                document.getElementById("harga_beli").value = null;
+                document.getElementById("stok").value = null;
                 $('#type').val("").trigger('change')
                 document.getElementById("id_where").style.display = 'none';
                 document.getElementById("id_like").style.display = 'block';
@@ -239,29 +239,29 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('supplier.data_list') }}",
+                    url: "{{ route('obat.data_list') }}",
                     data: function(d) {
-                        d.supplier = (document.getElementById("supplier").value
+                        d.obat = (document.getElementById("obat").value
                                 .length != 0) ?
                             document
                             .getElementById(
-                                "supplier").value : null;
-                        d.alamat = (document.getElementById("alamat").value.length != 0) ?
+                                "obat").value : null;
+                        d.jenis = (document.getElementById("jenis").value.length != 0) ?
                             document
                             .getElementById(
-                                "alamat").value : null;
-                        d.kontak = (document.getElementById("kontak").value.length != 0) ?
+                                "jenis").value : null;
+                        d.harga_jual = (document.getElementById("harga_jual").value.length != 0) ?
                             document
                             .getElementById(
-                                "kontak").value : null;
-                        d.telp = (document.getElementById("telp").value.length != 0) ?
+                                "harga_jual").value : null;
+                        d.harga_beli = (document.getElementById("harga_beli").value.length != 0) ?
                             document
                             .getElementById(
-                                "telp").value : null;
-                        d.status = (document.getElementById("status").value.length != 0) ?
+                                "harga_beli").value : null;
+                        d.stok = (document.getElementById("stok").value.length != 0) ?
                             document
                             .getElementById(
-                                "status").value : null;
+                                "stok").value : null;
                         d.search_manual = (document.getElementById("search_manual").value
                                 .length != 0) ?
                             document
@@ -280,20 +280,20 @@
 
                     },
                     {
-                        data: 'supplier',
-                        name: 'supplier'
+                        data: 'obat',
+                        name: 'obat'
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat'
+                        data: 'stok',
+                        name: 'stok'
                     },
                     {
-                        data: 'kontak',
-                        name: 'kontak'
+                        data: 'harga_jual',
+                        name: 'harga_jual'
                     },
                     {
-                        data: 'telp',
-                        name: 'telp'
+                        data: 'harga_beli',
+                        name: 'harga_beli'
                     },
                     {
                         data: 'status',

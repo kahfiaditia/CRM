@@ -42,5 +42,6 @@ Route::group(
         Route::get('/data_list', [SupplierController::class, 'data_list'])->name('supplier.data_list');
         route::resource('/jenis', JenisController::class);
         route::resource('/obat', ObatController::class);
+        Route::get('/data_list_obat', [ObatController::class, 'data_list'])->name('obat.data_list');
     }
 );
