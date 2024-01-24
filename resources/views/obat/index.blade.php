@@ -177,6 +177,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Obat</th>
+                                        <th>Jenis</th>
                                         <th>Stok</th>
                                         <th>Harga Jual</th>
                                         <th>Harga Jual</th>
@@ -282,6 +283,10 @@
                     {
                         data: 'obat',
                         name: 'obat'
+                    },
+                    {
+                        data: 'jenis',
+                        name: 'jenis'
                     },
                     {
                         data: 'stok',

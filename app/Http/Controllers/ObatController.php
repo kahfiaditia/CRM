@@ -32,9 +32,10 @@ class ObatController extends Controller
     public function data_list(Request $request)
     {
         $userdata = DB::table('obat')
-            ->whereNull('deleted_at');
-        // ->get();
-        // dd($userdata);
+            ->select('obat.id', 'obat', 'harga_beli', 'harga_jual', 'stok', 'obat.status', 'jenis.jenis as jenis')
+            ->leftJoin('jenis', 'obat.jenis_id', '=', 'jenis.id')
+            ->whereNull('obat.deleted_at');
+
         if ($request->get('search_manual') != null) {
             $search = $request->get('search_manual');
             // $search_rak = str_replace(' ', '', $search);
@@ -43,7 +44,7 @@ class ObatController extends Controller
                     ->orWhere('obat', 'like', '%' . $search . '%')
                     ->orWhere('deskripsi', 'like', '%' . $search . '%')
                     ->orWhere('stok_minimal', 'like', '%' . $search . '%')
-                    ->orWhere('jenis_id', 'like', '%' . $search . '%')
+                    ->orWhere('jenis', 'like', '%' . $search . '%')
                     ->orWhere('status', 'like', '%' . $search . '%');
             });
 
@@ -55,7 +56,7 @@ class ObatController extends Controller
                         ->orWhere('obat', 'like', '%' . $search . '%')
                         ->orWhere('deskripsi', 'like', '%' . $search . '%')
                         ->orWhere('stok_minimal', 'like', '%' . $search . '%')
-                        ->orWhere('jenis_id', 'like', '%' . $search . '%')
+                        ->orWhere('jenis', 'like', '%' . $search . '%')
                         ->orWhere('status', 'like', '%' . $search . '%');
                 });
             }
@@ -74,7 +75,7 @@ class ObatController extends Controller
             }
             if ($request->get('jenis_id') != null) {
                 $jenis_id = $request->get('jenis_id');
-                $userdata->where('jenis_id', '=', $jenis_id);
+                $userdata->where('jenis', '=', $jenis_id);
             }
             if ($request->get('status') != null) {
                 $status = $request->get('status');
@@ -163,7 +164,8 @@ class ObatController extends Controller
             'menu' => $this->menu,
             'submenu' => 'Edit Obat',
             'label' => 'Edit Obat',
-            'editobat' => ObatModel::findOrfail($id)
+            'editobat' => ObatModel::findOrfail($id),
+            'jenis' => JenisModel::all()
         ];
         return view('obat.edit')->with($data);
     }
@@ -174,22 +176,20 @@ class ObatController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'supplier' => 'required',
-            'alamat' => 'required',
-            'kontak' => 'required',
-            'telp' => 'required',
+            'obat' => 'required',
+            'jenis' => 'required',
+            'status1' => 'required',
         ]);
 
         DB::beginTransaction();
         try {
-            $produk = ObatModel::findOrFail($id);
-            $produk->supplier = $request->supplier;
-            $produk->alamat = $request->alamat;
-            $produk->kontak = $request->kontak;
-            $produk->telp = $request->telp;
-            $produk->status = $request->status1;
-            $produk->user_updated = Auth::user()->id;
-            $produk->save();
+            $editobat = ObatModel::findOrFail($id);
+            $editobat->obat = $request->obat;
+            $editobat->deskripsi = $request->descr;
+            $editobat->jenis_id = $request->jenis;
+            $editobat->status = $request->status1;
+            $editobat->user_updated = Auth::user()->id;
+            $editobat->save();
 
             DB::commit();
             AlertHelper::addAlert(true);
