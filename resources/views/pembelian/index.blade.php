@@ -35,7 +35,7 @@
                             <div class="accordion mb-4" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button fw-medium <?php if (isset($_GET['supplier'])) {
+                                        <button class="accordion-button fw-medium <?php if (isset($_GET['kode_pembelian'])) {
                                         } else {
                                             echo 'collapsed';
                                         } ?>" type="button"
@@ -121,10 +121,9 @@
                                                                 class="btn btn-secondary w-md">Batal</a>
                                                             @if (isset($_GET['id_ketua']) or isset($_GET['id_ketua']))
                                                                 <?php
+                                                                $kode_pembelian = $_GET['kode_pembelian'];
                                                                 $supplier = $_GET['supplier'];
-                                                                $alamat = $_GET['alamat'];
-                                                                $kontak = $_GET['kontak'];
-                                                                $telp = $_GET['telp'];
+                                                                $total = $_GET['total'];
                                                                 $status = $_GET['status'];
                                                                 $search_manual = $_GET['search_manual'];
                                                                 if (isset($_GET['like'])) {
@@ -134,15 +133,13 @@
                                                                 }
                                                                 ?>
                                                                 <a href="{{ route(
-                                                                    'supplier.index',
-                                                                    'supplier=' .
+                                                                    'pembelian.index',
+                                                                    'kode_pembelian=' .
+                                                                        $kode_pembelian .
+                                                                        '&supplier=' .
                                                                         $supplier .
-                                                                        '&alamat=' .
-                                                                        $alamat .
-                                                                        '&kontak=' .
-                                                                        $kontak .
-                                                                        '&telp=' .
-                                                                        $telp .
+                                                                        '&total=' .
+                                                                        $total .
                                                                         '&status=' .
                                                                         $status .
                                                                         '&search_manual=' .
