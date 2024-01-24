@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="accordion" id="accordionExample">
+                            <div class="accordion mb-4" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
                                         <button class="accordion-button fw-medium <?php if (isset($_GET['supplier'])) {

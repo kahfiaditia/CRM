@@ -32,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="accordion" id="accordionExample">
+                            <div class="accordion mb-4" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOne">
                                         <button class="accordion-button fw-medium <?php if (isset($_GET['obat'])) {
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                            <table id="datatable" class="table table-striped dt-responsive nowrap w-100 mt-3">
+                            <table id="datatable" class="table table-striped dt-responsive nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
