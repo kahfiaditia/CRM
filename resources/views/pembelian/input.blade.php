@@ -530,7 +530,7 @@
                                 ).then(() => {
                                     var APP_URL = {!! json_encode(url('/')) !!}
                                     window.location = APP_URL +
-                                        '/bursa/bursa_pembelian'
+                                        '/pembelian'
                                 })
                             } else {
                                 Swal.fire({

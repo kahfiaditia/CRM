@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
+use App\Models\HistoryModel;
 use App\Models\ObatModel;
+use App\Models\PembelianDetilModel;
 use App\Models\PembelianModel;
 use App\Models\SupplierModel;
 use Carbon\Carbon;
@@ -30,10 +32,12 @@ class PembelianController extends Controller
         return view('pembelian.index')->with($data);
     }
 
-    public function data_list(Request $request)
+    public function data_list_pembelian(Request $request)
     {
         $userdata = DB::table('pembelian')
-            ->whereNull('deleted_at');
+            ->select('pembelian.id', 'pembelian.kode_pembelian', 'pembelian.created_at', 'supplier.supplier as nama')
+            ->leftJoin('supplier', 'pembelian.supplier_id', '=', 'supplier.id')
+            ->whereNull('pembelian.deleted_at');
         // ->get();
         // dd($userdata);
         if ($request->get('search_manual') != null) {
@@ -80,7 +84,7 @@ class PembelianController extends Controller
         }
 
         return DataTables::of($userdata)
-            ->addColumn('action', 'supplier.aksi')
+            ->addColumn('action', 'pembelian.aksi')
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -111,126 +115,126 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->datapembelian);
-        // DB::beginTransaction();
-        // try {
-        //     $currentDate = date('ymd');
-        //     // Mencari jumlah transaksi dengan tanggal yang sama
-        //     $query = "SELECT COUNT(*) as total FROM pembelian WHERE DATE_FORMAT(created_at, '%y%m%d') = '{$currentDate}'";
-        //     $result = DB::select($query);
-        //     // Mendapatkan jumlah transaksi dengan tanggal yang sama
-        //     $totalTransactions = $result[0]->total + 1;
-        //     // Membuat nomor urut dengan format 3 digit (contoh: 001, 002, dst.)
-        //     $transactionNumber = sprintf('%03d', $totalTransactions);
-        //     // Menggabungkan semua elemen menjadi kode transaksi
-        //     $transactionCode = "PM" . $currentDate  . $transactionNumber;
-        //     // Memastikan kode transaksi unik
-        //     while ($existingTransaction = PembelianModel::where('kode_transaksi', $transactionCode)->first()) {
-        //         $totalTransactions++;
-        //         $transactionNumber = sprintf('%03d', $totalTransactions);
-        //         $transactionCode = "PM" . $currentDate . $transactionNumber;
-        //     }
+        // dd($request->datapembelian);
+        DB::beginTransaction();
+        try {
+            $currentDate = date('ymd');
+            // Mencari jumlah transaksi dengan tanggal yang sama
+            $query = "SELECT COUNT(*) as total FROM pembelian WHERE DATE_FORMAT(created_at, '%y%m%d') = '{$currentDate}'";
+            $result = DB::select($query);
+            // Mendapatkan jumlah transaksi dengan tanggal yang sama
+            $totalTransactions = $result[0]->total + 1;
+            // Membuat nomor urut dengan format 3 digit (contoh: 001, 002, dst.)
+            $transactionNumber = sprintf('%03d', $totalTransactions);
+            // Menggabungkan semua elemen menjadi kode transaksi
+            $transactionCode = "PM" . $currentDate  . $transactionNumber;
+            // Memastikan kode transaksi unik
+            while ($existingTransaction = PembelianModel::where('kode_pembelian', $transactionCode)->first()) {
+                $totalTransactions++;
+                $transactionNumber = sprintf('%03d', $totalTransactions);
+                $transactionCode = "PM" . $currentDate . $transactionNumber;
+            }
 
-        //     $tambahandata = $request->tambahandata[0];
-        //     $dataPembelian = $request->datapembelian[0];
+            $tambahandata = $request->tambahandata[0];
+            $dataPembelian = $request->datapembelian[0];
 
-        //     $pembelian = new PembelianModel();
-        //     $pembelian->kode_transaksi = $transactionCode;
-        //     $pembelian->tgl_permintaan = $dataPembelian['tgl_permintaan'];
-        //     $pembelian->tgl_kedatangan = $dataPembelian['tgl_kedatangan'];
-        //     $pembelian->note = $dataPembelian['status_pembelian'];
-        //     $pembelian->nomor_do = $dataPembelian['nomor_do'];
-        //     $pembelian->id_supplier = $dataPembelian['supplier'];
-        //     $pembelian->ongkir = $tambahandata['ongkir'];
-        //     $pembelian->potongan = $tambahandata['potongan'];
-        //     $pembelian->status_pembayaran = is_null($tambahandata['status_pembayaran']) ? 1 : $tambahandata['status_pembayaran'];
-        //     $pembelian->user_created = Auth::user()->id;
-        //     $pembelian->save();
+            $pembelian = new PembelianModel();
+            $pembelian->kode_pembelian = $transactionCode;
+            $pembelian->tgl_kedatangan = $dataPembelian['tgl_kedatangan'];
+            $pembelian->nomor_do = $dataPembelian['nomor_do'];
+            $pembelian->supplier_id = $dataPembelian['supplier'];
+            // $pembelian->total_produk = $dataPembelian['supplier'];
+            $pembelian->ongkir = $tambahandata['ongkir'];
+            $pembelian->nilai_pembelian = $tambahandata['potongan'];
+            $pembelian->potongan = $tambahandata['potongan'];
+            $pembelian->keterangan = $tambahandata['potongan'];
+            $pembelian->status_pembayaran = is_null($tambahandata['status_pembayaran']) ? 1 : $tambahandata['status_pembayaran'];
+            $pembelian->user_created = Auth::user()->id;
+            $pembelian->save();
 
-        //     $maxId = PembelianModel::max('id');
-        //     $pembelian->id = $maxId;
+            $maxId = PembelianModel::max('id');
+            $pembelian->id = $maxId;
 
-        //     for ($i = 0; $i < count($request->datapembelian); $i++) {
-        //         // Convert 'harga_total_produk' to a double
-        //         $harga_total_produk = floatval(str_replace('.', '', $request->datapembelian[$i]['harga_total_produk']));
+            $obatQuantities = [];
 
-        //         // Convert 'nilai_jual' to a double
-        //         $nilai_jual = floatval(str_replace('.', '', $request->datapembelian[$i]['nilai_jual']));
+            for ($i = 0; $i < count($request->datapembelian); $i++) {
+                // Convert 'harga_total_produk' to a double
+                $harga_total_produk = floatval(str_replace('.', '', $request->datapembelian[$i]['harga_total_produk']));
 
-        //         $harga_per_pcs = $request->datapembelian[$i]['harga_per_pcs'];
-        //         $hilang_comma = str_replace(',', '', $harga_per_pcs);
-        //         $request_double = (float) $hilang_comma;
+                // Convert 'nilai_jual' to a double
+                $nilai_jual = floatval(str_replace('.', '', $request->datapembelian[$i]['nilai_jual']));
 
-        //         // Convert 'harga_per_pcs' to a double
-        //         $produk = new BursaDetilPembelian();
-        //         $produk->id_pembelian = $pembelian->id;
-        //         $produk->id_produk = $request->datapembelian[$i]['produk'];
-        //         $produk->kadaluarsa = $request->datapembelian[$i]['tgl_kadaluarsa'];
-        //         $produk->harga_total_produk =  $harga_total_produk;
-        //         $produk->total_kuantiti = $request->datapembelian[$i]['total_kuantiti'];
-        //         $produk->nilai_per_pcs =  $request_double;
-        //         $produk->nilai_jual = $nilai_jual;
-        //         $produk->user_created = Auth::user()->id;
-        //         $produk->save();
+                $harga_per_pcs = $request->datapembelian[$i]['harga_per_pcs'];
+                $hilang_comma = str_replace(',', '', $harga_per_pcs);
+                $request_double = (float) $hilang_comma;
 
-        //         $stokp = new BursaStokProduk();
-        //         $stokp->id_p =  $pembelian->id;
-        //         $stokp->id_detil_p = $produk->id;
-        //         $stokp->id_produk = $request->datapembelian[$i]['produk'];
-        //         $stokp->qty = $request->datapembelian[$i]['total_kuantiti'];
-        //         $stokp->beli =  $request_double;
-        //         $stokp->jual = $nilai_jual;
-        //         $stokp->user_created = Auth::user()->id;
-        //         $stokp->save();
+                // Convert 'harga_per_pcs' to a double
+                $produk = new PembelianDetilModel();
+                $produk->pembelian_id = $pembelian->id;
+                $produk->kadaluarsa = $request->datapembelian[$i]['tgl_kadaluarsa'];
+                $produk->produk_id = $request->datapembelian[$i]['obat'];
+                $produk->harga_total_produk =  $harga_total_produk;
+                $produk->total_kuantiti = $request->datapembelian[$i]['total_kuantiti'];
+                $produk->nilai_per_pcs =  $request_double;
+                $produk->nilai_jual = $nilai_jual;
+                $produk->user_created = Auth::user()->id;
+                $produk->save();
 
-        //         $unix = $request->datapembelian[$i]['produk'];
-        //         $stokin = BursaStokProduk::where('id_produk', $unix)
-        //             ->whereNull('deleted_at')
-        //             ->sum('qty');
+                $stokp = new HistoryModel();
+                $stokp->keterangan = "Pembelian";
+                $stokp->pembelian_id = $pembelian->id;
+                $stokp->obat_id = $request->datapembelian[$i]['obat'];
+                $stokp->qty = $request->datapembelian[$i]['total_kuantiti'];
+                $stokp->harga_beli =  $request_double;
+                $stokp->harga_jual = $nilai_jual;
+                $stokp->user_created = Auth::user()->id;
+                $stokp->save();
 
-        //         $stokout = BursaStokKeluarProduk::where('id_produk', $unix)
-        //             ->whereNull('deleted_at')
-        //             ->sum('qty_jual');
+                $obat_id = $request->datapembelian[$i]['obat'];
+                $quantity = $request->datapembelian[$i]['total_kuantiti'];
+                $harga_beli = $request_double;
+                $harga_jual = $nilai_jual;
 
-        //         $hasilstok = $stokin - $stokout;
+                if (!isset($obatQuantities[$obat_id])) {
+                    $obatQuantities[$obat_id] = [
+                        'quantity' => 0,
+                        'harga_beli' => 0,
+                        'harga_jual' => 0,
+                    ];
+                }
 
-        //         DB::table('bursa_produks')
-        //             ->where('id', $unix)
-        //             ->update([
-        //                 'stok' =>  $hasilstok,
-        //                 'harga_jual' => $nilai_jual,
-        //                 'harga_beli' => $request_double,
-        //                 'user_updated' => auth::user()->id
-        //             ]);
+                $obatQuantities[$obat_id]['quantity'] += $quantity;
+                $obatQuantities[$obat_id]['harga_beli'] = $harga_beli; // Update harga_beli directly
+                $obatQuantities[$obat_id]['harga_jual'] = $harga_jual;
+            }
 
-        //         // Update the 'total_produk' field in the BursaPembelian setelah the loop
-        //         $total_produk = BursaDetilPembelian::where('id_pembelian', $pembelian->id)->count();
-        //         $sumHargaTotalProduk = BursaDetilPembelian::where('id_pembelian',  $pembelian->id)
-        //             ->whereNull('deleted_at')
-        //             ->sum('harga_total_produk');
+            foreach ($obatQuantities as $obat_id => $data) {
+                // Find the obat with the given obat_id
+                $obat = ObatModel::find($obat_id);
 
-        //         DB::table('bursa_pembelians')
-        //             ->where('id', $pembelian->id)
-        //             ->update([
-        //                 'total_produk' =>  $total_produk,
-        //                 'total_nilai' =>  $sumHargaTotalProduk,
-        //                 'user_updated' => auth::user()->id
-        //             ]);
-        //     }
+                // Check if the obat with the given obat_id exists
+                if ($obat) {
+                    // Update the stock, harga_beli, and harga_jual
+                    $obat->stok += $data['quantity'];
+                    $obat->harga_beli = $data['harga_beli'];
+                    $obat->harga_jual = $data['harga_jual'];
+                    $obat->save();
+                }
+            }
 
-        //     DB::commit();
-        //     return response()->json([
-        //         'code' => 200,
-        //         'message' => 'Berhasil Input Data',
-        //     ]);
-        // } catch (\Throwable $err) {
-        //     DB::rollBack();
-        //     throw $err;
-        //     return response()->json([
-        //         'code' => 404,
-        //         'message' => 'Gagal Input Data',
-        //     ]);
-        // }
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Berhasil Input Data',
+            ]);
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            throw $err;
+            return response()->json([
+                'code' => 404,
+                'message' => 'Gagal Input Data',
+            ]);
+        }
     }
 
     /**

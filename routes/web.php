@@ -47,7 +47,7 @@ Route::group(
         Route::get('/data_list_obat', [ObatController::class, 'data_list'])->name('obat.data_list');
         route::resource('/pelanggan', PelangganController::class);
         route::resource('/pembelian', PembelianController::class);
-        Route::get('/data_list_pembelian', [PembelianController::class, 'data_list'])->name('pembelian.data_list');
+        Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
         Route::get('/mengambil_data_obat', [PembelianController::class, 'mengambil_data_obat'])->name('pembelian.mengambil_data_obat');
     }
 );

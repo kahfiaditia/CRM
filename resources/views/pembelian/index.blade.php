@@ -77,7 +77,7 @@
                                                                         class="form-control" placeholder="Supplier"
                                                                         autocomplete="off">
                                                                 </div>
-                                                                <div class="col-sm-2 mb-2">
+                                                                {{-- <div class="col-sm-2 mb-2">
                                                                     <input type="text" name="total" id="total"
                                                                         value="{{ isset($_GET['total']) ? $_GET['total'] : null }}"
                                                                         class="form-control" placeholder="Total"
@@ -88,7 +88,7 @@
                                                                         value="{{ isset($_GET['status']) ? $_GET['status'] : null }}"
                                                                         class="form-control" placeholder="Status"
                                                                         autocomplete="off">
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -170,9 +170,9 @@
                                         <th>No</th>
                                         <th>Kode Pembelian</th>
                                         <th>Supplier</th>
-                                        <th>Produk</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
+                                        <th>Tanggal</th>
+                                        {{-- <th>Total</th>
+                                        <th>Status</th> --}}
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -185,17 +185,17 @@
             </div>
         </div>
     </div>
-    {{-- <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/alert.js') }}"></script>
     <script>
         function toggleCheckbox() {
             like = document.getElementById("like").checked;
             if (like == true) {
+                document.getElementById("kode_pembelian").value = null;
                 document.getElementById("supplier").value = null;
-                document.getElementById("alamat").value = null;
-                document.getElementById("kontak").value = null;
-                document.getElementById("telp").value = null;
-                document.getElementById("status").value = null;
+                // document.getElementById("kontak").value = null;
+                // document.getElementById("telp").value = null;
+                // document.getElementById("status").value = null;
                 $('#type').val("").trigger('change')
                 document.getElementById("id_where").style.display = 'none';
                 document.getElementById("id_like").style.display = 'block';
@@ -210,11 +210,11 @@
         $(document).ready(function() {
             like = document.getElementById("like").checked;
             if (like == true) {
+                document.getElementById("kode_pembelian").value = null;
                 document.getElementById("supplier").value = null;
-                document.getElementById("alamat").value = null;
-                document.getElementById("kontak").value = null;
-                document.getElementById("telp").value = null;
-                document.getElementById("status").value = null;
+                // document.getElementById("kontak").value = null;
+                // document.getElementById("telp").value = null;
+                // document.getElementById("status").value = null;
                 $('#type').val("").trigger('change')
                 document.getElementById("id_where").style.display = 'none';
                 document.getElementById("id_like").style.display = 'block';
@@ -231,29 +231,29 @@
                 serverSide: true,
                 responsive: true,
                 ajax: {
-                    url: "{{ route('supplier.data_list') }}",
+                    url: "{{ route('pembelian.data_list_pembelian') }}",
                     data: function(d) {
-                        d.supplier = (document.getElementById("supplier").value
+                        d.kode_pembelian = (document.getElementById("kode_pembelian").value
                                 .length != 0) ?
                             document
                             .getElementById(
+                                "kode_pembelian").value : null;
+                        d.supplier = (document.getElementById("supplier").value.length != 0) ?
+                            document
+                            .getElementById(
                                 "supplier").value : null;
-                        d.alamat = (document.getElementById("alamat").value.length != 0) ?
-                            document
-                            .getElementById(
-                                "alamat").value : null;
-                        d.kontak = (document.getElementById("kontak").value.length != 0) ?
-                            document
-                            .getElementById(
-                                "kontak").value : null;
-                        d.telp = (document.getElementById("telp").value.length != 0) ?
-                            document
-                            .getElementById(
-                                "telp").value : null;
-                        d.status = (document.getElementById("status").value.length != 0) ?
-                            document
-                            .getElementById(
-                                "status").value : null;
+                        // d.kontak = (document.getElementById("kontak").value.length != 0) ?
+                        //     document
+                        //     .getElementById(
+                        //         "kontak").value : null;
+                        // d.telp = (document.getElementById("telp").value.length != 0) ?
+                        //     document
+                        //     .getElementById(
+                        //         "telp").value : null;
+                        // d.status = (document.getElementById("status").value.length != 0) ?
+                        //     document
+                        //     .getElementById(
+                        //         "status").value : null;
                         d.search_manual = (document.getElementById("search_manual").value
                                 .length != 0) ?
                             document
@@ -272,28 +272,28 @@
 
                     },
                     {
-                        data: 'supplier',
-                        name: 'supplier'
+                        data: 'kode_pembelian',
+                        name: 'kode_pembelian'
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat'
+                        data: 'nama',
+                        name: 'nama'
                     },
                     {
-                        data: 'kontak',
-                        name: 'kontak'
+                        data: 'created_at',
+                        name: 'created_at'
                     },
-                    {
-                        data: 'telp',
-                        name: 'telp'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        render: function(data, type, full, meta) {
-                            return data == 1 ? 'Aktif' : 'Non Aktif';
-                        }
-                    },
+                    // {
+                    //     data: 'telp',
+                    //     name: 'telp'
+                    // },
+                    // {
+                    //     data: 'status',
+                    //     name: 'status',
+                    //     render: function(data, type, full, meta) {
+                    //         return data == 1 ? 'Aktif' : 'Non Aktif';
+                    //     }
+                    // },
 
                     {
                         data: 'action',
@@ -305,5 +305,5 @@
             });
 
         });
-    </script> --}}
+    </script>
 @endsection
