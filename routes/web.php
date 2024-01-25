@@ -48,5 +48,6 @@ Route::group(
         route::resource('/pelanggan', PelangganController::class);
         route::resource('/pembelian', PembelianController::class);
         Route::get('/data_list_pembelian', [PembelianController::class, 'data_list'])->name('pembelian.data_list');
+        Route::get('/mengambil_data_obat', [PembelianController::class, 'mengambil_data_obat'])->name('pembelian.mengambil_data_obat');
     }
 );

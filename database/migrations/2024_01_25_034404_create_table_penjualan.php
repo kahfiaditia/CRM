@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pembelian', function (Blueprint $table) {
+        Schema::create('penjualan', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_pembelian', 64);
+            $table->string('kode_penjualan', 64);
             $table->timestamp('tgl_kedatangan')->nullable();
             $table->string('nomor_do', 64)->nullable();
-            $table->unsignedBigInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('supplier');
-            $table->double('total_produk')->nullable();
+            $table->unsignedBigInteger('pelanggan_id')->nullable();
+            $table->foreign('pelanggan_id')->references('id')->on('pelanggan');
+            $table->double('total_diskon')->nullable();
             $table->double('ongkir')->nullable();
-            $table->double('nilai_pembelian')->nullable();
             $table->double('potongan')->nullable();
+            $table->double('total')->nullable();
             $table->string('keterangan', 40)->nullable();
-            $table->integer('status_pembayaran')->nullable();
-            $table->date('tgl_pembayaran')->nullable();
             $table->unsignedBigInteger('user_created')->nullable();
             $table->foreign('user_created')->references('id')->on('users');
             $table->unsignedBigInteger('user_updated')->nullable();
@@ -41,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pembelian');
+        Schema::dropIfExists('penjualan');
     }
 };

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PembelianModel extends Model
+class PenjualanDetilModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = 'pembelian';
+    protected $table = 'penjualan_detil';
     protected $guarded = [];
 }
