@@ -142,6 +142,7 @@
                                                         <th class="text-center" style="width: 10%">Harga</th>
                                                         <th class="text-center" style="width: 10%">Total</th>
                                                         <th class="text-center" style="width: 10%">Modal</th>
+                                                        <th class="text-center" style="width: 10%">Pembeli</th>
                                                         <th class="text-center" style="width: 5%">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -225,7 +226,6 @@
             });
 
             // data obat
-
             $.ajax({
                 type: "POST",
                 url: '{{ route('penjualan.obat_list') }}',
@@ -290,28 +290,59 @@
 
         function tombolInput() {
             // Get values from the form
+            var id_pembeli = $("#pembeli").val();
             var id = $("#produk").val();
             var obat = $('#produk option:selected').text();
             var stok = $('#stok').val();
-            var qty = $('#qty').val();
-            var hargaJual = $('#harga_jual').val();
-            var totalHargaJual = $('#total_harga_jual').val();
-            var hargaBeli = $('#harga_beli').val();
-            var totalHargaBeli = $('#total_harga_beli').val();
+            var qty = parseInt($('#qty').val()) || 0; // Ensure qty is a number, default to 0
+            var hargaJual = parseFloat($('#harga_jual').val().replace(',', '')) ||
+                0; // Ensure hargaJual is a number, default to 0
+            var totalHargaJual = parseFloat($('#total_harga_jual').val().replace(',', '')) ||
+                0; // Ensure totalHargaJual is a number, default to 0
+            var hargaBeli = parseFloat($('#harga_beli').val().replace(',', '')) ||
+                0; // Ensure hargaBeli is a number, default to 0
+            var totalHargaBeli = parseFloat($('#total_harga_beli').val().replace(',', '')) ||
+                0; // Ensure totalHargaBeli is a number, default to 0
 
-            // Append a new row to the table
-            var newRow = '<tr>' +
-                '<td class="text-center">' + id + '</td>' +
-                '<td class="text-center">' + obat + '</td>' +
-                '<td class="text-center">' + stok + '</td>' +
-                '<td class="text-center">' + qty + '</td>' +
-                '<td class="text-center">' + hargaJual + '</td>' +
-                '<td class="text-center">' + totalHargaJual + '</td>' +
-                '<td class="text-center">' + hargaBeli + '</td>' +
-                '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">Hapus</button></td>' +
-                '</tr>';
+            // Flag to check if the product already exists in the table
+            var productExists = false;
 
-            $('#tablePenjualan tbody').append(newRow);
+            // Iterate through existing rows
+            $('#tablePenjualan tbody tr').each(function() {
+                var existingId = $(this).find('td:first').text();
+
+                // Check if the id already exists
+                if (existingId == id) {
+                    // Update quantity and total price
+                    var existingQty = parseInt($(this).find('td:nth-child(4)').text()) || 0;
+                    var existingTotalHargaJual = parseFloat($(this).find('td:nth-child(6)').text().replace(',',
+                        '')) || 0;
+
+                    $(this).find('td:nth-child(4)').text(existingQty + qty);
+                    $(this).find('td:nth-child(6)').text((existingTotalHargaJual + totalHargaJual)
+                        .toLocaleString());
+
+                    productExists = true;
+                    return false; // Break out of the loop
+                }
+            });
+
+            // If the product does not exist, add a new row
+            if (!productExists) {
+                var newRow = '<tr>' +
+                    '<td class="text-center">' + id + '</td>' +
+                    '<td class="text-center">' + obat + '</td>' +
+                    '<td class="text-center">' + stok + '</td>' +
+                    '<td class="text-center">' + qty + '</td>' +
+                    '<td class="text-center">' + hargaJual.toLocaleString() + '</td>' +
+                    '<td class="text-center">' + totalHargaJual.toLocaleString() + '</td>' +
+                    '<td class="text-center">' + hargaBeli.toLocaleString() + '</td>' +
+                    '<td class="text-center">' + id_pembeli + '</td>' +
+                    '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">Hapus</button></td>' +
+                    '</tr>';
+
+                $('#tablePenjualan tbody').append(newRow);
+            }
 
             // Clear form fields after adding a row
             $('#produk').val(null).trigger('change');
@@ -324,6 +355,7 @@
             $('#total_harga_beli').val('');
         }
 
+        //tombol hapus
         function hapusBaris(button) {
             // Remove the row when the "Hapus" button is clicked
             $(button).closest('tr').remove();
