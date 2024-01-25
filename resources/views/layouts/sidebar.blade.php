@@ -57,7 +57,7 @@
                         <span key="t-ecommerce">Penjualan</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="" key="t-products">Transaksi</a></li>
+                        <li><a href="{{ route('penjualan.index') }}" key="t-products">Transaksi</a></li>
                     </ul>
                 </li>
                 <li>

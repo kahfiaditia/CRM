@@ -7,6 +7,7 @@ use App\Http\Controllers\JenisController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\SupplierController;
 
 /*
@@ -49,5 +50,9 @@ Route::group(
         route::resource('/pembelian', PembelianController::class);
         Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
         Route::get('/mengambil_data_obat', [PembelianController::class, 'mengambil_data_obat'])->name('pembelian.mengambil_data_obat');
+        route::resource('/penjualan', PenjualanController::class);
+        Route::get('/data_pelanggan', [PenjualanController::class, 'data_pelanggan'])->name('penjualan.data_pelanggan');
+        Route::get('/obat_data_list', [PenjualanController::class, 'obat_list'])->name('penjualan.obat_list');
+        Route::get('/get-obat/{id}', [PenjualanController::class, 'getObatDetails'])->name('get-obat');
     }
 );
