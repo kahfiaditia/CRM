@@ -52,7 +52,6 @@ Route::group(
         Route::get('/mengambil_data_obat', [PembelianController::class, 'mengambil_data_obat'])->name('pembelian.mengambil_data_obat');
         route::resource('/penjualan', PenjualanController::class);
         Route::get('/data_pelanggan', [PenjualanController::class, 'data_pelanggan'])->name('penjualan.data_pelanggan');
-        Route::get('/obat_data_list', [PenjualanController::class, 'obat_list'])->name('penjualan.obat_list');
-        Route::get('/get-obat/{id}', [PenjualanController::class, 'getObatDetails'])->name('get-obat');
+        Route::post('/obat_data_list', [PenjualanController::class, 'obat_data_list'])->name('penjualan.obat_list');
     }
 );

@@ -6,6 +6,7 @@ use App\Models\ObatModel;
 use App\Models\PelangganModel;
 use App\Models\PenjualanModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PenjualanController extends Controller
 {
@@ -39,10 +40,25 @@ class PenjualanController extends Controller
         return response()->json($pelanggan);
     }
 
-    public function obat_list()
+    public function obat_data_list()
     {
-        $obatData = ObatModel::all();
-        return response()->json($obatData);
+
+        $obatData = DB::table('obat')
+            ->whereNull('deleted_at')
+            ->get();
+
+
+        if (count($obatData) > 0) {
+            return response()->json([
+                'code' => 200,
+                'data' => $obatData,
+            ]);
+        } else {
+            return response()->json([
+                'code' => 400,
+                'data' => null,
+            ]);
+        }
     }
 
     public function getObatDetails($id)

@@ -94,7 +94,7 @@
                                         <div class="row">
                                             <div class="col-lg-8">
                                                 <a type="submit" id="button" class="btn btn-info w-md"
-                                                    onclick="tambahBarang()">Tambah
+                                                    onclick="tombolInput()">Tambah
                                                     Produk</a>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                         </div>
                                         <div class="col-md-12 table-responsive">
                                             <table class="table table-responsive table-bordered table-striped"
-                                                id="tambahBarang">
+                                                id="tablePenjualan">
                                                 <thead>
                                                     <tr>
                                                         <th class="text-center" style="width: 10%">id</th>
@@ -206,11 +206,9 @@
 
     <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/alert.js') }}"></script>
-
-
     <script>
         $(document).ready(function() {
-            // Fetch customers using AJAX when the page loads
+            // data pelanggan
             $.ajax({
                 url: '{{ route('penjualan.data_pelanggan') }}',
                 type: 'GET',
@@ -226,41 +224,39 @@
                 }
             });
 
-            // Fetch obat data using AJAX when the page loads
+            // data obat
+
             $.ajax({
-                url: '{{ route('penjualan.obat_list') }}', // Change to your actual route
-                type: 'GET',
-                success: function(data) {
-                    // Populate the "produk" dropdown with obat data
-                    $.each(data, function(index, obat) {
-                        $('#produk').append('<option value="' + obat.id + '">' + obat.obat +
-                            '</option>');
+                type: "POST",
+                url: '{{ route('penjualan.obat_list') }}',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: response => {
+                    $.each(response.data, function(i, item) {
+                        $('.produk').append(
+                            `<option value="${item.id}"
+                        data-id="${item.obat}"
+                        data-value="${item.stok}"
+                        data-value1="${item.harga_jual}"
+                        data-value2="${item.harga_beli}">${item.obat}</option>`
+                        );
+                    });
+
+                    $(".produk").change(function() {
+                        var selectedOption = $('option:selected', this);
+
+                        document.getElementById("stok").value = selectedOption.attr(
+                            'data-value');
+                        document.getElementById("harga_jual").value = selectedOption.attr(
+                            'data-value1');
+                        document.getElementById("harga_beli").value = selectedOption.attr(
+                            'data-value2');
                     });
                 },
-                error: function() {
-                    console.log('Error fetching obat data');
-                }
-            });
-
-            // Handle the change event of the "produk" dropdown
-            $('#produk').on('change', function() {
-                var selectedObatId = $(this).val();
-
-                // Fetch obat data based on the selected option
-                $.ajax({
-                    url: '/get-obat/' +
-                        selectedObatId, // Change to your actual route for getting obat details
-                    type: 'GET',
-                    success: function(obat) {
-                        // Update the relevant fields in the form with obat data
-                        $('#stok').val(obat.stok);
-                        $('#harga_jual').val(obat.harga_jual);
-                        $('#harga_beli').val(obat.harga_beli);
-                    },
-                    error: function() {
-                        console.log('Error fetching obat details');
-                    }
-                });
+                error: (err) => {
+                    console.log(err);
+                },
             });
         });
 
@@ -290,6 +286,47 @@
                 var totalHargaBeli = qty * hargaBeli;
                 $('#total_harga_beli').val(totalHargaBeli.toLocaleString());
             }
+        }
+
+        function tombolInput() {
+            // Get values from the form
+            var id = $("#produk").val();
+            var obat = $('#produk option:selected').text();
+            var stok = $('#stok').val();
+            var qty = $('#qty').val();
+            var hargaJual = $('#harga_jual').val();
+            var totalHargaJual = $('#total_harga_jual').val();
+            var hargaBeli = $('#harga_beli').val();
+            var totalHargaBeli = $('#total_harga_beli').val();
+
+            // Append a new row to the table
+            var newRow = '<tr>' +
+                '<td class="text-center">' + id + '</td>' +
+                '<td class="text-center">' + obat + '</td>' +
+                '<td class="text-center">' + stok + '</td>' +
+                '<td class="text-center">' + qty + '</td>' +
+                '<td class="text-center">' + hargaJual + '</td>' +
+                '<td class="text-center">' + totalHargaJual + '</td>' +
+                '<td class="text-center">' + hargaBeli + '</td>' +
+                '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">Hapus</button></td>' +
+                '</tr>';
+
+            $('#tablePenjualan tbody').append(newRow);
+
+            // Clear form fields after adding a row
+            $('#produk').val(null).trigger('change');
+            // $('#produk').val('');
+            $('#stok').val('');
+            $('#qty').val('');
+            $('#harga_jual').val('');
+            $('#total_harga_jual').val('');
+            $('#harga_beli').val('');
+            $('#total_harga_beli').val('');
+        }
+
+        function hapusBaris(button) {
+            // Remove the row when the "Hapus" button is clicked
+            $(button).closest('tr').remove();
         }
     </script>
 @endsection
