@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryModel;
 use App\Models\ObatModel;
 use App\Models\PelangganModel;
+use App\Models\PenjualanDetilModel;
 use App\Models\PenjualanModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PenjualanController extends Controller
@@ -84,7 +87,109 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->tableData);
+
+        DB::beginTransaction();
+        try {
+
+            $currentDate = date('ymd');
+            // Mencari jumlah transaksi dengan tanggal yang sama
+            $query = "SELECT COUNT(*) as total FROM penjualan WHERE DATE_FORMAT(created_at, '%y%m%d') = '{$currentDate}'";
+            $result = DB::select($query);
+            // Mendapatkan jumlah transaksi dengan tanggal yang sama
+            $totalTransactions = $result[0]->total + 1;
+            // Membuat nomor urut dengan format 3 digit (contoh: 001, 002, dst.)
+            $transactionNumber = sprintf('%03d', $totalTransactions);
+            // Menggabungkan semua elemen menjadi kode transaksi
+            $transactionCode = "PJ" . $currentDate  . $transactionNumber;
+            // Memastikan kode transaksi unik
+            while ($existingTransaction = PenjualanModel::where('kode_penjualan', $transactionCode)->first()) {
+                $totalTransactions++;
+                $transactionNumber = sprintf('%03d', $totalTransactions);
+                $transactionCode = "PJ" . $currentDate . $transactionNumber;
+            }
+
+            $requestData = $request->all();
+
+            // Extract additional data
+            $additionalData = $requestData['additionalData'];
+            $id_pembeli = $additionalData['id_pembeli'];
+            $jenis_pembayaran = $additionalData['jenis_pembayaran'];
+            $keterangan1 = $additionalData['keterangan1'];
+
+            // Extract product data
+            $tableData = $requestData['tableData'];
+
+            // Validate and save additional data to Penjualan model
+            $penjualan = new PenjualanModel();
+            $penjualan->kode_penjualan = $transactionCode;
+            $penjualan->pelanggan_id = $id_pembeli;
+            $penjualan->keterangan = $keterangan1;
+            $penjualan->user_created = Auth::user()->id;
+            $penjualan->save();
+
+            $maxId = PenjualanModel::max('id');
+            $penjualan->id = $maxId;
+
+            // Validate and save each product data
+            foreach ($tableData as $rowData) {
+                // $id = $rowData['id'];
+                $harga_jual  = str_replace(',', '', $rowData['harga']);
+                $total = str_replace(',', '', $rowData['total']);
+                $harga_beli = str_replace(',', '', $rowData['modal']);
+
+                $penjualandetil = new PenjualanDetilModel(); // Create a new Penjualan instance for each product
+                $penjualandetil->penjualan_id =  $penjualan->id;
+                $penjualandetil->obat_id = $rowData['id'];
+                $penjualandetil->qty = $rowData['qty'];
+                $penjualandetil->harga_jual =  $harga_jual;
+                $penjualandetil->harga_beli =  $harga_beli;
+                $penjualandetil->total = $total;
+                $penjualandetil->user_created = Auth::user()->id;
+                $penjualandetil->save();
+
+                $stokp = new HistoryModel();
+                $stokp->keterangan = "Penjualan";
+                $stokp->penjualan_id = $penjualan->id;
+                $stokp->obat_id = $rowData['id'];
+                $stokp->qty = $rowData['qty'];
+                $stokp->harga_beli =   $harga_beli;
+                $stokp->harga_jual = $harga_jual;
+                $penjualandetil->total = $total;
+                $stokp->user_created = Auth::user()->id;
+                $stokp->save();
+
+                $obatId = $rowData['id'];
+
+                // Menghitung total qty penjualan per obat_id
+                $totalQtyPenjualan = HistoryModel::where('obat_id', $obatId)
+                    ->where('keterangan', 'Penjualan')
+                    ->where('penjualan_id', $penjualan->id)
+                    ->sum('qty');
+
+                // Mengupdate stok pada model ObatModel
+                $obat = ObatModel::find($obatId);
+
+                if ($obat) {
+                    // Mengurangkan stok berdasarkan total qty penjualan
+                    $obat->stok -= $totalQtyPenjualan;
+                    $obat->save();
+                }
+            }
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Berhasil Input Data',
+            ]);
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            throw $err;
+            return response()->json([
+                'code' => 404,
+                'message' => 'Gagal Input Data',
+            ]);
+        }
     }
 
     /**

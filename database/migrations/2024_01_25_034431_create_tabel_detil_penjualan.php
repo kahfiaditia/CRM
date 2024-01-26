@@ -20,7 +20,6 @@ return new class extends Migration
             $table->double('qty')->nullable();
             $table->double('harga_jual')->nullable();
             $table->double('harga_beli')->nullable();
-            $table->double('diskon')->nullable();
             $table->double('total')->nullable();
             $table->unsignedBigInteger('user_created')->nullable();
             $table->foreign('user_created')->references('id')->on('users');

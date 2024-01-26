@@ -145,9 +145,9 @@ class PembelianController extends Controller
             $pembelian->supplier_id = $dataPembelian['supplier'];
             // $pembelian->total_produk = $dataPembelian['supplier'];
             $pembelian->ongkir = $tambahandata['ongkir'];
-            $pembelian->nilai_pembelian = $tambahandata['potongan'];
+            // $pembelian->nilai_pembelian = $tambahandata['potongan'];
             $pembelian->potongan = $tambahandata['potongan'];
-            $pembelian->keterangan = $tambahandata['potongan'];
+            // $pembelian->keterangan = $tambahandata['potongan'];
             $pembelian->status_pembayaran = is_null($tambahandata['status_pembayaran']) ? 1 : $tambahandata['status_pembayaran'];
             $pembelian->user_created = Auth::user()->id;
             $pembelian->save();

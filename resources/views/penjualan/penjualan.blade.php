@@ -78,13 +78,13 @@
 
                                                     {{-- harga_jual --}}
                                                     <input type="text" class="form-control" id="total_harga_jual"
-                                                        name="total_harga_jual" placeholder="Total harga jual" readonly>
+                                                        name="total_harga_jual" placeholder="Total harga jual" hidden>
 
                                                     {{-- harga_beli --}}
                                                     <input type="text" class="form-control" id="harga_beli"
-                                                        name="harga_beli" placeholder="harga beli" readonly>
+                                                        name="harga_beli" placeholder="harga beli" hidden>
                                                     <input type="text" class="form-control" id="total_harga_beli"
-                                                        name="total_harga_beli" placeholder="Total harga beli" readonly>
+                                                        name="total_harga_beli" placeholder="Total harga beli" hidden>
                                                 </div>
                                             </div>
                                         </div>
@@ -142,7 +142,6 @@
                                                         <th class="text-center" style="width: 10%">Harga</th>
                                                         <th class="text-center" style="width: 10%">Total</th>
                                                         <th class="text-center" style="width: 10%">Modal</th>
-                                                        <th class="text-center" style="width: 10%">Pembeli</th>
                                                         <th class="text-center" style="width: 5%">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -337,7 +336,6 @@
                     '<td class="text-center">' + hargaJual.toLocaleString() + '</td>' +
                     '<td class="text-center">' + totalHargaJual.toLocaleString() + '</td>' +
                     '<td class="text-center">' + hargaBeli.toLocaleString() + '</td>' +
-                    '<td class="text-center">' + id_pembeli + '</td>' +
                     '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">Hapus</button></td>' +
                     '</tr>';
 
@@ -353,12 +351,139 @@
             $('#total_harga_jual').val('');
             $('#harga_beli').val('');
             $('#total_harga_beli').val('');
+
+            updateGrandTotal();
         }
 
         //tombol hapus
         function hapusBaris(button) {
             // Remove the row when the "Hapus" button is clicked
             $(button).closest('tr').remove();
+            updateGrandTotal();
+        }
+
+        function updateGrandTotal() {
+            // Calculate the sum of totalHargaJual from all rows in the "tablePenjualan" table
+            var grandTotal = 0;
+
+            $('#tablePenjualan tbody tr').each(function() {
+                var totalHargaJual = parseFloat($(this).find('td:nth-child(6)').text().replace(',', '')) || 0;
+                grandTotal += totalHargaJual;
+            });
+
+            // Update the grand total in the "grandTotal" table
+            $('#grandTotal #jumlah_belanja').text('Sub Total: ' + grandTotal.toLocaleString());
+        }
+
+        $('#save').on('click', function() {
+            checkout();
+        });
+
+        function checkout() {
+            // Get additional data from the form
+            var additionalData = {
+                id_pembeli: $("#pembeli").val(),
+                jenis_pembayaran: $("#jenis_pembayaran").val(),
+                keterangan1: $("#keterangan1").val(),
+            };
+
+            // Get data from the "tablePenjualan" table
+            var tableData = [];
+
+            $('#tablePenjualan tbody tr').each(function() {
+                var rowData = {
+                    id: $(this).find('td:nth-child(1)').text(),
+                    obat: $(this).find('td:nth-child(2)').text(),
+                    stok: $(this).find('td:nth-child(3)').text(),
+                    qty: $(this).find('td:nth-child(4)').text(),
+                    harga: $(this).find('td:nth-child(5)').text(),
+                    total: $(this).find('td:nth-child(6)').text(),
+                    modal: $(this).find('td:nth-child(7)').text()
+                };
+
+                tableData.push(rowData);
+            });
+
+            // Validate conditions before sending data
+            if (tableData.length === 0) {
+                // If no products are added, show SweetAlert
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Tambahkan produk terlebih dahulu!',
+                });
+            } else {
+                var duplicateIds = checkDuplicateIds(tableData);
+
+                if (duplicateIds.length > 0) {
+                    // If there are duplicate product IDs, show SweetAlert
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Terdapat produk dengan ID yang sama lebih dari satu!',
+                    });
+                } else {
+                    // Combine additional data and product data into a single object
+                    var requestData = {
+                        "_token": "{{ csrf_token() }}",
+                        additionalData: additionalData,
+                        tableData: tableData
+                    };
+
+                    // If everything is valid, send data using AJAX
+                    $.ajax({
+                        url: "{{ route('penjualan.store') }}",
+                        method: 'POST',
+                        data: requestData,
+                        success: (response) => {
+                            if (response.code === 200) {
+                                Swal.fire(
+                                    'Success',
+                                    'Data Penjualan Berhasil di masukan',
+                                    'success'
+                                ).then(() => {
+                                    var APP_URL = {!! json_encode(url('/')) !!}
+                                    window.location = APP_URL +
+                                        '/penjualan'
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Tanda * (bintang) wajib diisi',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                })
+                            }
+                        },
+                        error: err => console.log(err)
+                    });
+                }
+            }
+        }
+
+        function checkDuplicateIds(data) {
+            var idCounts = {};
+            var duplicateIds = [];
+
+            // Count occurrences of each product ID
+            for (var i = 0; i < data.length; i++) {
+                var id = data[i].id;
+
+                if (id in idCounts) {
+                    idCounts[id]++;
+                } else {
+                    idCounts[id] = 1;
+                }
+            }
+
+            // Check for duplicate product IDs
+            for (var id in idCounts) {
+                if (idCounts[id] > 1) {
+                    duplicateIds.push(id);
+                }
+            }
+
+            return duplicateIds;
         }
     </script>
 @endsection
