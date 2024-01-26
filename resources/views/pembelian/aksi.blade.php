@@ -10,7 +10,7 @@
                     class="mdi mdi-pencil font-size-18"></i></a>
             <a href="{{ route('pembelian.show', $id) }}" class="text-primary"><i
                     class="mdi mdi-eye-check font-size-18"></i></a>
-            <a href="#" class="text-danger delete_confirm"><i class="mdi mdi-delete font-size-18"></i></a>
+            {{-- <a href="#" class="text-danger delete_confirm"><i class="mdi mdi-delete font-size-18"></i></a> --}}
         @endif
 
 

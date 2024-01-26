@@ -254,7 +254,17 @@ class PembelianController extends Controller
      */
     public function show($id)
     {
-        //
+        $pembeliancari = PembelianModel::where('id', $id)->first();
+        $detilpembelian = PembelianDetilModel::where('pembelian_id', $pembeliancari->id)->get();
+        $data = [
+            'title' => $this->title,
+            'menu' => $this->menu,
+            'submenu' => 'Edit Pembelian',
+            'label' => 'Edit Pembelian',
+            'pembelian' => $pembeliancari,
+            'detilpembelian' => $detilpembelian
+        ];
+        return view('pembelian.show')->with($data);
     }
 
     /**
@@ -424,8 +434,6 @@ class PembelianController extends Controller
                 }
             }
 
-
-
             foreach ($request->dataheader as $header) {
                 $purchase_id = $header['purchase_id'];
                 $kode_transaksi = $header['kode_transaksi'];
@@ -487,33 +495,6 @@ class PembelianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'supplier' => 'required',
-            'alamat' => 'required',
-            'kontak' => 'required',
-            'telp' => 'required',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $produk = PembelianModel::findOrFail($id);
-            $produk->supplier = $request->supplier;
-            $produk->alamat = $request->alamat;
-            $produk->kontak = $request->kontak;
-            $produk->telp = $request->telp;
-            $produk->status = $request->status1;
-            $produk->user_updated = Auth::user()->id;
-            $produk->save();
-
-            DB::commit();
-            AlertHelper::addAlert(true);
-            return redirect('/supplier');
-        } catch (\Throwable $err) {
-            DB::rollback();
-            throw $err;
-            AlertHelper::addAlert(false);
-            return back();
-        }
     }
 
     /**

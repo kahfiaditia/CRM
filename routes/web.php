@@ -10,6 +10,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::group(
     function () {
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        route::resource('/data_user', UserController::class);
         Route::get('/profil', [UserController::class, 'profil'])->name('pengguna.profil');
         route::resource('/supplier', SupplierController::class);
         Route::get('/data_list', [SupplierController::class, 'data_list'])->name('supplier.data_list');

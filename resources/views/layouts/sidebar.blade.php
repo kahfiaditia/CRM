@@ -11,15 +11,15 @@
                     </a>
                 </li>
                 <li class="menu-title" key="t-apps">Apps</li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('pengguna.profil') }}" class="waves-effect">
                         <i class="bx bx-user-circle"></i>
                         <span key="t-calendar">Profil User</span>
                     </a>
-                </li>
+                </li> --}}
                 @if (Auth::user()->roles == 'Administrator')
                     <li>
-                        <a href="" class="waves-effect">
+                        <a href="{{ route('data_user.index') }}" class="waves-effect">
                             <i class="bx bx-list-ul"></i>
                             <span key="bx bx-list-ul">List User</span>
                         </a>

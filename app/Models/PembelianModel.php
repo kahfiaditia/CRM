@@ -11,4 +11,9 @@ class PembelianModel extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'pembelian';
     protected $guarded = [];
+
+    public function supplier()
+    {
+        return $this->belongsTo(SupplierModel::class, 'supplier_id');
+    }
 }
