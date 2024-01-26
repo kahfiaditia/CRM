@@ -66,9 +66,7 @@
                         <span key="t-ecommerce">Laporan</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="" key="t-products">Laporan Pembelian</a></li>
-                        <li><a href="" key="t-products">Laporan Penjualan</a></li>
-                        <li><a href="" key="t-product-detail">Jadwal</a></li>
+                        <li><a href="{{ route('laporan_penjualan.index') }}" key="t-products">Laporan Penjualan</a></li>
                     </ul>
                 </li>
             </ul>

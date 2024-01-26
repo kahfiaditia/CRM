@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisController;
+use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PembelianController;
@@ -53,5 +54,6 @@ Route::group(
         route::resource('/penjualan', PenjualanController::class);
         Route::get('/data_pelanggan', [PenjualanController::class, 'data_pelanggan'])->name('penjualan.data_pelanggan');
         Route::post('/obat_data_list', [PenjualanController::class, 'obat_data_list'])->name('penjualan.obat_list');
+        route::resource('/laporan_penjualan', LaporanPenjualanController::class);
     }
 );
