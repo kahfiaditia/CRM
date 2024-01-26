@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenjualanModel;
 use Illuminate\Http\Request;
 
 class LaporanPenjualanController extends Controller
 {
+    protected $title = 'Laporan Penjualan';
+    protected $menu = 'Master Data';
     /**
      * Display a listing of the resource.
      */
@@ -16,6 +19,7 @@ class LaporanPenjualanController extends Controller
             'menu' => $this->menu,
             'submenu' => 'Laporan',
             'label' => 'List Laporan',
+            'transaksi' => PenjualanModel::all()
         ];
         return view('laporan_penjualan.index')->with($data);
     }

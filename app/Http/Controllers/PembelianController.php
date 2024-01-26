@@ -180,6 +180,17 @@ class PembelianController extends Controller
                 $produk->user_created = Auth::user()->id;
                 $produk->save();
 
+                $result = PembelianDetilModel::selectRaw('SUM(harga_total_produk) as totalHarga, COUNT(produk_id) as totalProduk')
+                    ->where('pembelian_id', $pembelian->id)
+                    ->first();
+
+                if ($result) {
+                    // Mengupdate nilai_pembelian dan total_produk pada model PembelianModel
+                    $pembelian->nilai_pembelian = $result->totalHarga;
+                    $pembelian->total_produk = $result->totalProduk;
+                    $pembelian->save();
+                }
+
                 $stokp = new HistoryModel();
                 $stokp->keterangan = "Pembelian";
                 $stokp->pembelian_id = $pembelian->id;
