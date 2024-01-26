@@ -135,13 +135,13 @@
                                                 id="tablePenjualan">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center" style="width: 10%">id</th>
+                                                        <th class="text-center" hidden>id</th>
                                                         <th class="text-center" style="width: 10%">Obat</th>
-                                                        <th class="text-center" style="width: 10%">Stok</th>
+                                                        <th class="text-center" hidden>Stok</th>
                                                         <th class="text-center" style="width: 10%">Qty</th>
                                                         <th class="text-center" style="width: 10%">Harga</th>
                                                         <th class="text-center" style="width: 10%">Total</th>
-                                                        <th class="text-center" style="width: 10%">Modal</th>
+                                                        <th class="text-center" hidden>Modal</th>
                                                         <th class="text-center" style="width: 5%">Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -329,13 +329,13 @@
             // If the product does not exist, add a new row
             if (!productExists) {
                 var newRow = '<tr>' +
-                    '<td class="text-center">' + id + '</td>' +
+                    '<td class="text-center" hidden>' + id + '</td>' +
                     '<td class="text-center">' + obat + '</td>' +
-                    '<td class="text-center">' + stok + '</td>' +
+                    '<td class="text-center" hidden>' + stok + '</td>' +
                     '<td class="text-center">' + qty + '</td>' +
                     '<td class="text-center">' + hargaJual.toLocaleString() + '</td>' +
                     '<td class="text-center">' + totalHargaJual.toLocaleString() + '</td>' +
-                    '<td class="text-center">' + hargaBeli.toLocaleString() + '</td>' +
+                    '<td class="text-center" hidden>' + hargaBeli.toLocaleString() + '</td>' +
                     '<td class="text-center"><button type="button" class="btn btn-danger btn-sm" onclick="hapusBaris(this)">Hapus</button></td>' +
                     '</tr>';
 

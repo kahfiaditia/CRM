@@ -1,13 +1,15 @@
 <?php $id = $model->id; ?>
 <?php $id_decrypted = Crypt::encryptString($id); ?>
-<form class="delete-form" action="{{ route('obat.destroy', $id) }}" method="POST">
+<form class="delete-form" action="{{ route('pembelian.destroy', $id) }}" method="POST">
     @csrf
     @method('DELETE')
     <div class="d-flex gap-3">
 
         @if (Auth::user()->roles == 'Administrator')
-            <a href="{{ route('obat.edit', $id) }}" class="text-success"><i class="mdi mdi-pencil font-size-18"></i></a>
-            <a href="{{ route('obat.show', $id) }}" class="text-primary"><i class="mdi mdi-eye-check font-size-18"></i></a>
+            <a href="{{ route('pembelian.edit', $id) }}" class="text-success"><i
+                    class="mdi mdi-pencil font-size-18"></i></a>
+            <a href="{{ route('pembelian.show', $id) }}" class="text-primary"><i
+                    class="mdi mdi-eye-check font-size-18"></i></a>
             <a href="#" class="text-danger delete_confirm"><i class="mdi mdi-delete font-size-18"></i></a>
         @endif
 
