@@ -540,12 +540,14 @@
                     success: response => {
                         if (response.code == 200) {
                             Swal.fire({
-                                title: 'Edit Data',
+                                title: 'Input Jadwal Berhasil',
                                 text: `${response.message}`,
                                 icon: 'success',
                                 timer: 1000,
                                 willClose: () => {
-                                    location.reload();
+                                    // Mengarahkan ke route jadwal.index
+                                    window.location.href =
+                                        '{{ route('pembelian.index') }}';
                                 }
                             })
                         } else {
