@@ -94,8 +94,8 @@ class JenisController extends Controller
         $data = [
             'title' => $this->title,
             'menu' => $this->menu,
-            'submenu' => 'Edit supplier',
-            'label' => 'Edit supplier',
+            'submenu' => 'Edit Jenis',
+            'label' => 'Edit Jenis',
             'editjenis' => JenisModel::findOrfail($id_decrypt)
         ];
         return view('jenis.edit')->with($data);
