@@ -43,21 +43,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($dataku as $pelanggan)
+                                    @foreach ($dataku as $userku)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $pelanggan->name }}</td>
-                                            <td>{{ $pelanggan->email }}</td>
-                                            <td>{{ $pelanggan->roles }}</td>
+                                            <td>{{ $userku->name }}</td>
+                                            <td>{{ $userku->email }}</td>
+                                            <td>{{ $userku->roles }}</td>
                                             <td>
                                                 <form class="delete-form"
-                                                    action="{{ route('pelanggan.destroy', Crypt::encryptString($pelanggan->id)) }}"
+                                                    action="{{ route('data_user.destroy', Crypt::encryptString($userku->id)) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
 
-                                                        <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
+                                                        <a href="{{ route('data_user.edit', Crypt::encryptString($userku->id)) }}"
                                                             class="text-success"><i
                                                                 class="mdi mdi-pencil font-size-18"></i></a>
                                                         <a href class="text-danger delete_confirm"><i

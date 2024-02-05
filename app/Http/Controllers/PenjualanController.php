@@ -148,6 +148,12 @@ class PenjualanController extends Controller
                 $penjualandetil->user_created = Auth::user()->id;
                 $penjualandetil->save();
 
+                $count_total_produk = PenjualanDetilModel::where('penjualan_id', $penjualan->id)->count();
+                PenjualanModel::where('id',  $penjualan->id)->update(['total_produk' => $count_total_produk]);
+
+                $totalSum = PenjualanDetilModel::where('penjualan_id', $penjualan->id)->sum('total');
+                PenjualanModel::where('id',  $penjualan->id)->update(['total' => $totalSum]);
+
                 $stokp = new HistoryModel();
                 $stokp->keterangan = "Penjualan";
                 $stokp->penjualan_id = $penjualan->id;

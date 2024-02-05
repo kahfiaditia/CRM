@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AlertHelper;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -19,7 +24,7 @@ class UserController extends Controller
             'menu' => $this->menu,
             'submenu' => 'List User',
             'label' => 'Users',
-            'dataku' => User::all()
+            'dataku' => User::whereNull('deleted_at')->get()
         ];
         return view('user.index')->with($data);
     }
@@ -29,7 +34,14 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'title' => $this->title,
+            'menu' => $this->menu,
+            'submenu' => 'Tambah User',
+            'label' => 'Users',
+            'dataku' => User::all()
+        ];
+        return view('user.tambah')->with($data);
     }
 
     /**
@@ -37,13 +49,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $produk = new User();
+            $produk->roles =  $request->roles;
+            $produk->name =  $request->nama;
+            $produk->email = $request->email;
+            $produk->password = bcrypt($request->password);
+            $produk->save();
+
+
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('/data_user');
+        } catch (\Throwable $err) {
+            DB::rollback();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
@@ -51,15 +81,23 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $id_decryprt = Crypt::decryptString($id);
+        $data = [
+            'title' => $this->title,
+            'menu' => $this->menu,
+            'submenu' => 'Edit User',
+            'label' => 'Users',
+            'dataku' => User::findOrFail($id_decryprt)
+        ];
+        return view('user.edit')->with($data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -67,8 +105,23 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $id_decryprt = Crypt::decryptString($id);
+            $hapus = User::findOrFail($id_decryprt);
+            $hapus->deleted_at = Carbon::now();
+            $hapus->save();
+
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('/data_user');
+        } catch (\Throwable $err) {
+            DB::rollback();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
     }
 }

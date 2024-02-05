@@ -48,7 +48,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->kode_penjualan }}</td>
-                                            <td>Rp {{ number_format($item->nilai_pembelian, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format($item->total, 0, ',', '.') }}</td>
                                             <td>{{ $item->total_produk }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
