@@ -11,4 +11,9 @@ class PembelianDetilModel extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'pembelian_detil';
     protected $guarded = [];
+
+    public function nama()
+    {
+        return $this->belongsTo(ObatModel::class, 'produk_id');
+    }
 }

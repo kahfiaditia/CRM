@@ -111,7 +111,7 @@ class PelangganController extends Controller
             $produk->nama = $request->nama;
             $produk->alamat = $request->alamat;
             $produk->telp = $request->telp;
-            $produk->status = $request->status1;
+            $produk->status = 1;
             $produk->user_updated = Auth::user()->id;
             $produk->save();
 

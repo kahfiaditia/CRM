@@ -11,4 +11,9 @@ class PenjualanModel extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'penjualan';
     protected $guarded = [];
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(PelangganModel::class, 'pelanggan_id');
+    }
 }

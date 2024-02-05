@@ -147,8 +147,8 @@ class ObatController extends Controller
         $data = [
             'title' => $this->title,
             'menu' => $this->menu,
-            'submenu' => 'Edit Obat',
-            'label' => 'Edit Obat',
+            'submenu' => 'View Obat',
+            'label' => 'View Obat',
             'viewobat' => ObatModel::findOrfail($id)
         ];
         return view('obat.show')->with($data);

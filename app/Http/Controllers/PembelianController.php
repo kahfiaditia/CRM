@@ -259,8 +259,8 @@ class PembelianController extends Controller
         $data = [
             'title' => $this->title,
             'menu' => $this->menu,
-            'submenu' => 'Edit Pembelian',
-            'label' => 'Edit Pembelian',
+            'submenu' => 'View Pembelian',
+            'label' => 'View Pembelian',
             'pembelian' => $pembeliancari,
             'detilpembelian' => $detilpembelian
         ];
