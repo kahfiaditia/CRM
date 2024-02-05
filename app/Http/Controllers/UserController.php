@@ -99,7 +99,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+
+            $user_update = User::findOrFail($id);
+            $user_update->roles =  $request->roles;
+            $user_update->name =  $request->nama;
+            $user_update->email = $request->email;
+            $user_update->phone = $request->telepon;
+            $user_update->save();
+
+
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('/data_user');
+        } catch (\Throwable $err) {
+            DB::rollback();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
     }
 
     /**
