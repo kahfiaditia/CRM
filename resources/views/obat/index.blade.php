@@ -239,6 +239,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                searching: false,
                 ajax: {
                     url: "{{ route('obat.data_list') }}",
                     data: function(d) {

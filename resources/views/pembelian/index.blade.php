@@ -230,7 +230,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                searching: false
+                searching: false,
                 ajax: {
                     url: "{{ route('pembelian.data_list_pembelian') }}",
                     data: function(d) {
