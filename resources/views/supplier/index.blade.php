@@ -238,7 +238,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                searching: false
+                searching: false,
                 ajax: {
                     url: "{{ route('supplier.data_list') }}",
                     data: function(d) {
