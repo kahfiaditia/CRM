@@ -60,7 +60,7 @@ class JenisController extends Controller
 
             $produk = new JenisModel();
             $produk->jenis =  $request->jenis;
-            $produk->deskripsi =  $request->jenis;
+            $produk->deskripsi =  $request->descr;
             $produk->status =  1;
             $produk->user_created = Auth::user()->id;
             $produk->save();
