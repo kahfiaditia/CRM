@@ -44,8 +44,8 @@
                                         <img src="assets/images/users/avatar-1.jpg" alt=""
                                             class="img-thumbnail rounded-circle">
                                     </div>
-                                    <h5 class="font-size-15 text-truncate">Henry Price</h5>
-                                    <p class="text-muted mb-0 text-truncate">UI/UX Designer</p>
+                                    <h5 class="font-size-15 text-truncate">{{ Auth::user()->name }}</h5>
+                                    <p class="text-muted mb-0 text-truncate">{{ Auth::user()->role }}</p>
                                 </div>
 
                             </div>
@@ -60,8 +60,8 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total Penjualan</p>
-                                            <h4 class="mb-0">1,235</h4>
+                                            <p class="text-muted fw-medium">Total Penjualan Hari Ini</p>
+                                            <h4 class="mb-0">{{ number_format($jum_transaksi, 0, ',', '.') }} </h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -80,8 +80,8 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total Pembelian</p>
-                                            <h4 class="mb-0">$35, 723</h4>
+                                            <p class="text-muted fw-medium">Pembelian Hari<br> Ini</p>
+                                            <h4 class="mb-0">{{ number_format($jum_pembelian, 0, ',', '.') }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center ">
@@ -100,48 +100,48 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium">Total Obat <br>Terjual</p>
+                                            <h4 class="mb-0">{{ $jum_transaksi_detil }} item</h4>
+                                        </div>
+
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                                <span class="avatar-title rounded-circle bg-primary">
+                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium">Total Qty Obat</p>
+                                            <h4 class="mb-0">{{ $kuantiti }}</h4>
+                                        </div>
+
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                                                <span class="avatar-title rounded-circle bg-primary">
+                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total Supplier</p>
-                                            <h4 class="mb-0">$16.2</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
-                                                <span class="avatar-title rounded-circle bg-primary">
-                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total Pelanggan</p>
-                                            <h4 class="mb-0">$16.2</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
-                                                <span class="avatar-title rounded-circle bg-primary">
-                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total Obat</p>
-                                            <h4 class="mb-0">$16.2</h4>
+                                            <h4 class="mb-0">{{ $supplier }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -162,7 +162,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total User</p>
-                                            <h4 class="mb-0">$16.2</h4>
+                                            <h4 class="mb-0">{{ $user }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
