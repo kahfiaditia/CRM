@@ -10,23 +10,32 @@
                 
                 $menus = DB::table('table_menu')->whereIn('id', $userMenus)->get();
                 $submenus = DB::table('table_submenu')->whereIn('id', $userSubmenus)->get();
+                
                 ?>
 
                 <li class="menu-title" key="t-menu">Menu</li>
 
                 @foreach ($menus as $menu)
                     <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="bx bx-store"></i>
-                            <span key="t-ecommerce">{{ $menu->menu }}</span>
-                        </a>
+                        @if ($menu->route_menu == null)
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="bx bx-store"></i>
+                                <span key="t-ecommerce">{{ $menu->menu }}</span>
+                            </a>
+                        @else
+                            <a href="{{ route($menu->route_menu) }}">
+                                <i class="bx bx-store"></i>
+                                <span key="t-ecommerce">{{ $menu->menu }}</span>
+                            </a>
+                        @endif
                         <ul class="sub-menu" aria-expanded="false">
-                            @foreach ($submenus as $submenu)
-                                @if ($submenu->menu_id == $menu->id)
-                                    <li>
-                                        <a href="" key="t-products">{{ $submenu->submenu }}</a>
-                                    </li>
-                                @endif
+                            @foreach ($submenus->where('menu_id', $menu->id)->groupBy('submenu') as $submenuGroup => $groupedSubmenus)
+                                <li>
+                                    <a href="{{ $groupedSubmenus[0]->route_submenu ? route($groupedSubmenus[0]->route_submenu) : '' }}"
+                                        key="t-products">
+                                        {{ $submenuGroup }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </li>

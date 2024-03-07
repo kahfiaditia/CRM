@@ -10,7 +10,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MenuSeeder extends Seeder
+class SubMenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -24,6 +24,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'List User',
+                'route_submenu' => 'List User',
                 'typemenu' => 'view',
                 'status' => '1',
                 'order_submenu' => '1',
@@ -33,6 +34,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'List User',
+                'route_submenu' => 'List User',
                 'typemenu' => 'insert',
                 'status' => '1',
                 'order_submenu' => '1',
@@ -42,6 +44,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'List User',
+                'route_submenu' => 'List User',
                 'typemenu' => 'edit',
                 'status' => '1',
                 'order_submenu' => '1',
@@ -51,6 +54,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'Jenis',
+                'route_submenu' => 'List User',
                 'typemenu' => 'view',
                 'status' => '1',
                 'order_submenu' => '1',
@@ -60,6 +64,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'Jenis',
+                'route_submenu' => 'List User',
                 'typemenu' => 'insert',
                 'status' => '1',
                 'order_submenu' => '1',
@@ -69,6 +74,7 @@ class MenuSeeder extends Seeder
             [
                 'menu_id' => '2',
                 'submenu' => 'Jenis',
+                'route_submenu' => 'List User',
                 'typemenu' => 'edit',
                 'status' => '1',
                 'order_submenu' => '1',
