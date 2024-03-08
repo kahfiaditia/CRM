@@ -19,12 +19,12 @@
                     <li>
                         @if ($menu->route_menu == null)
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="bx bx-store"></i>
+                                <i class="{{ $menu->icon_menu }}"></i>
                                 <span key="t-ecommerce">{{ $menu->menu }}</span>
                             </a>
                         @else
                             <a href="{{ route($menu->route_menu) }}">
-                                <i class="bx bx-store"></i>
+                                <i class="{{ $menu->icon_menu }}"></i>
                                 <span key="t-ecommerce">{{ $menu->menu }}</span>
                             </a>
                         @endif
