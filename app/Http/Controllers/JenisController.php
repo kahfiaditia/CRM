@@ -20,14 +20,19 @@ class JenisController extends Controller
      */
     public function index()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Jenis Obat',
-            'label' => 'List Jenis Obat',
-            'list' => JenisModel::all()
-        ];
-        return view('jenis.index')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('5', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Jenis Obat',
+                'label' => 'List Jenis Obat',
+                'list' => JenisModel::all()
+            ];
+            return view('jenis.index')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
 
@@ -36,13 +41,18 @@ class JenisController extends Controller
      */
     public function create()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Jenis',
-            'label' => 'Input Jenis',
-        ];
-        return view('jenis.create')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('6', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Jenis',
+                'label' => 'Input Jenis',
+            ];
+            return view('jenis.create')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -89,16 +99,20 @@ class JenisController extends Controller
      */
     public function edit($id)
     {
-        // dd($id)
-        $id_decrypt = Crypt::decryptString($id);
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Edit Jenis',
-            'label' => 'Edit Jenis',
-            'editjenis' => JenisModel::findOrfail($id_decrypt)
-        ];
-        return view('jenis.edit')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('7', $session_menu)) {
+            $id_decrypt = Crypt::decryptString($id);
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Edit Jenis',
+                'label' => 'Edit Jenis',
+                'editjenis' => JenisModel::findOrfail($id_decrypt)
+            ];
+            return view('jenis.edit')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -137,22 +151,27 @@ class JenisController extends Controller
      */
     public function destroy($id)
     {
-        $id_decrypt = Crypt::decryptString($id);
-        DB::beginTransaction();
-        try {
-            $hapus = JenisModel::findOrFail($id_decrypt);
-            $hapus->deleted_at = Carbon::now();
-            $hapus->user_deleted = Auth::user()->id;
-            $hapus->save();
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('8', $session_menu)) {
+            $id_decrypt = Crypt::decryptString($id);
+            DB::beginTransaction();
+            try {
+                $hapus = JenisModel::findOrFail($id_decrypt);
+                $hapus->deleted_at = Carbon::now();
+                $hapus->user_deleted = Auth::user()->id;
+                $hapus->save();
 
-            DB::commit();
-            AlertHelper::addAlert(true);
-            return redirect('/jenis');
-        } catch (\Throwable $err) {
-            DB::rollback();
-            throw $err;
-            AlertHelper::addAlert(false);
-            return back();
+                DB::commit();
+                AlertHelper::addAlert(true);
+                return redirect('/jenis');
+            } catch (\Throwable $err) {
+                DB::rollback();
+                throw $err;
+                AlertHelper::addAlert(false);
+                return back();
+            }
+        } else {
+            return view('not_found');
         }
     }
 }
