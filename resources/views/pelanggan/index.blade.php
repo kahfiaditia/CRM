@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('apotekku')
+    <?php $session_menu = explode(',', Auth::user()->submenu); ?>
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -16,12 +17,12 @@
                         </div>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                {{-- @if (in_array('148', $session_menu)) --}}
-                                <a href="{{ route('pelanggan.create') }}" type="button"
-                                    class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
-                                    <i class="mdi mdi-plus me-1"></i> Tambah
-                                </a>
-                                {{-- @endif --}}
+                                @if (in_array('18', $session_menu))
+                                    <a href="{{ route('pelanggan.create') }}" type="button"
+                                        class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                        <i class="mdi mdi-plus me-1"></i> Tambah
+                                    </a>
+                                @endif
                             </ol>
                         </div>
                     </div>
@@ -58,13 +59,15 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
-
-                                                        <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
-                                                            class="text-success"><i
-                                                                class="mdi mdi-pencil font-size-18"></i></a>
-                                                        <a href class="text-danger delete_confirm"><i
-                                                                class="mdi mdi-delete font-size-18"></i></a>
-
+                                                        @if (in_array('19', $session_menu))
+                                                            <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
+                                                                class="text-success"><i
+                                                                    class="mdi mdi-pencil font-size-18"></i></a>
+                                                        @endif
+                                                        @if (in_array('20', $session_menu))
+                                                            <a href class="text-danger delete_confirm"><i
+                                                                    class="mdi mdi-delete font-size-18"></i></a>
+                                                        @endif
                                                     </div>
                                                 </form>
                                             </td>

@@ -1,3 +1,4 @@
+<?php $session_menu = explode(',', Auth::user()->submenu); ?>
 <?php $id = $model->id; ?>
 <?php $id_decrypted = Crypt::encryptString($id); ?>
 <form class="delete-form" action="{{ route('supplier.destroy', $id) }}" method="POST">
@@ -5,9 +6,11 @@
     @method('DELETE')
     <div class="d-flex gap-3">
 
-        @if (Auth::user()->roles == 'Administrator')
+        @if (in_array('3', $session_menu))
             <a href="{{ route('supplier.edit', $id) }}" class="text-success"><i
                     class="mdi mdi-pencil font-size-18"></i></a>
+        @endif
+        @if (in_array('4', $session_menu))
             <a href="#" class="text-danger delete_confirm"><i class="mdi mdi-delete font-size-18"></i></a>
         @endif
 

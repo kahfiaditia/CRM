@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('1', $session_menu)) {
+        if (in_array('5', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -40,7 +40,7 @@ class UserController extends Controller
     public function create()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('2', $session_menu)) {
+        if (in_array('6', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -94,7 +94,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('3', $session_menu)) {
+        if (in_array('7', $session_menu)) {
             $id_decryprt = Crypt::decryptString($id);
             $data = [
                 'title' => $this->title,
@@ -142,7 +142,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('4', $session_menu)) {
+        if (in_array('8', $session_menu)) {
             DB::beginTransaction();
             try {
                 $id_decryprt = Crypt::decryptString($id);

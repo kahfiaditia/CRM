@@ -21,7 +21,7 @@ class JenisController extends Controller
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('5', $session_menu)) {
+        if (in_array('9', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -42,7 +42,7 @@ class JenisController extends Controller
     public function create()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('6', $session_menu)) {
+        if (in_array('10', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -100,7 +100,7 @@ class JenisController extends Controller
     public function edit($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('7', $session_menu)) {
+        if (in_array('11', $session_menu)) {
             $id_decrypt = Crypt::decryptString($id);
             $data = [
                 'title' => $this->title,
@@ -152,7 +152,7 @@ class JenisController extends Controller
     public function destroy($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('8', $session_menu)) {
+        if (in_array('12', $session_menu)) {
             $id_decrypt = Crypt::decryptString($id);
             DB::beginTransaction();
             try {
