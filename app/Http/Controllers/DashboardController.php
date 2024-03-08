@@ -37,7 +37,7 @@ class DashboardController extends Controller
             ->sum('qty');
 
         $supplier = SupplierModel::count();
-        $user = User::count();
+        $user = User::whereNull('deleted_at')->count();
         // dd($pembelian);
 
 

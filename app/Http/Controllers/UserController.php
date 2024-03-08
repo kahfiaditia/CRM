@@ -19,14 +19,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'List User',
-            'label' => 'Users',
-            'dataku' => User::whereNull('deleted_at')->get()
-        ];
-        return view('user.index')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('5', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'List User',
+                'label' => 'Users',
+                'dataku' => User::whereNull('deleted_at')->get()
+            ];
+            return view('user.index')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -34,14 +39,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Tambah User',
-            'label' => 'Users',
-            'dataku' => User::all()
-        ];
-        return view('user.tambah')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('6', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Tambah User',
+                'label' => 'Users',
+                'dataku' => User::all()
+            ];
+            return view('user.tambah')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -83,15 +93,20 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $id_decryprt = Crypt::decryptString($id);
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Edit User',
-            'label' => 'Users',
-            'dataku' => User::findOrFail($id_decryprt)
-        ];
-        return view('user.edit')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('7', $session_menu)) {
+            $id_decryprt = Crypt::decryptString($id);
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Edit User',
+                'label' => 'Users',
+                'dataku' => User::findOrFail($id_decryprt)
+            ];
+            return view('user.edit')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -126,21 +141,26 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $id_decryprt = Crypt::decryptString($id);
-            $hapus = User::findOrFail($id_decryprt);
-            $hapus->deleted_at = Carbon::now();
-            $hapus->save();
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('8', $session_menu)) {
+            DB::beginTransaction();
+            try {
+                $id_decryprt = Crypt::decryptString($id);
+                $hapus = User::findOrFail($id_decryprt);
+                $hapus->deleted_at = Carbon::now();
+                $hapus->save();
 
-            DB::commit();
-            AlertHelper::addAlert(true);
-            return redirect('/data_user');
-        } catch (\Throwable $err) {
-            DB::rollback();
-            throw $err;
-            AlertHelper::addAlert(false);
-            return back();
+                DB::commit();
+                AlertHelper::addAlert(true);
+                return redirect('/data_user');
+            } catch (\Throwable $err) {
+                DB::rollback();
+                throw $err;
+                AlertHelper::addAlert(false);
+                return back();
+            }
+        } else {
+            return view('not_found');
         }
     }
 }

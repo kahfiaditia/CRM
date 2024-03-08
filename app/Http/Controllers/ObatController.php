@@ -20,13 +20,18 @@ class ObatController extends Controller
      */
     public function index()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Supplier',
-            'label' => 'List supplier',
-        ];
-        return view('obat.index')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('13', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Supplier',
+                'label' => 'List supplier',
+            ];
+            return view('obat.index')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     public function data_list(Request $request)
@@ -94,14 +99,19 @@ class ObatController extends Controller
      */
     public function create()
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Obat',
-            'label' => 'Input Obat',
-            'satuan' => JenisModel::all()
-        ];
-        return view('obat.create')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('14', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Obat',
+                'label' => 'Input Obat',
+                'satuan' => JenisModel::all()
+            ];
+            return view('obat.create')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -144,14 +154,20 @@ class ObatController extends Controller
      */
     public function show($id)
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'View Obat',
-            'label' => 'View Obat',
-            'viewobat' => ObatModel::findOrfail($id)
-        ];
-        return view('obat.show')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('13', $session_menu)) {
+
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'View Obat',
+                'label' => 'View Obat',
+                'viewobat' => ObatModel::findOrfail($id)
+            ];
+            return view('obat.show')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -159,15 +175,20 @@ class ObatController extends Controller
      */
     public function edit($id)
     {
-        $data = [
-            'title' => $this->title,
-            'menu' => $this->menu,
-            'submenu' => 'Edit Obat',
-            'label' => 'Edit Obat',
-            'editobat' => ObatModel::findOrfail($id),
-            'jenis' => JenisModel::all()
-        ];
-        return view('obat.edit')->with($data);
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('15', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Edit Obat',
+                'label' => 'Edit Obat',
+                'editobat' => ObatModel::findOrfail($id),
+                'jenis' => JenisModel::all()
+            ];
+            return view('obat.edit')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -207,21 +228,26 @@ class ObatController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $hapus = ObatModel::findOrFail($id);
-            $hapus->deleted_at = Carbon::now();
-            $hapus->user_deleted = Auth::user()->id;
-            $hapus->save();
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('16', $session_menu)) {
+            DB::beginTransaction();
+            try {
+                $hapus = ObatModel::findOrFail($id);
+                $hapus->deleted_at = Carbon::now();
+                $hapus->user_deleted = Auth::user()->id;
+                $hapus->save();
 
-            DB::commit();
-            AlertHelper::addAlert(true);
-            return redirect('/obat');
-        } catch (\Throwable $err) {
-            DB::rollback();
-            throw $err;
-            AlertHelper::addAlert(false);
-            return back();
+                DB::commit();
+                AlertHelper::addAlert(true);
+                return redirect('/obat');
+            } catch (\Throwable $err) {
+                DB::rollback();
+                throw $err;
+                AlertHelper::addAlert(false);
+                return back();
+            }
+        } else {
+            return view('not_found');
         }
     }
 }

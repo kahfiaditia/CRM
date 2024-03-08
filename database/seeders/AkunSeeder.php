@@ -20,10 +20,12 @@ class AkunSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $user = [
             [
-                'name' => 'Riki',
+                'name' => 'Eni Nuraeni',
                 'email' => 'administrator@gmail.com',
                 'password' => bcrypt('12345'),
                 'roles' => 'Administrator',
+                'menu' => '1,2,3,4,5',
+                'submenu' => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36',
                 'phone' => '08569789744',
                 'email_verified_at' => Carbon::now(),
             ],
@@ -32,6 +34,8 @@ class AkunSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('12345'),
                 'roles' => 'Admin',
+                'menu' => '1,2',
+                'submenu' => '1,2,3',
                 'phone' => '0896566644',
                 'email_verified_at' => Carbon::now(),
             ],
@@ -40,6 +44,8 @@ class AkunSeeder extends Seeder
                 'email' => 'kasir@gmail.com',
                 'password' => bcrypt('12345'),
                 'roles' => 'Kasir',
+                'menu' => '1,2',
+                'submenu' => '1,2,3',
                 'phone' => '0896547788',
                 'email_verified_at' => Carbon::now(),
             ],
