@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
-    protected $title = 'faeyza farma';
+    protected $title = 'Login || JBM';
     protected $menu = 'login';
 
     public function index()
@@ -22,7 +22,7 @@ class LoginController extends Controller
             'submenu' => 'login',
             'label' => 'login',
         ];
-        return view('login.login')->with($data);
+        return view('login.login2')->with($data);
     }
 
     public function login_backend()
@@ -39,7 +39,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required',
+            'username' => 'required',
             'password' => 'required',
             'aktif' => '0',
         ]);
@@ -48,10 +48,13 @@ class LoginController extends Controller
             if (Auth::user()->roles == 'Administrator') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Kasir') {
+            } else if (Auth::user()->roles == 'Purchasing') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Admin') {
+            } else if (Auth::user()->roles == 'Penjualan') {
+                $request->session()->regenerate();
+                return redirect()->intended('dashboard');
+            } else if (Auth::user()->roles == 'Gudang') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {

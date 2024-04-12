@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ObatModel extends Model
+class ProdukModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = "obat";
+    protected $table = "produk";
     protected $guarded = [];
 
     public function jenis()
     {
-        return $this->belongsTo(JenisModel::class, 'jenis_id');
+        return $this->belongsTo(SatuanModel::class, 'satuan_id');
     }
 }

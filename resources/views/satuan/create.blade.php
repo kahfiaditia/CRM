@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <form class="needs-validation" action="{{ route('jenis.store') }}" method="POST" novalidate>
+            <form class="needs-validation" action="{{ route('satuan.store') }}" method="POST" novalidate>
                 @csrf
                 <div class="row">
                     <div class="col-xl-12">
@@ -33,7 +33,7 @@
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
-                                            {!! $errors->first('supplier', '<div class="invalid-validasi">:message</div>') !!}
+                                            {!! $errors->first('jenis', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-6">
@@ -47,7 +47,7 @@
 
                                 <div class="row mt-4">
                                     <div class="col-sm-12">
-                                        <a href="{{ route('jenis.index') }}"
+                                        <a href="{{ route('satuan.index') }}"
                                             class="btn btn-secondary waves-effect">Batal</a>
                                         <button class="btn btn-primary" type="submit" style="float: right">Simpan</button>
                                     </div>

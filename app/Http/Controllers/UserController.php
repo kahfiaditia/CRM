@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     protected $title = 'List User';
-    protected $menu = 'Master Data';
+    protected $menu = 'User';
     /**
      * Display a listing of the resource.
      */
@@ -64,7 +64,9 @@ class UserController extends Controller
             $produk = new User();
             $produk->roles =  $request->roles;
             $produk->name =  $request->nama;
+            $produk->username =  $request->username;
             $produk->email = $request->email;
+            $produk->phone = $request->telepon;
             $produk->password = bcrypt($request->password);
             $produk->save();
 

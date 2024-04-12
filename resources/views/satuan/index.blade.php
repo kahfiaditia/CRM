@@ -18,7 +18,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 @if (in_array('10', $session_menu))
-                                    <a href="{{ route('jenis.create') }}" type="button"
+                                    <a href="{{ route('satuan.create') }}" type="button"
                                         class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
                                         <i class="mdi mdi-plus me-1"></i> Tambah
                                     </a>
@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Jenis</th>
+                                        <th>Nama</th>
                                         <th>Deskripsi</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
@@ -47,18 +47,18 @@
                                     @foreach ($list as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->jenis }}</td>
+                                            <td>{{ $item->nama }}</td>
                                             <td>{{ $item->deskripsi }}</td>
                                             <td>{{ $item->status == 1 ? 'Aktif' : 'Non Aktif' }}</td>
                                             <td>
                                                 <form class="delete-form"
-                                                    action="{{ route('jenis.destroy', Crypt::encryptString($item->id)) }}"
+                                                    action="{{ route('satuan.destroy', Crypt::encryptString($item->id)) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
                                                         @if (in_array('11', $session_menu))
-                                                            <a href="{{ route('jenis.edit', Crypt::encryptString($item->id)) }}"
+                                                            <a href="{{ route('satuan.edit', Crypt::encryptString($item->id)) }}"
                                                                 class="text-success"><i
                                                                     class="mdi mdi-pencil font-size-18"></i></a>
                                                         @endif

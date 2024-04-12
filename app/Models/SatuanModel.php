@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class JenisModel extends Model
+class SatuanModel extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $table = "jenis";
+     use HasFactory, SoftDeletes;
+    protected $table = "satuan";
     protected $guarded = [];
+
 }

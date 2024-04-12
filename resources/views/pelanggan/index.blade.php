@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Pelanggan</th>
+                                        <th>Customer</th>
                                         <th>Alamat</th>
                                         <th>Telp</th>
                                         <th>Status</th>

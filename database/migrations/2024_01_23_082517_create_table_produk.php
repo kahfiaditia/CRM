@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('obat', function (Blueprint $table) {
+        Schema::create('produk', function (Blueprint $table) {
             $table->id();
-            $table->string('obat', 30);
+            $table->string('nama', 30);
             $table->string('deskripsi', 30)->nullable();
             $table->double('stok')->default(0);
             $table->double('stok_minimal')->nullable();
             $table->double('harga_beli')->default(0);
             $table->double('harga_jual')->default(0);
             $table->string('status', 1)->nullable();
-            $table->unsignedBigInteger('jenis_id')->nullable();
-            $table->foreign('jenis_id')->references('id')->on('jenis');
+            $table->unsignedBigInteger('satuan_id')->nullable();
+            $table->foreign('satuan_id')->references('id')->on('satuan');
             $table->unsignedBigInteger('user_created')->nullable();
             $table->foreign('user_created')->references('id')->on('users');
             $table->unsignedBigInteger('user_updated')->nullable();
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('obat');
+        Schema::dropIfExists('produk');
     }
 };

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreign('pembelian_id')->references('id')->on('pembelian');
             $table->unsignedBigInteger('penjualan_id')->nullable();
             $table->foreign('penjualan_id')->references('id')->on('penjualan');
-            $table->unsignedBigInteger('obat_id')->nullable();
-            $table->foreign('obat_id')->references('id')->on('obat');
+            $table->unsignedBigInteger('produk_id')->nullable();
+            $table->foreign('produk_id')->references('id')->on('produk');
             $table->double('qty')->nullable();
             $table->double('harga_jual')->nullable();
             $table->double('harga_beli')->nullable();

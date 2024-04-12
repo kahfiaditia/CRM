@@ -13,7 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PelangganController extends Controller
 {
-    protected $title = 'Pelanggan';
+    protected $title = 'Customer';
     protected $menu = 'Master Data';
     /**
      * Display a listing of the resource.
@@ -25,8 +25,8 @@ class PelangganController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Pelanggan',
-                'label' => 'List Pelanggan',
+                'submenu' => 'Customer',
+                'label' => 'List Customer',
                 'indexpelanggan' => PelangganModel::all(),
             ];
             return view('pelanggan.index')->with($data);
@@ -45,8 +45,8 @@ class PelangganController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Input pelanggan',
-                'label' => 'Input pelanggan',
+                'submenu' => 'Input Customer',
+                'label' => 'Input Customer',
             ];
             return view('pelanggan.create')->with($data);
         } else {
@@ -104,8 +104,8 @@ class PelangganController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Edit pelanggan',
-                'label' => 'Edit pelanggan',
+                'submenu' => 'Edit Customer',
+                'label' => 'Edit Customer',
                 'editpelanggan' => PelangganModel::findOrfail($id_decrypt)
             ];
             return view('pelanggan.edit')->with($data);

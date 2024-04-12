@@ -17,14 +17,6 @@
             <form class="needs-validation" action="{{ route('data_user.store') }}" enctype="multipart/form-data"
                 method="POST" novalidate>
                 @csrf
-                {{-- <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <a href="{{ route('pengguna.halaman') }}" type="button"
-                            class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
-                            <i class="mdi mdi-plus me-1"></i> Upload Excel
-                        </a>
-                    </ol>
-                </div> --}}
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
@@ -36,8 +28,10 @@
                                             <select class="form-control select select2 role" name="roles" id="roles"
                                                 required>
                                                 <option value=""> --- Pilih --</option>
-                                                <option value="Admin"> Admin</option>
-                                                <option value="Kasir"> Kasir</option>
+                                                <option value="Administrator"> Administrator</option>
+                                                <option value="Purchasing"> Purchasing</option>
+                                                <option value="Penjualan"> Penjualan</option>
+                                                <option value="Gudang"> Gudang</option>
                                             </select>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
@@ -48,7 +42,8 @@
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama <code>*</code></label>
                                             <input type="text" class="form-control" name="nama" id="nama"
-                                                autocomplete="off" maxlength="30" required>
+                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()"
+                                                placeholder="Nama" maxlength="30" required>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -57,32 +52,45 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="mb-3">
-                                            <label for="nis" class="form-label">Password <code>*</code></label>
+                                            <label for="username" class="form-label">Username <code>*</code></label>
+                                            <input type="text" class="form-control" name="username" id="username"
+                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()"
+                                                placeholder="Username" maxlength="15" required>
+                                            <div class="invalid-feedback">
+                                                Data wajib diisi.
+                                            </div>
+                                            {!! $errors->first('username', '<div class="invalid-validasi">:message</div>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Password <code>*</code></label>
                                             <input type="password" class="form-control" name="password" id="password"
-                                                autocomplete="off" maxlength="15" required>
+                                                autocomplete="off" maxlength="15" placeholder="Password">
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
                                             {!! $errors->first('password', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email </label>
-                                            <input class="form-control" type="text" id="email" name="email"
-                                                value="" autocomplete="off" maxlength="50" required>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="mb-3">
                                             <label for="telepon" class="form-label">Phone</label>
-                                            <input type="text" class="form-control" name="telepon" id="telepon"
-                                                autocomplete="off" maxlength="20">
+                                            <input type="number" class="form-control" name="telepon" id="telepon"
+                                                autocomplete="off" maxlength="20" placeholder="Telepone">
                                         </div>
                                     </div>
-
+                                    <div class="col-md-3">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email </label>
+                                            <input class="form-control" type="email" id="email" name="email"
+                                                autocomplete="off" oninput="this.value = this.value.toUpperCase()"
+                                                maxlength="50" placeholder="Email">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">

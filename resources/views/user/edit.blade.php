@@ -27,11 +27,15 @@
                                         <div class="mb-3">
                                             <label for="role" class="form-label">Role <code>*</code></label>
                                             <select class="form-control select select2 role" name="roles" id="roles">
-                                                <option value="Kasir" @if ($dataku->roles == 'Kasir') selected @endif>
-                                                    Kasir
+                                                <option value="Purchasing"
+                                                    @if ($dataku->roles == 'Purchasing') selected @endif>
+                                                    Purchasing
                                                 </option>
-                                                <option value="Admin" @if ($dataku->roles == 'Admin') selected @endif>
-                                                    Admin
+                                                <option value="Penjualan" @if ($dataku->roles == 'Penjualan') selected @endif>
+                                                    Penjualan
+                                                </option>
+                                                <option value="Gudang" @if ($dataku->roles == 'Gudang') selected @endif>
+                                                    Gudang
                                                 </option>
                                                 <option value="Administrator"
                                                     @if ($dataku->roles == 'Administrator') selected @endif> Administrator

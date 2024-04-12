@@ -2,80 +2,101 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\AlertHelper;
 use App\Models\HistoryModel;
 use App\Models\ObatModel;
 use App\Models\PelangganModel;
 use App\Models\PenjualanDetilModel;
 use App\Models\PenjualanModel;
+use App\Models\ProdukModel;
+use App\Models\SatuanModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class PenjualanController extends Controller
 {
-    protected $title = 'Faeyza Farma';
-    protected $menu = 'Penjualan';
+    protected $title = 'Produk';
+    protected $menu = 'Master Data';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('26', $session_menu)) {
-
-            $struka = PenjualanModel::latest()->first();
-
+        if (in_array('13', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Penjualan',
-                'label' => 'data Penjualan',
-                'penjualan' => PenjualanModel::all(),
-                'obat' => ObatModel::all(),
-                'pelanggan' => PelangganModel::all(),
-                'detil_struk' => $struka
+                'submenu' => 'Supplier',
+                'label' => 'List supplier',
             ];
-            return view('penjualan.penjualan')->with($data);
+            return view('produk.index')->with($data);
         } else {
             return view('not_found');
         }
     }
 
-    public function data_pelanggan(Request $request)
+    public function data_list(Request $request)
     {
-        $pelanggan = PelangganModel::all();
-        return response()->json($pelanggan);
-    }
+        $userdata = DB::table('obat')
+            ->select('obat.id', 'obat', 'harga_beli', 'harga_jual', 'stok', 'obat.status', 'satuan.nama as jenis')
+            ->leftJoin('satuan', 'obat.jenis_id', '=', 'jenis.id')
+            ->whereNull('obat.deleted_at');
 
-    public function obat_data_list()
-    {
+        if ($request->get('search_manual') != null) {
+            $search = $request->get('search_manual');
+            // $search_rak = str_replace(' ', '', $search);
+            $userdata->where(function ($where) use ($search) {
+                $where
+                    ->orWhere('nama', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                    ->orWhere('stok_minimal', 'like', '%' . $search . '%')
+                    ->orWhere('jenis', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%');
+            });
 
-        $obatData = DB::table('obat')
-            ->whereNull('deleted_at')
-            ->get();
-
-
-        if (count($obatData) > 0) {
-            return response()->json([
-                'code' => 200,
-                'data' => $obatData,
-            ]);
+            $search = $request->get('search');
+            // $search_rak = str_replace(' ', '', $search);
+            if ($search != null) {
+                $userdata->where(function ($where) use ($search) {
+                    $where
+                        ->orWhere('obat', 'like', '%' . $search . '%')
+                        ->orWhere('deskripsi', 'like', '%' . $search . '%')
+                        ->orWhere('stok_minimal', 'like', '%' . $search . '%')
+                        ->orWhere('jenis', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%');
+                });
+            }
         } else {
-            return response()->json([
-                'code' => 400,
-                'data' => null,
-            ]);
+            if ($request->get('obat') != null) {
+                $obat = $request->get('obat');
+                $userdata->where('obat', '=', $obat);
+            }
+            if ($request->get('deskripsi') != null) {
+                $deskripsi = $request->get('deskripsi');
+                $userdata->where('deskripsi', '=', $deskripsi);
+            }
+            if ($request->get('stok_minimal') != null) {
+                $stok_minimal = $request->get('stok_minimal');
+                $userdata->where('stok_minimal', '=', $stok_minimal);
+            }
+            if ($request->get('jenis_id') != null) {
+                $jenis_id = $request->get('jenis_id');
+                $userdata->where('jenis', '=', $jenis_id);
+            }
+            if ($request->get('status') != null) {
+                $status = $request->get('status');
+                $userdata->where('status', '=', $status);
+            }
         }
-    }
 
-    public function getObatDetails($id)
-    {
-        $obat = ObatModel::find($id);
-        if ($obat) {
-            return response()->json($obat);
-        }
-
-        return response()->json(['error' => 'Obat not found.'], 404);
+        return DataTables::of($userdata)
+            ->addColumn('action', 'produk.akse')
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -83,7 +104,19 @@ class PenjualanController extends Controller
      */
     public function create()
     {
-        //
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('14', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Produk',
+                'label' => 'Input Produk',
+                'satuan' => SatuanModel::all()
+            ];
+            return view('produk.create')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
@@ -91,149 +124,135 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('26', $session_menu)) {
-            DB::beginTransaction();
-            try {
+        // dd($request->dataTabel);
+        DB::beginTransaction();
+        try {
 
-                $currentDate = date('ymd');
-                // Mencari jumlah transaksi dengan tanggal yang sama
-                $query = "SELECT COUNT(*) as total FROM penjualan WHERE DATE_FORMAT(created_at, '%y%m%d') = '{$currentDate}'";
-                $result = DB::select($query);
-                // Mendapatkan jumlah transaksi dengan tanggal yang sama
-                $totalTransactions = $result[0]->total + 1;
-                // Membuat nomor urut dengan format 3 digit (contoh: 001, 002, dst.)
-                $transactionNumber = sprintf('%03d', $totalTransactions);
-                // Menggabungkan semua elemen menjadi kode transaksi
-                $transactionCode = "PJ" . $currentDate  . $transactionNumber;
-                // Memastikan kode transaksi unik
-                while ($existingTransaction = PenjualanModel::where('kode_penjualan', $transactionCode)->first()) {
-                    $totalTransactions++;
-                    $transactionNumber = sprintf('%03d', $totalTransactions);
-                    $transactionCode = "PJ" . $currentDate . $transactionNumber;
-                }
-
-                $requestData = $request->all();
-
-                // Extract additional data
-                $additionalData = $requestData['additionalData'];
-                $id_pembeli = $additionalData['id_pembeli'];
-                $jenis_pembayaran = $additionalData['jenis_pembayaran'];
-                $keterangan1 = $additionalData['keterangan1'];
-
-                // Extract product data
-                $tableData = $requestData['tableData'];
-
-                // Validate and save additional data to Penjualan model
-                $penjualan = new PenjualanModel();
-                $penjualan->kode_penjualan = $transactionCode;
-                $penjualan->pelanggan_id = $id_pembeli;
-                $penjualan->keterangan = $keterangan1;
-                $penjualan->user_created = Auth::user()->id;
-                $penjualan->save();
-
-                $maxId = PenjualanModel::max('id');
-                $penjualan->id = $maxId;
-
-                // Validate and save each product data
-                foreach ($tableData as $rowData) {
-                    // $id = $rowData['id'];
-                    $harga_jual  = str_replace(',', '', $rowData['harga']);
-                    $total = str_replace(',', '', $rowData['total']);
-                    $harga_beli = str_replace(',', '', $rowData['modal']);
-
-                    $penjualandetil = new PenjualanDetilModel(); // Create a new Penjualan instance for each product
-                    $penjualandetil->penjualan_id =  $penjualan->id;
-                    $penjualandetil->obat_id = $rowData['id'];
-                    $penjualandetil->qty = $rowData['qty'];
-                    $penjualandetil->harga_jual =  $harga_jual;
-                    $penjualandetil->harga_beli =  $harga_beli;
-                    $penjualandetil->total = $total;
-                    $penjualandetil->user_created = Auth::user()->id;
-                    $penjualandetil->save();
-
-                    $count_total_produk = PenjualanDetilModel::where('penjualan_id', $penjualan->id)->count();
-                    PenjualanModel::where('id',  $penjualan->id)->update(['total_produk' => $count_total_produk]);
-
-                    $totalSum = PenjualanDetilModel::where('penjualan_id', $penjualan->id)->sum('total');
-                    PenjualanModel::where('id',  $penjualan->id)->update(['total' => $totalSum]);
-
-                    $stokp = new HistoryModel();
-                    $stokp->keterangan = "Penjualan";
-                    $stokp->penjualan_id = $penjualan->id;
-                    $stokp->obat_id = $rowData['id'];
-                    $stokp->qty = $rowData['qty'];
-                    $stokp->harga_beli =   $harga_beli;
-                    $stokp->harga_jual = $harga_jual;
-                    $penjualandetil->total = $total;
-                    $stokp->user_created = Auth::user()->id;
-                    $stokp->save();
-
-                    $obatId = $rowData['id'];
-
-                    // Menghitung total qty penjualan per obat_id
-                    $totalQtyPenjualan = HistoryModel::where('obat_id', $obatId)
-                        ->where('keterangan', 'Penjualan')
-                        ->where('penjualan_id', $penjualan->id)
-                        ->sum('qty');
-
-                    // Mengupdate stok pada model ObatModel
-                    $obat = ObatModel::find($obatId);
-
-                    if ($obat) {
-                        // Mengurangkan stok berdasarkan total qty penjualan
-                        $obat->stok -= $totalQtyPenjualan;
-                        $obat->save();
-                    }
-                }
-
-                DB::commit();
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Berhasil Input Data',
-                ]);
-            } catch (\Throwable $err) {
-                DB::rollBack();
-                throw $err;
-                return response()->json([
-                    'code' => 404,
-                    'message' => 'Gagal Input Data',
-                ]);
+            for ($i = 0; $i < count($request->dataTabel); $i++) {
+                $produk = new ProdukModel();
+                $produk->obat =  $request->dataTabel[$i]['obat'];
+                $produk->jenis_id =  $request->dataTabel[$i]['jenis'];
+                $produk->stok_minimal =  $request->dataTabel[$i]['minimal'];
+                $produk->deskripsi =  $request->dataTabel[$i]['deskripsi'];
+                $produk->status =  1;
+                $produk->user_created = Auth::user()->id;
+                $produk->save();
             }
-        } else {
-            return view('not_found');
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Berhasil Input Data',
+            ]);
+        } catch (\Throwable $err) {
+            DB::rollBack();
+            throw $err;
+            return response()->json([
+                'code' => 404,
+                'message' => 'Gagal Input Data',
+            ]);
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('13', $session_menu)) {
+
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'View Produk',
+                'label' => 'View Produk',
+                'viewobat' => ProdukModel::findOrfail($id)
+            ];
+            return view('poduk.show')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('15', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Edit Produk',
+                'label' => 'Edit Produk',
+                'editobat' => ProdukModel::findOrfail($id),
+                'jenis' => SatuanModel::all()
+            ];
+            return view('obat.edit')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'obat' => 'required',
+            'jenis' => 'required',
+            'status1' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $editobat = ProdukModel::findOrFail($id);
+            $editobat->obat = $request->obat;
+            $editobat->deskripsi = $request->descr;
+            $editobat->jenis_id = $request->jenis;
+            $editobat->status = $request->status1;
+            $editobat->user_updated = Auth::user()->id;
+            $editobat->save();
+
+            DB::commit();
+            AlertHelper::addAlert(true);
+            return redirect('/produk');
+        } catch (\Throwable $err) {
+            DB::rollback();
+            throw $err;
+            AlertHelper::addAlert(false);
+            return back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('16', $session_menu)) {
+            DB::beginTransaction();
+            try {
+                $hapus = ProdukModel::findOrFail($id);
+                $hapus->deleted_at = Carbon::now();
+                $hapus->user_deleted = Auth::user()->id;
+                $hapus->save();
+
+                DB::commit();
+                AlertHelper::addAlert(true);
+                return redirect('/produk');
+            } catch (\Throwable $err) {
+                DB::rollback();
+                throw $err;
+                AlertHelper::addAlert(false);
+                return back();
+            }
+        } else {
+            return view('not_found');
+        }
     }
 }

@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
-use App\Models\JenisModel;
+use App\Models\SatuanModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\DataTables;
 
-class JenisController extends Controller
+class SatuanController extends Controller
 {
-    protected $title = 'faeyza farma';
+    protected $title = 'Satuan';
     protected $menu = 'Master Data';
     /**
      * Display a listing of the resource.
@@ -25,11 +24,11 @@ class JenisController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Jenis Obat',
-                'label' => 'List Jenis Obat',
-                'list' => JenisModel::all()
+                'submenu' => 'Satuan',
+                'label' => 'List Satuan',
+                'list' => SatuanModel::all()
             ];
-            return view('jenis.index')->with($data);
+            return view('satuan.index')->with($data);
         } else {
             return view('not_found');
         }
@@ -46,10 +45,10 @@ class JenisController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Jenis',
-                'label' => 'Input Jenis',
+                'submenu' => 'Satuan',
+                'label' => 'Input Satuan',
             ];
-            return view('jenis.create')->with($data);
+            return view('satuan.create')->with($data);
         } else {
             return view('not_found');
         }
@@ -68,8 +67,8 @@ class JenisController extends Controller
         DB::beginTransaction();
         try {
 
-            $produk = new JenisModel();
-            $produk->jenis =  $request->jenis;
+            $produk = new SatuanModel();
+            $produk->nama =  $request->jenis;
             $produk->deskripsi =  $request->descr;
             $produk->status =  1;
             $produk->user_created = Auth::user()->id;
@@ -77,7 +76,7 @@ class JenisController extends Controller
 
             DB::commit();
             AlertHelper::addAlert(true);
-            return redirect('/jenis');
+            return redirect('/satuan');
         } catch (\Throwable $err) {
             DB::rollback();
             throw $err;
@@ -105,11 +104,11 @@ class JenisController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Edit Jenis',
-                'label' => 'Edit Jenis',
-                'editjenis' => JenisModel::findOrfail($id_decrypt)
+                'submenu' => 'Edit Satuan',
+                'label' => 'Edit Satuan',
+                'editjenis' => SatuanModel::findOrfail($id_decrypt)
             ];
-            return view('jenis.edit')->with($data);
+            return view('Satuan.edit')->with($data);
         } else {
             return view('not_found');
         }
@@ -128,8 +127,8 @@ class JenisController extends Controller
 
         DB::beginTransaction();
         try {
-            $produk = JenisModel::findOrFail($id);
-            $produk->jenis = $request->jenis;
+            $produk = SatuanModel::findOrFail($id);
+            $produk->nama = $request->jenis;
             $produk->deskripsi = $request->descr;
             $produk->status = $request->status1;
             $produk->user_updated = Auth::user()->id;
@@ -137,7 +136,7 @@ class JenisController extends Controller
 
             DB::commit();
             AlertHelper::addAlert(true);
-            return redirect('/jenis');
+            return redirect('/satuan');
         } catch (\Throwable $err) {
             DB::rollback();
             throw $err;
@@ -156,14 +155,14 @@ class JenisController extends Controller
             $id_decrypt = Crypt::decryptString($id);
             DB::beginTransaction();
             try {
-                $hapus = JenisModel::findOrFail($id_decrypt);
+                $hapus = SatuanModel::findOrFail($id_decrypt);
                 $hapus->deleted_at = Carbon::now();
                 $hapus->user_deleted = Auth::user()->id;
                 $hapus->save();
 
                 DB::commit();
                 AlertHelper::addAlert(true);
-                return redirect('/jenis');
+                return redirect('/satuan');
             } catch (\Throwable $err) {
                 DB::rollback();
                 throw $err;

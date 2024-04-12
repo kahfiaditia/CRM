@@ -17,7 +17,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 {{-- @if (in_array('148', $session_menu)) --}}
-                                <a href="{{ route('obat.create') }}" type="button"
+                                <a href="{{ route('produk.create') }}" type="button"
                                     class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
                                     <i class="mdi mdi-plus me-1"></i> Tambah
                                 </a>
@@ -159,7 +159,7 @@
                                                                     class="btn btn-success btn-rounded waves-effect waves-light w-md"><i
                                                                         class="bx bx-cloud-download me-1"></i>Unduh</a>
                                                             @else
-                                                                <a href="{{ route('obat.index') }}"
+                                                                <a href="{{ route('produk.index') }}"
                                                                     class="btn btn-success btn-rounded waves-effect waves-light w-md"><i
                                                                         class="bx bx-cloud-download me-1"></i>Unduh</a>
                                                             @endif
@@ -176,11 +176,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Obat</th>
-                                        <th>Jenis</th>
-                                        <th>Stok</th>
-                                        <th>Harga Jual</th>
-                                        <th>Harga Jual</th>
+                                        <th>Produk</th>
+                                        <th>Satuan</th>
+                                        <th>Deskripsi</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -241,7 +239,7 @@
                 responsive: true,
                 searching: false,
                 ajax: {
-                    url: "{{ route('obat.data_list') }}",
+                    url: "{{ route('produk.data_list') }}",
                     data: function(d) {
                         d.obat = (document.getElementById("obat").value
                                 .length != 0) ?
@@ -282,24 +280,16 @@
 
                     },
                     {
-                        data: 'obat',
-                        name: 'obat'
+                        data: 'nama',
+                        name: 'nama'
                     },
                     {
-                        data: 'jenis',
-                        name: 'jenis'
+                        data: 'satuan',
+                        name: 'satuan'
                     },
                     {
-                        data: 'stok',
-                        name: 'stok'
-                    },
-                    {
-                        data: 'harga_jual',
-                        name: 'harga_jual'
-                    },
-                    {
-                        data: 'harga_beli',
-                        name: 'harga_beli'
+                        data: 'deskripsi',
+                        name: 'deskripsi'
                     },
                     {
                         data: 'status',

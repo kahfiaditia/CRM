@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('pembelian_id')->references('id')->on('pembelian');
             $table->date('kadaluarsa')->nullable();;
             $table->unsignedBigInteger('produk_id');
-            $table->foreign('produk_id')->references('id')->on('obat');
+            $table->foreign('produk_id')->references('id')->on('produk');
             $table->double('harga_total_produk')->nullable();
             $table->double('total_kuantiti')->nullable();
             $table->double('nilai_per_pcs')->nullable();

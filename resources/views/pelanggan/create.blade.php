@@ -27,7 +27,7 @@
                                             <label>Nama <code>*</code></label>
                                             <input type="text" class="form-control"
                                                 oninput="this.value = this.value.toUpperCase()" id="nama"
-                                                name="nama" placeholder="Nama" autocomplete="off" required>
+                                                name="nama" placeholder="Nama" autocomplete="off" maxlength="30">
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -39,7 +39,7 @@
                                             <label>Alamat</label>
                                             <input type="text" class="form-control" id="alamat" name="alamat"
                                                 placeholder="Alamat" oninput="this.value = this.value.toUpperCase()"
-                                                autocomplete="off" required>
+                                                autocomplete="off" maxlength="25" required>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -50,7 +50,7 @@
                                         <div class="mb-6">
                                             <label>Telp <code>*</code></label>
                                             <input type="number" class="form-control" id="telp" name="telp"
-                                                placeholder="No HP" autocomplete="off" required>
+                                                maxlength="16" placeholder="No HP" autocomplete="off" required>
                                         </div>
                                     </div>
                                     <div class="row mt-4">

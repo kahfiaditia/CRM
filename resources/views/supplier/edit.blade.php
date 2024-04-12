@@ -29,6 +29,7 @@
                                             <div class="mb-3">
                                                 <label for="supplier" class="form-label">Supplier</label>
                                                 <input type="text" class="form-control" name="supplier" id="supplier"
+                                                    oninput="this.value = this.value.toUpperCase()" maxlength="30"
                                                     value="{{ old('supplier', $editsuplier->supplier) }}"
                                                     autocomplete="off">
                                             </div>
@@ -41,6 +42,7 @@
                                             <div class="mb-3">
                                                 <label for="alamat" class="form-label">Alamat</label>
                                                 <input type="text" class="form-control" name="alamat" id="alamat"
+                                                    oninput="this.value = this.value.toUpperCase()" maxlength="64"
                                                     value="{{ old('alamat', $editsuplier->alamat) }}" autocomplete="off">
                                             </div>
                                             <div class="invalid-feedback">
@@ -52,7 +54,7 @@
                                             <div class="mb-2">
                                                 <label for="alamat" class="form-label">Kontak</label>
                                                 <input type="text" class="form-control" name="kontak" id="kontak"
-                                                    oninput="this.value = this.value.toUpperCase()"
+                                                    oninput="this.value = this.value.toUpperCase()" maxlength="20"
                                                     value="{{ old('kontak', $editsuplier->kontak) }}" autocomplete="off">
                                             </div>
                                             <div class="invalid-feedback">
@@ -64,7 +66,7 @@
                                             <div class="mb-2">
                                                 <label for="telp" class="form-label">Telp</label>
                                                 <input type="text" class="form-control" name="telp" id="telp"
-                                                    oninput="this.value = this.value.toUpperCase()"
+                                                    oninput="this.value = this.value.toUpperCase()" maxlength="15"
                                                     value="{{ old('telp', $editsuplier->telp) }}" autocomplete="off">
                                                 <div class="invalid-feedback">
                                                     Data wajib diisi.

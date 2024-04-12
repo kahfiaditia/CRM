@@ -25,24 +25,24 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="mb-3">
-                                                <label>Obat <code>*</code></label>
+                                                <label>Produk <code>*</code></label>
                                                 <input type="text" class="form-control"
-                                                    oninput="this.value = this.value.toUpperCase()" id="obat"
-                                                    name="obat" placeholder="Nama" autocomplete="off" required>
+                                                    oninput="this.value = this.value.toUpperCase()" id="produk"
+                                                    name="produk" placeholder="Nama" autocomplete="off" maxlength="30">
                                                 <div class="invalid-feedback">
                                                     Data wajib diisi.
                                                 </div>
-                                                {!! $errors->first('obat', '<div class="invalid-validasi">:message</div>') !!}
+                                                {!! $errors->first('produk', '<div class="invalid-validasi">:message</div>') !!}
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label>Satuan <code>*</code></label>
-                                                <select class="form-control select select2 jenis" name="jenis"
-                                                    id="jenis">
+                                                <select class="form-control select select2 jenis" name="satuan"
+                                                    id="satuan">
                                                     <option value=""> -- Pilih --</option>
                                                     @foreach ($satuan as $ini)
-                                                        <option value="{{ $ini->id }}"> {{ $ini->jenis }} </option>
+                                                        <option value="{{ $ini->id }}"> {{ $ini->nama }} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -63,14 +63,14 @@
                                                 <label>Deskripsi <code></code></label>
                                                 <input type="text" class="form-control" id="deskripsi" name="deskripsi"
                                                     oninput="this.value = this.value.toUpperCase()" placeholder="Deskripsi"
-                                                    autocomplete="off" required>
+                                                    autocomplete="off" maxlength="30" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <a class="btn btn-success" type="submit" style="float: left"
-                                                id="tambahData">Tambah Obat</a>
+                                                id="tambahData">Tambah Produk</a>
                                         </div>
                                     </div>
 
@@ -80,7 +80,7 @@
                                                 id="tableObat">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center" style="width: 10%">Obat</th>
+                                                        <th class="text-center" style="width: 10%">Produk</th>
                                                         <th hidden>id_satuan</th>
                                                         <th class="text-center" style="width: 10%">Satuan</th>
                                                         <th class="text-center" style="width: 10%">Minimal Stok</th>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-sm-12">
-                                            <a href="{{ route('obat.index') }}"
+                                            <a href="{{ route('produk.index') }}"
                                                 class="btn btn-secondary waves-effect">Batal</a>
                                             <a class="btn btn-primary" type="submit" style="float: right"
                                                 id="save">Simpan</a>
@@ -114,18 +114,18 @@
 
             function tambahDataTabel() {
                 // Ambil nilai dari input form
-                let selectedJenisText = $("#jenis option:selected").text();
-                let obat = $("#obat").val();
-                let jenis = $("#jenis").val();
+                let selectedJenisText = $("#satuan option:selected").text();
+                let produk = $("#produk").val();
+                let satuan = $("#satuan").val();
                 let minimal = $("#minimal").val();
                 let deskripsi = $("#deskripsi").val();
 
                 // Validasi apakah form telah diisi
-                if (obat === "" || jenis === "" || minimal === "") {
+                if (produk === "" || satuan === "" || minimal === "") {
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal Menambah',
-                        text: 'Form Obat, Jenis dan Minimal harus diisi.',
+                        text: 'Form Produk, Produk dan Minimal harus diisi.',
                     });
                     return;
                 }
@@ -133,8 +133,8 @@
                 // Buat baris HTML baru untuk ditambahkan ke dalam tabel
                 let newRow = `
                 <tr>
-                    <td class="text-center">${obat}</td>
-                    <td class="text-center" hidden>${jenis}</td>
+                    <td class="text-center">${produk}</td>
+                    <td class="text-center" hidden>${satuan}</td>
                     <td class="text-center">${selectedJenisText}</td>
                     <td class="text-center">${minimal}</td>
                     <td class="text-center">${deskripsi}</td>
@@ -149,7 +149,7 @@
                 $("#tableObat tbody").append(newRow);
 
                 // Reset nilai input form
-                $("#obat").val("");
+                $("#produk").val("");
                 $("#minimal").val("");
                 $("#kontak").val("");
                 $("#deskripsi").val("");
@@ -162,8 +162,8 @@
                 // Ambil data dari setiap baris di dalam tabel
                 $("#tableObat tbody tr").each(function() {
                     let rowData = {
-                        obat: $(this).find("td:eq(0)").text(),
-                        jenis: $(this).find("td:eq(1)").text(),
+                        produk: $(this).find("td:eq(0)").text(),
+                        satuan: $(this).find("td:eq(1)").text(),
                         selectedJenisText: $(this).find("td:eq(2)").text(),
                         minimal: $(this).find("td:eq(3)").text(),
                         deskripsi: $(this).find("td:eq(4)").text(),
@@ -174,7 +174,7 @@
                 // Kirim data ke controller (contoh menggunakan AJAX)
                 if (dataTabel.length > 0) {
                     $.ajax({
-                        url: "{{ route('obat.store') }}",
+                        url: "{{ route('produk.store') }}",
                         type: "POST",
                         data: {
                             "_token": "{{ csrf_token() }}",
@@ -184,11 +184,11 @@
                             if (response.code === 200) {
                                 Swal.fire(
                                     'Success',
-                                    'Data Obat Berhasil dimasukkan',
+                                    'Data Produk Berhasil dimasukkan',
                                     'success'
                                 ).then(() => {
                                     var APP_URL = {!! json_encode(url('/')) !!}
-                                    window.location = APP_URL + '/obat'
+                                    window.location = APP_URL + '/produk'
                                 })
                             } else {
                                 Swal.fire({
