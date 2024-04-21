@@ -17,6 +17,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <form class="needs-validation">
                     <div class="row">
                         <div class="col-xl-12">
@@ -78,14 +80,14 @@
                                         <div class="col-md-2">
                                             <div class="mb-2">
                                                 <label class="form-label">Produk <code>*</code></label>
-                                                <select class="form-control select select2 obat" name="obat"
-                                                    id="obat" required>
+                                                <select class="form-control select select2 obat" name="produk"
+                                                    id="produk" required>
                                                     <option value="">-- PILIH --</option>
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     Data wajib diisi.
                                                 </div>
-                                                {!! $errors->first('obat', '<div class="invalid-validasi">:message</div>') !!}
+                                                {!! $errors->first('produk', '<div class="invalid-validasi">:message</div>') !!}
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -170,7 +172,7 @@
                                                 id="tableBarang">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center" style="width: 20%">Obat</th>
+                                                        <th class="text-center" style="width: 20%">Produk</th>
                                                         <th class="text-center" style="width: 10%">Kadaluarsa</th>
                                                         <th class="text-center" style="width: 10%">Harga</th>
                                                         <th class="text-center" style="width: 10%">Kuantiti</th>
@@ -231,17 +233,17 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: '{{ route('pembelian.mengambil_data_obat') }}',
+                url: '{{ route('pembelian.mengambil_data_produk') }}',
                 type: 'GET',
                 success: function(data) {
                     // Populate the dropdown with data
-                    var obatDropdown = $('#obat');
-                    obatDropdown.empty();
-                    obatDropdown.append('<option value="">-- PILIH --</option>');
+                    var produkDropdown = $('#produk');
+                    produkDropdown.empty();
+                    produkDropdown.append('<option value="">-- PILIH --</option>');
 
-                    $.each(data, function(index, obat) {
-                        obatDropdown.append('<option value="' + obat.id + '">' + obat
-                            .obat + '</option>');
+                    $.each(data, function(index, produk) {
+                        produkDropdown.append('<option value="' + produk.id + '">' + produk
+                            .nama + '</option>');
                     });
                 },
                 error: function(error) {
@@ -303,7 +305,7 @@
             var nomor_do = document.getElementById('nomor_do').value;
             var supplier = document.getElementById('supplier').value;
 
-            var obat = document.getElementById('obat').value;
+            var produk = document.getElementById('produk').value;
             var tgl_kadaluarsa = document.getElementById('tgl_kadaluarsa').value;
 
             //manupulasi harga_total_produk
@@ -326,7 +328,7 @@
             tgl_kadaluarsa_value = $('#tgl_kedatangan option:selected').data('id');
             // obat_nama = $('#produk option:selected').data('id');
             var selectedOptionnama = $('#obat option:selected');
-            var obat_nama = selectedOptionnama.text();
+            var produk_nama = selectedOptionnama.text();
             // console.log(obat_nama);
 
             var selectedPembelian = $('#untuk option:selected');
@@ -338,9 +340,9 @@
             document.getElementById('total_kuantiti').value = '';
             document.getElementById('harga_per_pcs').value = '';
             document.getElementById('nilai_jual').value = '';
-            $('#obat').val("").trigger('change')
+            $('#produk').val("").trigger('change')
 
-            if (obat == '' || tgl_kadaluarsa == '' || harga_total_produk == '' || total_kuantiti == '' || harga_per_pcs ==
+            if (produk == '' || tgl_kadaluarsa == '' || harga_total_produk == '' || total_kuantiti == '' || harga_per_pcs ==
                 '' ||
                 nilai_jual == '' || tgl_kedatangan == '' || supplier == '') {
                 Swal.fire({
@@ -405,11 +407,11 @@
 
                 // cek inputan
                 // Nama Barang + NO + ID
-                var cekGabungan = String(obat);
+                var cekGabungan = String(produk);
                 isVal = cekArr.includes(cekGabungan)
 
                 // NO
-                var cekGabunganNo = String(obat);
+                var cekGabunganNo = String(produk);
                 isValNo = cekArrNo.includes(cekGabunganNo)
 
 
@@ -435,11 +437,11 @@
                         <td hidden>${tgl_kedatangan}</td>
                         <td hidden>${nomor_do}</td>
                         <td hidden>${supplier}</td>
-                        <td hidden>${obat}</td>
+                        <td hidden>${produk}</td>
                         <td hidden>${harga_total_produk}</td>
                         <td hidden>${nilai_jual}</td>
                         <td hidden>${harga_per_pcs}</td>
-                        <td class="text-center">${obat_nama}</td>
+                        <td class="text-center">${produk_nama}</td>
                         <td class="text-center">${tgl_kadaluarsa}</td>
                         <td class="text-center">${rupiah_harga_total_produk}</td>
                         <td class="text-center">${total_kuantiti}</td>
@@ -481,27 +483,27 @@
                         tgl_kedatangan = tableData.eq(0).text(),
                         nomor_do = tableData.eq(1).text(),
                         supplier = tableData.eq(2).text(),
-                        obat = tableData.eq(3).text(),
+                        produk = tableData.eq(3).text(),
                         harga_total_produk = tableData.eq(4).text(),
                         nilai_jual = tableData.eq(5).text(),
                         harga_per_pcs = tableData.eq(6).text(),
-                        obat_nama = tableData.eq(7).text(),
+                        produk_nama = tableData.eq(7).text(),
                         tgl_kadaluarsa = tableData.eq(8).text(),
                         rupiah_harga_total_produk = tableData.eq(9).text(),
                         total_kuantiti = tableData.eq(10).text(),
                         rupiah_harga_per_pcs = tableData.eq(11).text(),
                         rupiah_nilai_jual = tableData.eq(12).text()
 
-                    if (obat != '') {
+                    if (produk != '') {
                         datapembelian.push({
                             tgl_kedatangan,
                             nomor_do,
                             supplier,
-                            obat,
+                            produk,
                             harga_total_produk,
                             nilai_jual,
                             harga_per_pcs,
-                            obat_nama,
+                            produk_nama,
                             tgl_kadaluarsa,
                             rupiah_harga_total_produk,
                             total_kuantiti,

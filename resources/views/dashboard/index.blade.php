@@ -177,7 +177,7 @@
                                                                 <div class="overflow-hidden me-auto">
                                                                     <h5 class="font-size-14 text-truncate mb-1"><a
                                                                             href="javascript: void(0);"
-                                                                            class="text-body">Design</a></h5>
+                                                                            class="text-body">Users</a></h5>
                                                                     <p class="text-muted text-truncate mb-0">12 Files</p>
                                                                 </div>
                                                                 <div class="align-self-end ms-2">
@@ -221,7 +221,7 @@
                                                                 <div class="overflow-hidden me-auto">
                                                                     <h5 class="font-size-14 text-truncate mb-1"><a
                                                                             href="javascript: void(0);"
-                                                                            class="text-body">Development</a></h5>
+                                                                            class="text-body">Pembelian</a></h5>
                                                                     <p class="text-muted text-truncate mb-0">20 Files</p>
                                                                 </div>
                                                                 <div class="align-self-end ms-2">
@@ -265,8 +265,8 @@
                                                                 <div class="overflow-hidden me-auto">
                                                                     <h5 class="font-size-14 text-truncate mb-1"><a
                                                                             href="javascript: void(0);"
-                                                                            class="text-body">Project
-                                                                            A</a></h5>
+                                                                            class="text-body">Penjualan
+                                                                        </a></h5>
                                                                     <p class="text-muted text-truncate mb-0">06 Files</p>
                                                                 </div>
                                                                 <div class="align-self-end ms-2">

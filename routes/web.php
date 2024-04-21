@@ -56,7 +56,7 @@ Route::group(
         route::resource('/pelanggan', PelangganController::class);
         route::resource('/pembelian', PembelianController::class);
         Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
-        Route::get('/mengambil_data_obat', [PembelianController::class, 'mengambil_data_obat'])->name('pembelian.mengambil_data_obat');
+        Route::get('/mengambil_data_produk', [PembelianController::class, 'mengambil_data_produk'])->name('pembelian.mengambil_data_produk');
         Route::post('/ambil_dataproduk', [PembelianController::class, 'ambil_dataproduk'])->name('pembelian.ambil_dataproduk');
         Route::post('/edit_bursa_pembelian', [PembelianController::class, 'edit_bursa_pembelian'])->name('pembelian.edit_jumlah_pembelian');
         route::resource('/stok', StokController::class);

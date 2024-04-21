@@ -7,6 +7,7 @@ use App\Models\HistoryModel;
 use App\Models\ObatModel;
 use App\Models\PembelianDetilModel;
 use App\Models\PembelianModel;
+use App\Models\ProdukModel;
 use App\Models\SupplierModel;
 use Carbon\Carbon;
 use DateTime;
@@ -18,7 +19,7 @@ use Yajra\DataTables\Facades\DataTables;
 class PembelianController extends Controller
 {
     protected $title = 'Pembelian';
-    protected $menu = 'Master Data';
+    protected $menu = 'Pembelian';
     /**
      * Display a listing of the resource.
      */
@@ -115,9 +116,9 @@ class PembelianController extends Controller
         }
     }
 
-    public function mengambil_data_obat(Request $request)
+    public function mengambil_data_produk(Request $request)
     {
-        $obatData = ObatModel::all();
+        $obatData = ProdukModel::all();
         return response()->json($obatData);
     }
 
@@ -233,7 +234,7 @@ class PembelianController extends Controller
 
                 foreach ($obatQuantities as $obat_id => $data) {
                     // Find the obat with the given obat_id
-                    $obat = ObatModel::find($obat_id);
+                    $obat = ProdukModel::find($obat_id);
 
                     // Check if the obat with the given obat_id exists
                     if ($obat) {
@@ -447,7 +448,7 @@ class PembelianController extends Controller
                                 ->sum('qty');
 
                             $stokbaru = $totalQtyPembelian - $totalQtyPenjualan;
-                            $obat = ObatModel::find($produk);
+                            $obat = ProdukModel::find($produk);
 
                             if ($obat) {
                                 $obat->harga_beli = $harsat;
