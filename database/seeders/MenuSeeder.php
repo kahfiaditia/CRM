@@ -48,6 +48,15 @@ class MenuSeeder extends Seeder
                 'created_at' => Carbon::now(),
             ],
             [
+                'menu' => 'Pelaporan',
+                // 'route_menu' => '',
+                // 'typemenu' => '',
+                'icon_menu' => 'bx bx-basket font-size-24 text-warning',
+                'status' => '1',
+                'order_menu' => '3',
+                'created_at' => Carbon::now(),
+            ],
+            [
                 'menu' => 'Pembelian',
                 // 'route_menu' => '',
                 // 'typemenu' => '',

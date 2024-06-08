@@ -9,9 +9,11 @@ use App\Http\Controllers\LaporanPembelianController;
 use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PelaporanController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\RelationController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
@@ -56,6 +58,11 @@ Route::group(
         Route::get('/data_list_produk', [ProdukController::class, 'data_list'])->name('produk.data_list');
         route::resource('/pelanggan', PelangganController::class);
         route::resource('/aplikasi', AplikasiController::class);
+        route::resource('/relation', RelationController::class);
+        route::resource('/pelaporan', PelaporanController::class);
+        Route::get('/mengambil_data_customer', [RelationController::class, 'mengambil_data_customer'])->name('relation.mengambil_data_customer');
+        Route::get('/mengambil_data_aplikasi', [RelationController::class, 'mengambil_data_aplikasi'])->name('relation.mengambil_data_aplikasi');
+
         route::resource('/pembelian', PembelianController::class);
         Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
         Route::get('/mengambil_data_produk', [PembelianController::class, 'mengambil_data_produk'])->name('pembelian.mengambil_data_produk');

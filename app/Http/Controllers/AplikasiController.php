@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\AplikasiModel;
+use App\Models\RelationModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -111,11 +112,11 @@ class AplikasiController extends Controller
         DB::beginTransaction();
         try {
 
-            for ($i = 0; $i < count($request->dataTabel); $i++) {
-                $produk = new AplikasiModel();
-                $produk->nama =  $request->dataTabel[$i]['produk'];
-                $produk->deskripsi =  $request->dataTabel[$i]['deskripsi'];
-                $produk->status =  1;
+             foreach ($request->tableData as $data) {
+                $produk = new RelationModel();
+                $produk->id_customer = $data['customer_id'];
+                $produk->id_aplikasi = $data['aplikasi_id'];
+                $produk->status = 1;
                 $produk->user_created = Auth::user()->id;
                 $produk->save();
             }
