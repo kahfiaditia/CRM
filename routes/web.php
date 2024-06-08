@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AplikasiController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -54,6 +55,7 @@ Route::group(
         route::resource('/produk', ProdukController::class);
         Route::get('/data_list_produk', [ProdukController::class, 'data_list'])->name('produk.data_list');
         route::resource('/pelanggan', PelangganController::class);
+        route::resource('/aplikasi', AplikasiController::class);
         route::resource('/pembelian', PembelianController::class);
         Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
         Route::get('/mengambil_data_produk', [PembelianController::class, 'mengambil_data_produk'])->name('pembelian.mengambil_data_produk');

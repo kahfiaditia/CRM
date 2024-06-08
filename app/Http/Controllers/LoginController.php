@@ -39,7 +39,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required',
             'aktif' => '0',
         ]);
@@ -48,13 +48,10 @@ class LoginController extends Controller
             if (Auth::user()->roles == 'Administrator') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Purchasing') {
+            } else if (Auth::user()->roles == 'Leader') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Penjualan') {
-                $request->session()->regenerate();
-                return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Gudang') {
+            } else if (Auth::user()->roles == 'Customer') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {

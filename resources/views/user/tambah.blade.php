@@ -29,9 +29,8 @@
                                                 required>
                                                 <option value=""> --- Pilih --</option>
                                                 <option value="Administrator"> Administrator</option>
-                                                <option value="Purchasing"> Purchasing</option>
-                                                <option value="Penjualan"> Penjualan</option>
-                                                <option value="Gudang"> Gudang</option>
+                                                <option value="Leader"> Leader</option>
+                                                <option value="Customer"> Customer</option>
                                             </select>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.

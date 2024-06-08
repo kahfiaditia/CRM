@@ -111,7 +111,7 @@
 
                                     <div>
                                         <h5 class="text-primary">Welcome Back !</h5>
-                                        <p class="text-muted">Sign in to continue to JBM.</p>
+                                        <p class="text-muted">Sign in to continue to CRM.</p>
                                     </div>
                                     @if (count($errors) > 0)
                                         <div class="p-2">
@@ -147,9 +147,9 @@
                                             @csrf
 
                                             <div class="mb-3">
-                                                <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username"
-                                                    autocomplete="off" name="username" placeholder="Enter username">
+                                                <label for="username" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email"
+                                                    autocomplete="off" name="email" placeholder="Enter email">
                                             </div>
 
                                             <div class="mb-3">

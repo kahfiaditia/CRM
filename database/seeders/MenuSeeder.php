@@ -29,7 +29,7 @@ class MenuSeeder extends Seeder
                 'order_menu' => '1',
                 'created_at' => Carbon::now(),
             ],
-                        [
+            [
                 'menu' => 'User',
                 'route_menu' => 'data_user.index',
                 'typemenu' => 'view',
