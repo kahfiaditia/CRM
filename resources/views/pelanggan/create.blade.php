@@ -67,6 +67,13 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-6">
+                                            <label>Password <code>*</code></label>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                maxlength="16" placeholder="Password" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-6">
                                             <label>AR <code>*</code></label>
                                             <select class="form-control seelect select2 aplikasi" name="ar"
                                                 id="ar">

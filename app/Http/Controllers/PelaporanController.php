@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
+use App\Models\PelangganModel;
 use App\Models\PelaporanModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,18 +40,19 @@ class PelaporanController extends Controller
      */
     public function create()
     {
-        $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('18', $session_menu)) {
+        // $session_menu = explode(',', Auth::user()->submenu);
+        // if (in_array('18', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
                 'submenu' => 'Input Pelaporan',
                 'label' => 'Input Pelaporan',
+                'customer' => PelangganModel::findOrfail(Auth::user()->email),
             ];
             return view('pelaporan.create')->with($data);
-        } else {
-            return view('not_found');
-        }
+        // } else {
+        //     return view('not_found');
+        // }
     }
 
     /**

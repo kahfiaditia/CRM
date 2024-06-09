@@ -15,6 +15,7 @@
                     </div>
                 </div>
             </div>
+            {{-- {{ dd($customer) }} --}}
             <form class="needs-validation" action="{{ route('pelaporan.store') }}" method="POST" novalidate>
                 @csrf
                 <div class="row">
