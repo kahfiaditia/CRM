@@ -12,6 +12,7 @@ use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelaporanController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PenangananController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RelationController;
@@ -61,7 +62,7 @@ Route::group(
         Route::get('/mengambil_data_customer', [RelationController::class, 'mengambil_data_customer'])->name('relation.mengambil_data_customer');
         Route::get('/mengambil_data_aplikasi', [RelationController::class, 'mengambil_data_aplikasi'])->name('relation.mengambil_data_aplikasi');
         route::resource('/pelaporan', PelaporanController::class);
-
+        route::resource('/penanganan', PenangananController::class);
         
         route::resource('/laporan_penjualan', LaporanPenjualanController::class);
         route::resource('/laporan_pembelian', LaporanPembelianController::class);

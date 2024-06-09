@@ -224,7 +224,7 @@ class SubMenuSeeder extends Seeder
             [
                 'menu_id' => '5',
                 'submenu' => 'Penanganan Client',
-                'route_submenu' => 'pembelian.index',
+                'route_submenu' => 'penanganan.index',
                 'typemenu' => 'view',
                 'status' => '1',
                 'order_submenu' => '1',

@@ -25,8 +25,8 @@ class PelaporanController extends Controller
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Customer',
-                'label' => 'List Customer',
+                'submenu' => 'Pelaporan',
+                'label' => 'List Pelaporan',
                 'indexpelanggan' => PelaporanModel::all(),
             ];
             return view('pelaporan.index')->with($data);
