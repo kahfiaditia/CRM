@@ -3,37 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
-use App\Models\SatuanModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
-class SatuanController extends Controller
+class LeaderController extends Controller
 {
-    protected $title = 'Satuan';
-    protected $menu = 'Master Data';
+    protected $title = 'List Leader';
+    protected $menu = 'Data Master';
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('9', $session_menu)) {
+        if (in_array('5', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Satuan',
-                'label' => 'List Satuan',
-                'list' => SatuanModel::all()
+                'submenu' => $this->title,
+                'label' => 'Leader',
+                'dataku' => User::where('roles', 'Leader')->get()
             ];
-            return view('satuan.index')->with($data);
+            return view('leader.index')->with($data);
         } else {
             return view('not_found');
         }
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -41,14 +40,15 @@ class SatuanController extends Controller
     public function create()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('10', $session_menu)) {
+        if (in_array('6', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Satuan',
-                'label' => 'Input Satuan',
+                'submenu' => 'Tambah User',
+                'label' => 'Users',
+                'dataku' => User::all()
             ];
-            return view('satuan.create')->with($data);
+            return view('user.tambah')->with($data);
         } else {
             return view('not_found');
         }
@@ -59,24 +59,21 @@ class SatuanController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $request->validate([
-            'jenis' => 'required',
-        ]);
-
         DB::beginTransaction();
         try {
-
-            $produk = new SatuanModel();
-            $produk->nama =  $request->jenis;
-            $produk->deskripsi =  $request->descr;
-            $produk->status =  1;
-            $produk->user_created = Auth::user()->id;
+            $produk = new User();
+            $produk->roles =  $request->roles;
+            $produk->name =  $request->nama;
+            $produk->username =  $request->username;
+            $produk->email = $request->email;
+            $produk->phone = $request->telepon;
+            $produk->password = bcrypt($request->password);
             $produk->save();
+
 
             DB::commit();
             AlertHelper::addAlert(true);
-            return redirect('/satuan');
+            return redirect('/data_user');
         } catch (\Throwable $err) {
             DB::rollback();
             throw $err;
@@ -99,16 +96,16 @@ class SatuanController extends Controller
     public function edit($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('11', $session_menu)) {
-            $id_decrypt = Crypt::decryptString($id);
+        if (in_array('7', $session_menu)) {
+            $id_decryprt = Crypt::decryptString($id);
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
-                'submenu' => 'Edit Satuan',
-                'label' => 'Edit Satuan',
-                'editjenis' => SatuanModel::findOrfail($id_decrypt)
+                'submenu' => 'Edit User',
+                'label' => 'Users',
+                'dataku' => User::findOrFail($id_decryprt)
             ];
-            return view('Satuan.edit')->with($data);
+            return view('user.edit')->with($data);
         } else {
             return view('not_found');
         }
@@ -119,24 +116,20 @@ class SatuanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'jenis' => 'required',
-            'descr' => 'required',
-            'status1' => 'required',
-        ]);
-
         DB::beginTransaction();
         try {
-            $produk = SatuanModel::findOrFail($id);
-            $produk->nama = $request->jenis;
-            $produk->deskripsi = $request->descr;
-            $produk->status = $request->status1;
-            $produk->user_updated = Auth::user()->id;
-            $produk->save();
+
+            $user_update = User::findOrFail($id);
+            $user_update->roles =  $request->roles;
+            $user_update->name =  $request->nama;
+            $user_update->email = $request->email;
+            $user_update->phone = $request->telepon;
+            $user_update->save();
+
 
             DB::commit();
             AlertHelper::addAlert(true);
-            return redirect('/satuan');
+            return redirect('/leader');
         } catch (\Throwable $err) {
             DB::rollback();
             throw $err;
@@ -151,18 +144,17 @@ class SatuanController extends Controller
     public function destroy($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('12', $session_menu)) {
-            $id_decrypt = Crypt::decryptString($id);
+        if (in_array('8', $session_menu)) {
             DB::beginTransaction();
             try {
-                $hapus = SatuanModel::findOrFail($id_decrypt);
+                $id_decryprt = Crypt::decryptString($id);
+                $hapus = User::findOrFail($id_decryprt);
                 $hapus->deleted_at = Carbon::now();
-                $hapus->user_deleted = Auth::user()->id;
                 $hapus->save();
 
                 DB::commit();
                 AlertHelper::addAlert(true);
-                return redirect('/satuan');
+                return redirect('/data_user');
             } catch (\Throwable $err) {
                 DB::rollback();
                 throw $err;

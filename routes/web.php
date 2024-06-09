@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\LaporanPembelianController;
 use App\Http\Controllers\LaporanPenjualanController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelaporanController;
@@ -51,28 +52,20 @@ Route::group(
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         route::resource('/data_user', UserController::class);
         Route::get('/profil', [UserController::class, 'profil'])->name('pengguna.profil');
-        route::resource('/supplier', SupplierController::class);
-        Route::get('/data_list', [SupplierController::class, 'data_list'])->name('supplier.data_list');
-        route::resource('/satuan', SatuanController::class);
-        route::resource('/produk', ProdukController::class);
-        Route::get('/data_list_produk', [ProdukController::class, 'data_list'])->name('produk.data_list');
+       
+
+        route::resource('/leader', LeaderController::class);
         route::resource('/pelanggan', PelangganController::class);
         route::resource('/aplikasi', AplikasiController::class);
         route::resource('/relation', RelationController::class);
-        route::resource('/pelaporan', PelaporanController::class);
         Route::get('/mengambil_data_customer', [RelationController::class, 'mengambil_data_customer'])->name('relation.mengambil_data_customer');
         Route::get('/mengambil_data_aplikasi', [RelationController::class, 'mengambil_data_aplikasi'])->name('relation.mengambil_data_aplikasi');
+        route::resource('/pelaporan', PelaporanController::class);
 
-        route::resource('/pembelian', PembelianController::class);
-        Route::get('/data_list_pembelian', [PembelianController::class, 'data_list_pembelian'])->name('pembelian.data_list_pembelian');
-        Route::get('/mengambil_data_produk', [PembelianController::class, 'mengambil_data_produk'])->name('pembelian.mengambil_data_produk');
-        Route::post('/ambil_dataproduk', [PembelianController::class, 'ambil_dataproduk'])->name('pembelian.ambil_dataproduk');
-        Route::post('/edit_bursa_pembelian', [PembelianController::class, 'edit_bursa_pembelian'])->name('pembelian.edit_jumlah_pembelian');
-        route::resource('/stok', StokController::class);
-        route::resource('/penjualan', PenjualanController::class);
-        Route::get('/data_pelanggan', [PenjualanController::class, 'data_pelanggan'])->name('penjualan.data_pelanggan');
-        Route::post('/obat_data_list', [PenjualanController::class, 'obat_data_list'])->name('penjualan.obat_list');
+        
         route::resource('/laporan_penjualan', LaporanPenjualanController::class);
         route::resource('/laporan_pembelian', LaporanPembelianController::class);
+
+         
     }
 );

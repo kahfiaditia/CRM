@@ -17,7 +17,7 @@
                         </div>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                @if (in_array('18', $session_menu))
+                                @if (in_array('6', $session_menu))
                                     <a href="{{ route('pelanggan.create') }}" type="button"
                                         class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
                                         <i class="mdi mdi-plus me-1"></i> Tambah
@@ -38,6 +38,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Customer</th>
+                                        <th>Email</th>
                                         <th>Alamat</th>
                                         <th>Telp</th>
                                         <th>Status</th>
@@ -45,10 +46,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    {{-- {{ dd($indexpelanggan) }} --}}
                                     @foreach ($indexpelanggan as $pelanggan)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $pelanggan->nama }}</td>
+                                            <td>{{ $pelanggan->email }}</td>
                                             <td>{{ $pelanggan->alamat }}</td>
                                             <td>{{ $pelanggan->telp }}</td>
                                             <td>{{ $pelanggan->status == 1 ? 'Aktive' : 'Non Aktive' }}</td>
@@ -59,12 +63,12 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
-                                                        @if (in_array('19', $session_menu))
+                                                        @if (in_array('7', $session_menu))
                                                             <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
                                                                 class="text-success"><i
                                                                     class="mdi mdi-pencil font-size-18"></i></a>
                                                         @endif
-                                                        @if (in_array('20', $session_menu))
+                                                        @if (in_array('8', $session_menu))
                                                             <a href class="text-danger delete_confirm"><i
                                                                     class="mdi mdi-delete font-size-18"></i></a>
                                                         @endif

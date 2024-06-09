@@ -20,18 +20,18 @@ class AkunSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $user = [
             [
-                'name' => 'Imelda',
+                'name' => 'Andreas Yulianto',
                 'username' => 'imelda01',
                 'email' => 'administrator@gmail.com',
                 'password' => bcrypt('12345'),
                 'roles' => 'Administrator',
                 'menu' => '1,2,3,4,5,6,7',
-                'submenu' => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36',
+                'submenu' => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25',
                 'phone' => '08569789744',
                 'email_verified_at' => Carbon::now(),
             ],
             [
-                'name' => 'Olivia Ajeng',
+                'name' => 'Olivia',
                 'username' => 'olivia02',
                 'email' => 'leader@gmail.com',
                 'password' => bcrypt('12345'),
@@ -41,15 +41,15 @@ class AkunSeeder extends Seeder
                 'phone' => '0896566644',
                 'email_verified_at' => Carbon::now(),
             ],
-            [
-                'name' => 'Sinta',
-                'username' => 'sinta03',
+             [
+                'name' => 'Jessie',
+                'username' => 'jessie',
                 'email' => 'customer@gmail.com',
                 'password' => bcrypt('12345'),
                 'roles' => 'Customer',
-                'menu' => '1,4',
-                'submenu' => '25,26,27,28',
-                'phone' => '0896547788',
+                'menu' => '3,4,5',
+                'submenu' => '1,2,3,4,5,7,8,9,10,11,12,17,18,19,20',
+                'phone' => '0896566644',
                 'email_verified_at' => Carbon::now(),
             ],
         ];

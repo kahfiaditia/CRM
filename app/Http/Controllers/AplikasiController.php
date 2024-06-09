@@ -111,12 +111,12 @@ class AplikasiController extends Controller
         // dd($request->dataTabel);
         DB::beginTransaction();
         try {
-
-             foreach ($request->tableData as $data) {
-                $produk = new RelationModel();
-                $produk->id_customer = $data['customer_id'];
-                $produk->id_aplikasi = $data['aplikasi_id'];
-                $produk->status = 1;
+            
+            for ($i = 0; $i < count($request->dataTabel); $i++) {
+                $produk = new AplikasiModel();
+                $produk->nama =  $request->dataTabel[$i]['produk'];
+                $produk->deskripsi =  $request->dataTabel[$i]['deskripsi'];
+                $produk->status =  1;
                 $produk->user_created = Auth::user()->id;
                 $produk->save();
             }

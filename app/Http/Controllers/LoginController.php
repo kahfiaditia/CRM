@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PelangganModel;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -51,7 +53,7 @@ class LoginController extends Controller
             } else if (Auth::user()->roles == 'Leader') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            } else if (Auth::user()->roles == 'Customer') {
+            }  else if (Auth::user()->roles == 'Customer') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {
@@ -63,6 +65,7 @@ class LoginController extends Controller
         }
         return back()->with('loginError', 'Login Fail!');
     }
+
 
     public function register()
     {

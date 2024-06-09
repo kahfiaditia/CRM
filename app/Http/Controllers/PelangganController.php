@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\AlertHelper;
 use App\Models\PelangganModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class PelangganController extends Controller
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('17', $session_menu)) {
+        if (in_array('5', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -47,6 +48,7 @@ class PelangganController extends Controller
                 'menu' => $this->menu,
                 'submenu' => 'Input Customer',
                 'label' => 'Input Customer',
+                'ar' => User::where('roles', 'Leader')->get(),
             ];
             return view('pelanggan.create')->with($data);
         } else {
@@ -63,8 +65,22 @@ class PelangganController extends Controller
         if (in_array('18', $session_menu)) {
             DB::beginTransaction();
             try {
+
+                $user = new User();
+                $user->name =  $request->nama;
+                $user->email = $request->email;
+                $user->roles =  $request->roles;
+                $user->phone = $request->telp;
+                $user->password = bcrypt($request->password);
+                $user->username =  $request->username;
+                $user->menu =  '3,4,5';
+                $user->submenu =  '1,2,3,4,5,7,8,9,10,11,12,17,18,19,20';
+                $user->save();
+
                 $produk = new PelangganModel();
                 $produk->nama =  $request->nama;
+                $produk->email = $request->email;
+                $produk->ar = $request->ar;
                 $produk->alamat =  $request->alamat;
                 $produk->telp =  $request->telp;
                 $produk->status =  1;

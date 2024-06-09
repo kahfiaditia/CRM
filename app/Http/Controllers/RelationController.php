@@ -24,7 +24,7 @@ class RelationController extends Controller
     public function index()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('21', $session_menu)) {
+        if (in_array('13', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -101,7 +101,7 @@ class RelationController extends Controller
     public function create()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('22', $session_menu)) {
+        if (in_array('14', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,

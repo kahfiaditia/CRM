@@ -446,110 +446,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="overflow-hidden me-auto">
+                                            {{-- <div class="overflow-hidden me-auto">
                                                 <h5 class="font-size-13 text-truncate mb-1">Users</h5>
                                                 <p class="text-muted text-truncate mb-0">{{ $user_jumlah }} Data</p>
                                             </div>
 
                                             <div class="ms-2">
                                                 <p class="text-muted">{{ $total_roles->total_roles }} Roles</p>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </a>
                             </div>
 
-                            <div class="card border shadow-none mb-2">
-                                <a href="javascript: void(0);" class="text-body">
-                                    <div class="p-2">
-                                        <div class="d-flex">
-                                            <div class="avatar-xs align-self-center me-2">
-                                                <div class="avatar-title rounded bg-transparent text-danger font-size-20">
-                                                    <i class="mdi mdi-application-import"></i>
-                                                </div>
-                                            </div>
 
-                                            <div class="overflow-hidden me-auto">
-                                                <h5 class="font-size-13 text-truncate mb-1">Supplier</h5>
-                                                <p class="text-muted text-truncate mb-0">{{ $supplier_jumlah }} Data</p>
-                                            </div>
-
-                                            <div class="ms-2">
-                                                <p class="text-muted">4.1 GB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card border shadow-none mb-2">
-                                <a href="javascript: void(0);" class="text-body">
-                                    <div class="p-2">
-                                        <div class="d-flex">
-                                            <div class="avatar-xs align-self-center me-2">
-                                                <div class="avatar-title rounded bg-transparent text-info font-size-20">
-                                                    <i class="mdi mdi-animation"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="overflow-hidden me-auto">
-                                                <h5 class="font-size-13 text-truncate mb-1">Satuan</h5>
-                                                <p class="text-muted text-truncate mb-0">{{ $satuan_jumlah }} Data</p>
-                                            </div>
-
-                                            <div class="ms-2">
-                                                <p class="text-muted">3.2 GB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card border shadow-none mb-2">
-                                <a href="javascript: void(0);" class="text-body">
-                                    <div class="p-2">
-                                        <div class="d-flex">
-                                            <div class="avatar-xs align-self-center me-2">
-                                                <div class="avatar-title rounded bg-transparent text-primary font-size-20">
-                                                    <i class="mdi mdi-file-document"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="overflow-hidden me-auto">
-                                                <h5 class="font-size-13 text-truncate mb-1">Produk</h5>
-                                                <p class="text-muted text-truncate mb-0">{{ $produk_jumlah }} Data</p>
-                                            </div>
-
-                                            <div class="ms-2">
-                                                <p class="text-muted">2 GB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card border shadow-none">
-                                <a href="javascript: void(0);" class="text-body">
-                                    <div class="p-2">
-                                        <div class="d-flex">
-                                            <div class="avatar-xs align-self-center me-2">
-                                                <div class="avatar-title rounded bg-transparent text-warning font-size-20">
-                                                    <i class="mdi mdi-account-reactivate"></i>
-                                                </div>
-                                            </div>
-
-                                            <div class="overflow-hidden me-auto">
-                                                <h5 class="font-size-13 text-truncate mb-1">Customer</h5>
-                                                <p class="text-muted text-truncate mb-0">{{ $pelanggan_jumlah }} Data</p>
-                                            </div>
-
-                                            <div class="ms-2">
-                                                <p class="text-muted">1.4 GB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>

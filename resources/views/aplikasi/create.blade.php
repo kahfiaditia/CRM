@@ -96,7 +96,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal Menambah',
-                        text: 'Form Aplikasi dan Minimal harus diisi.',
+                        text: 'Form Aplikasi dan Deskripsi harus diisi.',
                     });
                     return;
                 }

@@ -22,7 +22,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-4 mb-4">
                                         <div class="mb-6">
                                             <label>Nama <code>*</code></label>
                                             <input type="text" class="form-control"
@@ -34,23 +34,58 @@
                                             {!! $errors->first('nama', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="mb-6">
-                                            <label>Alamat</label>
-                                            <input type="text" class="form-control" id="alamat" name="alamat"
-                                                placeholder="Alamat" oninput="this.value = this.value.toUpperCase()"
+                                            <label>Email <code>*</code></label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Email" oninput="this.value = this.value.toUpperCase()"
                                                 autocomplete="off" maxlength="25" required>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
-                                            {!! $errors->first('alamat', '<div class="invalid-validasi">:message</div>') !!}
+                                            {!! $errors->first('email', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="mb-6">
+                                            <label>Roles</label>
+                                            <input type="text" class="form-control" id="roles" name="roles"
+                                                placeholder="Isi" value="Customer" autocomplete="off" maxlength="25"
+                                                readonly>
+                                            <div class="invalid-feedback">
+                                                Data wajib diisi.
+                                            </div>
+                                            {!! $errors->first('roles', '<div class="invalid-validasi">:message</div>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="mb-6">
                                             <label>Telp <code>*</code></label>
                                             <input type="number" class="form-control" id="telp" name="telp"
                                                 maxlength="16" placeholder="No HP" autocomplete="off" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-6">
+                                            <label>AR <code>*</code></label>
+                                            <select class="form-control seelect select2 aplikasi" name="ar"
+                                                id="ar">
+                                                <option value=""> -- Pilih --</option>
+                                                @foreach ($ar as $item)
+                                                    <option value="{{ $item->id }}"> {{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Data wajib diisi.
+                                            </div>
+                                            {!! $errors->first('ar', '<div class="invalid-validasi">:message</div>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-6">
+                                            <label>Almat <code>*</code></label>
+                                            <textarea class="form-control" maxlength="30" oninput="this.value = this.value.toUpperCase()" id="alamat"
+                                                rows="3" placeholder="Alamat" name="alamat" autocomplete="off"></textarea>
                                         </div>
                                     </div>
                                     <div class="row mt-4">

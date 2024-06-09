@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 30);
+            $table->string('nama', 40);
+            $table->string('email',35)->unique();
+            $table->unsignedBigInteger('ar')->nullable();
+            $table->foreign('ar')->references('id')->on('users');
             $table->string('telp', 16)->nullable();
             $table->string('alamat', 25)->nullable();
             $table->string('status', 1)->nullable();
