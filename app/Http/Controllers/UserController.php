@@ -19,6 +19,11 @@ class UserController extends Controller
      */
     public function index()
     {
+
+        $dataquery = User::where('roles', '!=', 'Customer')
+            ->whereNull('deleted_at')
+            ->get();
+
         $session_menu = explode(',', Auth::user()->submenu);
         if (in_array('5', $session_menu)) {
             $data = [
@@ -26,7 +31,7 @@ class UserController extends Controller
                 'menu' => $this->menu,
                 'submenu' => 'List User',
                 'label' => 'Users',
-                'dataku' => User::whereNull('deleted_at')->get()
+                'dataku' => $dataquery
             ];
             return view('user.index')->with($data);
         } else {
@@ -164,5 +169,18 @@ class UserController extends Controller
         } else {
             return view('not_found');
         }
+    }
+
+    public function profile($id)
+    {
+        $id_decrypted = Crypt::decryptString($id);
+        $data = [
+            'title' => $this->title,
+            'submenu' => $this->menu,
+            'label' => 'ubah akun',
+            // 'school_level' => School_level::all(),
+            'akun' => User::findorfail($id_decrypted)
+        ];
+        return view('akun.edit')->with($data);
     }
 }
