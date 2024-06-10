@@ -42,7 +42,7 @@ class PelangganController extends Controller
     public function create()
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('18', $session_menu)) {
+        if (in_array('6', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -62,7 +62,7 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('18', $session_menu)) {
+        if (in_array('6', $session_menu)) {
             DB::beginTransaction();
             try {
 
@@ -74,7 +74,7 @@ class PelangganController extends Controller
                 $user->password = bcrypt($request->password);
                 $user->username =  $request->username;
                 $user->menu =  '3,4,5';
-                $user->submenu =  '1,2,3,4,5,7,8,9,10,11,12,17,18,19,20';
+                $user->submenu =  '1,5,13,17,18,19,20';
                 $user->save();
 
                 $produk = new PelangganModel();
@@ -115,7 +115,7 @@ class PelangganController extends Controller
     public function edit($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('19', $session_menu)) {
+        if (in_array('7', $session_menu)) {
             $id_decrypt = Crypt::decryptString($id);
             $data = [
                 'title' => $this->title,
@@ -141,7 +141,7 @@ class PelangganController extends Controller
         ]);
 
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('18', $session_menu)) {
+        if (in_array('7', $session_menu)) {
             DB::beginTransaction();
             try {
                 $produk = PelangganModel::findOrFail($id);
@@ -172,7 +172,7 @@ class PelangganController extends Controller
     public function destroy($id)
     {
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('20', $session_menu)) {
+        if (in_array('8', $session_menu)) {
             $id_decrypt = Crypt::decryptString($id);
             DB::beginTransaction();
             try {

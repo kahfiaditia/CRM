@@ -30,7 +30,6 @@
                                                 <option value=""> --- Pilih --</option>
                                                 <option value="Administrator"> Administrator</option>
                                                 <option value="Leader"> Leader</option>
-                                                <option value="Customer"> Customer</option>
                                             </select>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.

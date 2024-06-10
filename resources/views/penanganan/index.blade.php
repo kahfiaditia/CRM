@@ -37,7 +37,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode</th>
+                                        <th>ID Lapor</th>
+                                        <th>ID RTL</th>
+                                        <th>Kode Lapor</th>
+                                        <th>Kode RTL</th>
                                         <th>Customer</th>
                                         <th>Aplikasi</th>
                                         <th>Status Progres</th>
@@ -45,31 +48,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pelaporandata as $lapor)
+                                    @foreach ($tangani as $lapor)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $lapor->lapor_id }}</td>
+                                            <td>{{ $lapor->tangani_id }}</td>
                                             <td>{{ $lapor->kode }}</td>
-                                            <td>{{ $lapor->customer->nama }}</td>
-                                            <td>{{ $lapor->aplikasi->nama }}</td>
+                                            <td>{{ $lapor->kode_penanganan }}</td>
+                                            <td>{{ $lapor->customer }}</td>
+                                            <td>{{ $lapor->aplikasi }}</td>
                                             <td>{{ $lapor->progres }}</td>
+                                            {{-- <td>{{ $lapor->customer->nama }}</td>
+                                            <td>{{ $lapor->aplikasi->nama }}</td>
+                                            <td>{{ $lapor->progres }}</td> --}}
                                             <td>
                                                 <form class="delete-form"
-                                                    action="{{ route('pelanggan.destroy', Crypt::encryptString($lapor->id)) }}"
+                                                    action="{{ route('penanganan.destroy', Crypt::encryptString($lapor->tangani_id)) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
-                                                        @if (in_array('19', $session_menu))
-                                                            <a href="{{ route('pelaporan.edit', Crypt::encryptString($lapor->id)) }}"
+                                                        @if (in_array('23', $session_menu))
+                                                            <a href="{{ route('penanganan.edit', Crypt::encryptString($lapor->tangani_id)) }}"
                                                                 class="text-success"><i
                                                                     class="mdi mdi-pencil font-size-18"></i></a>
                                                         @endif
-                                                        @if (in_array('17', $session_menu))
-                                                            <a href="{{ route('pelaporan.show', Crypt::encryptString($lapor->id)) }}"
-                                                                class="text-success"><i
+                                                        @if (in_array('21', $session_menu))
+                                                            <a href="{{ route('pelaporan.show', Crypt::encryptString($lapor->lapor_id)) }}"
+                                                                class="text-primary"><i
                                                                     class="mdi mdi-eye font-size-18"></i></a>
                                                         @endif
-                                                        @if (in_array('20', $session_menu))
+                                                        @if (in_array('24', $session_menu))
                                                             <a href class="text-danger delete_confirm"><i
                                                                     class="mdi mdi-delete font-size-18"></i></a>
                                                         @endif

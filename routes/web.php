@@ -4,6 +4,7 @@ use App\Http\Controllers\AplikasiController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HasilLaporanController;
 use App\Http\Controllers\LaporanPembelianController;
 use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\LeaderController;
@@ -55,8 +56,7 @@ Route::group(
         Route::get('/mengambil_data_aplikasi', [RelationController::class, 'mengambil_data_aplikasi'])->name('relation.mengambil_data_aplikasi');
         route::resource('/pelaporan', PelaporanController::class);
         route::resource('/penanganan', PenangananController::class);
-
-        route::resource('/laporan_penjualan', LaporanPenjualanController::class);
-        route::resource('/laporan_pembelian', LaporanPembelianController::class);
+        route::resource('/hasil', HasilLaporanController::class);
+        route::resource('/pengaduan', HasilLaporanController::class);
     }
 );

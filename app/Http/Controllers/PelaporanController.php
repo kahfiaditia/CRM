@@ -6,6 +6,7 @@ use App\Helper\AlertHelper;
 use App\Models\AplikasiModel;
 use App\Models\PelangganModel;
 use App\Models\PelaporanModel;
+use App\Models\PenangananModel;
 use App\Models\RelationModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -45,13 +46,11 @@ class PelaporanController extends Controller
     public function create()
     {
         $email = Auth::user()->email;
-        $nama = Auth::user()->name;
-        $id_customer = Auth::user()->id;
         $cari = PelangganModel::where('email', $email)->first();
         $aplikasi = AplikasiModel::all();
-        // dd($aplikasi);
+
         $session_menu = explode(',', Auth::user()->submenu);
-        if (in_array('5', $session_menu)) {
+        if (in_array('18', $session_menu)) {
             $data = [
                 'title' => $this->title,
                 'menu' => $this->menu,
@@ -81,40 +80,56 @@ class PelaporanController extends Controller
         ]);
 
         $today = Carbon::now();
-        $dateCode = $today->format('d'); // 2 digit tanggal
-        $monthCode = $today->format('m'); // 2 digit bulan
+        $dateCode = $today->format('d');
+        $monthCode = $today->format('m');
         $sequence = PelaporanModel::whereDate('created_at', $today->toDateString())->count() + 1;
-        $sequenceCode = str_pad($sequence, 2, '0', STR_PAD_LEFT); // 2 digit nomor urut
-
+        $sequenceCode = str_pad($sequence, 2, '0', STR_PAD_LEFT);
         $kodePelaporan = 'AT' . $dateCode . $monthCode . $sequenceCode;
 
         $session_menu = explode(',', Auth::user()->submenu);
-        DB::beginTransaction();
-        try {
-            $pelaporan = new PelaporanModel();
-            $pelaporan->kode = $kodePelaporan;
-            $pelaporan->id_ar = $request->ar;
-            $pelaporan->id_customer = $request->id_customer;
-            $pelaporan->id_aplikasi = $request->id_aplikasi;
-            $pelaporan->progres = "Terkirim";
-            $pelaporan->deskripsi = $request->deskripsi;
-            $pelaporan->link = $request->link;
-            $pelaporan->user_created = auth()->user()->id;
-            if ($request->hasFile('foto')) {
-                $fileName = Carbon::now()->format('ymdhis') . '_' . Str::random(25) . '.' . $request->foto->extension();
-                $pelaporan->screenshoot = $fileName;
-                $request->foto->move(public_path('assets/pelaporan'), $fileName);
-            }
-            $pelaporan->save();
+        if (in_array('18', $session_menu)) {
+            DB::beginTransaction();
+            try {
+                $pelaporan = new PelaporanModel();
+                $pelaporan->kode = $kodePelaporan;
+                $pelaporan->id_ar = $request->ar;
+                $pelaporan->id_customer = $request->id_customer;
+                $pelaporan->id_aplikasi = $request->id_aplikasi;
+                $pelaporan->progres = "Terkirim";
+                $pelaporan->deskripsi = $request->deskripsi;
+                $pelaporan->link = $request->link;
+                $pelaporan->user_created = Auth::user()->id;
+                if ($request->hasFile('foto')) {
+                    $fileName = Carbon::now()->format('ymdhis') . '_' . Str::random(25) . '.' . $request->foto->extension();
+                    $pelaporan->screenshoot = $fileName;
+                    $request->foto->move(public_path('assets/pelaporan'), $fileName);
+                }
+                $pelaporan->save();
 
-            DB::commit();
-            AlertHelper::addAlert(true);
-            return redirect('/pelaporan');
-        } catch (\Throwable $err) {
-            DB::rollback();
-            throw $err;
-            AlertHelper::addAlert(false);
-            return back();
+                $today = Carbon::now();
+                $dateCode = $today->format('d');
+                $monthCode = $today->format('m');
+                $sequence = PenangananModel::whereDate('created_at', $today->toDateString())->count() + 1;
+                $sequenceCode = str_pad($sequence, 2, '0', STR_PAD_LEFT);
+                $kodePenanganan = 'SO' . $dateCode . $monthCode . $sequenceCode;
+
+                $penanganan = new PenangananModel();
+                $penanganan->kode_penanganan = $kodePenanganan;
+                $penanganan->id_pelaporan = $pelaporan->id;
+                $penanganan->hasil_progres = "Review";
+                $penanganan->save();
+
+                DB::commit();
+                AlertHelper::addAlert(true);
+                return redirect('/pelaporan');
+            } catch (\Throwable $err) {
+                DB::rollback();
+                throw $err;
+                AlertHelper::addAlert(false);
+                return back();
+            }
+        } else {
+            return view('not_found');
         }
     }
 
@@ -123,7 +138,21 @@ class PelaporanController extends Controller
      */
     public function show($id)
     {
-        //
+        $id_decrypt = Crypt::decryptString($id);
+
+        $session_menu = explode(',', Auth::user()->submenu);
+        if (in_array('17', $session_menu)) {
+            $data = [
+                'title' => $this->title,
+                'menu' => $this->menu,
+                'submenu' => 'Pelaporan',
+                'label' => 'Detil Pelaporan',
+                'pelaporandata' => PelaporanModel::findOrFail($id_decrypt),
+            ];
+            return view('pelaporan.show')->with($data);
+        } else {
+            return view('not_found');
+        }
     }
 
     /**
