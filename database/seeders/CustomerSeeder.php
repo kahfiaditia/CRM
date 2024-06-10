@@ -13,7 +13,7 @@ class CustomerSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   public function run()
+    public function run()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('pelanggan')->truncate();
@@ -24,7 +24,7 @@ class CustomerSeeder extends Seeder
                 'email' => 'customer@gmail.com',
                 'ar' => 1,
                 'menu' => '3,4,5',
-                'submenu' => '1,2,3,4,5,7,8,9,10,11,12,17,18,19,20',
+                'submenu' => '1,5,13,17,18,19,20',
                 'telp' => '0896547788',
             ],
         ];
