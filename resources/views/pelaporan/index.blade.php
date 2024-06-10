@@ -17,12 +17,12 @@
                         </div>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                {{-- @if (in_array('17', $session_menu)) --}}
-                                <a href="{{ route('pelaporan.create') }}" type="button"
-                                    class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
-                                    <i class="mdi mdi-plus me-1"></i> Tambah
-                                </a>
-                                {{-- @endif --}}
+                                @if (in_array('17', $session_menu))
+                                    <a href="{{ route('pelaporan.create') }}" type="button"
+                                        class="float-end btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                        <i class="mdi mdi-plus me-1"></i> Tambah
+                                    </a>
+                                @endif
                             </ol>
                         </div>
                     </div>
@@ -40,40 +40,45 @@
                                         <th>Kode</th>
                                         <th>Customer</th>
                                         <th>Aplikasi</th>
-                                        <th>Status</th>
+                                        <th>Status Progres</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
-                                        @foreach ($indexpelanggan as $pelanggan)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $pelanggan->nama }}</td>
-                                                <td>{{ $pelanggan->alamat }}</td>
-                                                <td>{{ $pelanggan->telp }}</td>
-                                                <td>{{ $pelanggan->status == 1 ? 'Aktive' : 'Non Aktive' }}</td>
-                                                <td>
-                                                    <form class="delete-form"
-                                                        action="{{ route('pelanggan.destroy', Crypt::encryptString($pelanggan->id)) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <div class="d-flex gap-3">
-                                                            @if (in_array('19', $session_menu))
-                                                                <a href="{{ route('pelanggan.edit', Crypt::encryptString($pelanggan->id)) }}"
-                                                                    class="text-success"><i
-                                                                        class="mdi mdi-pencil font-size-18"></i></a>
-                                                            @endif
-                                                            @if (in_array('20', $session_menu))
-                                                                <a href class="text-danger delete_confirm"><i
-                                                                        class="mdi mdi-delete font-size-18"></i></a>
-                                                            @endif
-                                                        </div>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody> --}}
+                                <tbody>
+                                    @foreach ($pelaporandata as $lapor)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $lapor->kode }}</td>
+                                            <td>{{ $lapor->customer->nama }}</td>
+                                            <td>{{ $lapor->aplikasi->nama }}</td>
+                                            <td>{{ $lapor->progres }}</td>
+                                            <td>
+                                                <form class="delete-form"
+                                                    action="{{ route('pelanggan.destroy', Crypt::encryptString($lapor->id)) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="d-flex gap-3">
+                                                        @if (in_array('19', $session_menu))
+                                                            <a href="{{ route('pelanggan.edit', Crypt::encryptString($lapor->id)) }}"
+                                                                class="text-success"><i
+                                                                    class="mdi mdi-pencil font-size-18"></i></a>
+                                                        @endif
+                                                        @if (in_array('17', $session_menu))
+                                                            <a href="{{ route('pelanggan.show', Crypt::encryptString($lapor->id)) }}"
+                                                                class="text-success"><i
+                                                                    class="mdi mdi-eye font-size-18"></i></a>
+                                                        @endif
+                                                        @if (in_array('20', $session_menu))
+                                                            <a href class="text-danger delete_confirm"><i
+                                                                    class="mdi mdi-delete font-size-18"></i></a>
+                                                        @endif
+                                                    </div>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>

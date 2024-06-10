@@ -11,4 +11,14 @@ class PelaporanModel extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'pelaporan';
     protected $guarded = [];
+
+    public function customer()
+    {
+        return $this->belongsTo(PelangganModel::class, 'id_customer');
+    }
+
+    public function aplikasi()
+    {
+        return $this->belongsTo(AplikasiModel::class, 'id_aplikasi');
+    }
 }

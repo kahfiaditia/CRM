@@ -4,21 +4,13 @@ use App\Http\Controllers\AplikasiController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\JenisController;
 use App\Http\Controllers\LaporanPembelianController;
 use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\LeaderController;
-use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelaporanController;
-use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenangananController;
-use App\Http\Controllers\PenjualanController;
-use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RelationController;
-use App\Http\Controllers\SatuanController;
-use App\Http\Controllers\StokController;
-use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -53,7 +45,7 @@ Route::group(
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         route::resource('/data_user', UserController::class);
         Route::get('/profil', [UserController::class, 'profil'])->name('pengguna.profil');
-       
+
 
         route::resource('/leader', LeaderController::class);
         route::resource('/pelanggan', PelangganController::class);
@@ -63,10 +55,8 @@ Route::group(
         Route::get('/mengambil_data_aplikasi', [RelationController::class, 'mengambil_data_aplikasi'])->name('relation.mengambil_data_aplikasi');
         route::resource('/pelaporan', PelaporanController::class);
         route::resource('/penanganan', PenangananController::class);
-        
+
         route::resource('/laporan_penjualan', LaporanPenjualanController::class);
         route::resource('/laporan_pembelian', LaporanPembelianController::class);
-
-         
     }
 );

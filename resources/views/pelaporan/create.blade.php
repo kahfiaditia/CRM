@@ -16,7 +16,8 @@
                 </div>
             </div>
             {{-- {{ dd($customer) }} --}}
-            <form class="needs-validation" action="{{ route('pelaporan.store') }}" method="POST" novalidate>
+            <form class="needs-validation" action="{{ route('pelaporan.store') }}" method="POST"
+                enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="row">
                     <div class="col-xl-12">
@@ -26,9 +27,14 @@
                                     <div class="col-md-4 mb-4">
                                         <div class="mb-6">
                                             <label>Account Representative <code>*</code></label>
+                                            <input type="text" class="form-control" id="arid" name="ar"
+                                                oninput="this.value = this.value.toUpperCase()" autocomplete="off"
+                                                maxlength="25" value="{{ $customer->nama_ar->name }}" readonly>
                                             <input type="text" class="form-control" id="ar" name="ar"
                                                 oninput="this.value = this.value.toUpperCase()" autocomplete="off"
-                                                maxlength="25" readonly>
+                                                maxlength="25" value="{{ $customer->ar }}" readonly>
+                                            <input type="text" class="form-control" id="id_customer" name="id_customer"
+                                                autocomplete="off" value="{{ $customer->id }}" readonly>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -38,14 +44,17 @@
                                     <div class="col-md-4 mb-4">
                                         <div class="mb-6">
                                             <label>Aplikasi <code>*</code></label>
-                                            <select class="form-control seelect select2 aplikasi" name="aplikasi"
-                                                id="aplikasi">
+                                            <select class="form-control seelect select2 id_aplikasi" name="id_aplikasi"
+                                                id="id_aplikasi">
                                                 <option value=""> -- Pilih --</option>
+                                                @foreach ($aplikasi as $app)
+                                                    <option value="{{ $app->id }}"> {{ $app->nama }}</option>
+                                                @endforeach
                                             </select>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
-                                            {!! $errors->first('nama', '<div class="invalid-validasi">:message</div>') !!}
+                                            {!! $errors->first('id_aplikasi', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -62,24 +71,35 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-6">
-                                            <label>Deskripsi <code>*</code></label>
-                                            <textarea class="form-control" maxlength="128" oninput="this.value = this.value.toUpperCase()" id="deskripsi"
-                                                rows="3" placeholder="Deskripsi" name="deskripsi" autocomplete="off"></textarea>
+                                            <label>Screenshoot</label>
+                                            <input type="file" class="form-control" id="foto" name="foto"
+                                                placeholder="Gambar" accept=".jpg, .jpeg, .png" autocomplete="off" required>
+                                            <div class="invalid-feedback">
+                                                Data wajib diisi.
+                                            </div>
+                                            {!! $errors->first('foto', '<div class="invalid-validasi">:message</div>') !!}
                                         </div>
                                     </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-12">
-                                            <a href="{{ route('pelanggan.index') }}"
-                                                class="btn btn-secondary waves-effect">Batal</a>
-                                            <button class="btn btn-primary" type="submit"
-                                                style="float: right">Simpan</button>
-                                        </div>
-                                    </div>
-
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="mt-6">
+                                        <label>Deskripsi <code>*</code></label>
+                                        <textarea class="form-control" maxlength="128" oninput="this.value = this.value.toUpperCase()" id="deskripsi"
+                                            rows="3" placeholder="Deskripsi" name="deskripsi" autocomplete="off"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-sm-12">
+                                        <a href="{{ route('pelanggan.index') }}"
+                                            class="btn btn-secondary waves-effect">Batal</a>
+                                        <button class="btn btn-primary" type="submit" style="float: right">Simpan</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
     </div>

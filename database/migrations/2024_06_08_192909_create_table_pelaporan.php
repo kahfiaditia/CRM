@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('pelaporan', function (Blueprint $table) {
             $table->id();
             $table->string('kode', 12)->nullable();
+            $table->unsignedBigInteger('id_ar')->nullable();
+            $table->foreign('id_ar')->references('id')->on('users');
+            $table->string('screenshoot', 64)->nullable();
             $table->unsignedBigInteger('id_customer')->nullable();
             $table->foreign('id_customer')->references('id')->on('pelanggan');
             $table->unsignedBigInteger('id_aplikasi')->nullable();
