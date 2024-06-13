@@ -191,7 +191,7 @@
                                         <th>Tgl Laporan</th>
                                         <th>Tgl Penanganan</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        {{-- <th>Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
