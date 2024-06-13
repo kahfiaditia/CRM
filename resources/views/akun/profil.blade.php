@@ -32,14 +32,14 @@
                                 <label for="example-text-input" class="col-md-2 col-form-label">Nama</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" value="{{ $akun->name }}"
-                                        id="example-text-input">
+                                        id="example-text-input" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-md-2 col-form-label">Email</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" value="{{ $akun->email }}"
-                                        id="example-text-input">
+                                        id="example-text-input" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -53,28 +53,28 @@
                                 <label for="example-text-input" class="col-md-2 col-form-label">Phone</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" value="{{ $akun->phone }}"
-                                        id="example-text-input">
+                                        id="example-text-input" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-md-2 col-form-label">Menu</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" value="{{ $akun->menu }}"
-                                        id="example-text-input">
+                                        id="example-text-input" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-md-2 col-form-label">Submenu</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="text" value="{{ $akun->submenu }}"
-                                        id="example-text-input">
+                                        id="example-text-input" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="example-password-input" class="col-md-2 col-form-label">Password</label>
                                 <div class="col-md-10">
                                     <input class="form-control" type="password" value="{{ $akun->password }}"
-                                        placeholder="Enter Password" id="example-password-input">
+                                        placeholder="Enter Password" id="example-password-input" readonly>
                                 </div>
                             </div>
                         </div>
