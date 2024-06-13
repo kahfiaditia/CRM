@@ -48,7 +48,7 @@ class AkunSeeder extends Seeder
                 'password' => bcrypt('12345'),
                 'roles' => 'Customer',
                 'menu' => '3,4,5',
-                'submenu' => '1,5,13,17,18,19,20',
+                'submenu' => '1,5,13,17,18',
                 'phone' => '0896566644',
                 'email_verified_at' => Carbon::now(),
             ],
