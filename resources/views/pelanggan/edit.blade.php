@@ -57,13 +57,12 @@
                                                 {!! $errors->first('telp', '<div class="invalid-validasi">:message</div>') !!}
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
 
                                 <div class="row mt-4">
                                     <div class="col-sm-12">
-                                        <a href="{{ route('pelanggan.index') }}"
+                                        <a href="{{ route('pelaporan.index') }}"
                                             class="btn btn-secondary waves-effect">Batal</a>
                                         <button class="btn btn-primary" type="submit" style="float: right">Simpan</button>
                                     </div>

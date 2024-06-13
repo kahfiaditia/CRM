@@ -27,7 +27,7 @@
                                         <div class="text-primary" style="padding: 15px 0px 0px 25px;">
                                             <h5 class="text-primary">Welcome</h5>
                                             Sign in to
-                                            <p>Persediaan Obat Faeyza Farma.</p>
+                                            <p>Sistem CRRM</p>
                                         </div>
                                     </div>
                                     <div class="col-5 align-self-end">
@@ -115,7 +115,7 @@
                             <div>
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> | Sistem Persediaan Obat Faeyza Farma
+                                </script> | Sistem CRM
                                 </p>
                             </div>
                         </div>

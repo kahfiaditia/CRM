@@ -84,10 +84,12 @@ class PenangananController extends Controller
      */
     public function edit($id)
     {
+        // dd($id);
         $editprogress = DB::table('pelaporan')
             ->leftJoin('penanganan', 'penanganan.id_pelaporan', '=', 'pelaporan.id')
             ->leftJoin('pelanggan', 'pelaporan.id_customer', '=', 'pelanggan.id')
             ->leftJoin('aplikasi', 'pelaporan.id_aplikasi', '=', 'aplikasi.id')
+            ->where('penanganan.id', $id)
             ->select(
                 'pelaporan.id as lapor_id',
                 'pelaporan.kode',
@@ -105,7 +107,7 @@ class PenangananController extends Controller
             )
             ->get();
 
-        $id_decrypt = Crypt::decryptString($id);
+        // $id_decrypt = Crypt::decryptString($id);
         $session_menu = explode(',', Auth::user()->submenu);
         if (in_array('23', $session_menu)) {
             $data = [
@@ -113,7 +115,7 @@ class PenangananController extends Controller
                 'menu' => $this->menu,
                 'submenu' => 'Penanganan',
                 'label' => 'Eksekusi Penanganan',
-                'eksekusi' => PenangananModel::findOrFail($id_decrypt),
+                'eksekusi' => PenangananModel::findOrFail($id),
                 'edit' =>  $editprogress
             ];
 
@@ -142,7 +144,6 @@ class PenangananController extends Controller
             $pelaporan->save();
 
             $test = PenangananModel::findOrfail($id);
-            // dd($test->id_pelaporan);
             $update = PelaporanModel::findOrfail($test->id_pelaporan);
             $update->progres = $request->status2;
             $update->user_created = Auth::user()->id;

@@ -63,13 +63,13 @@
                                             <td>{{ $lapor->progres }}</td> --}}
                                             <td>
                                                 <form class="delete-form"
-                                                    action="{{ route('penanganan.destroy', Crypt::encryptString($lapor->tangani_id)) }}"
+                                                    action="{{ route('penanganan.destroy', $lapor->tangani_id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="d-flex gap-3">
                                                         @if (in_array('23', $session_menu))
-                                                            <a href="{{ route('penanganan.edit', Crypt::encryptString($lapor->tangani_id)) }}"
+                                                            <a href="{{ route('penanganan.edit', $lapor->tangani_id) }}"
                                                                 class="text-success"><i
                                                                     class="mdi mdi-pencil font-size-18"></i></a>
                                                         @endif

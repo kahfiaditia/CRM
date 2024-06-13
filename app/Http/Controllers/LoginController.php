@@ -24,7 +24,7 @@ class LoginController extends Controller
             'submenu' => 'login',
             'label' => 'login',
         ];
-        return view('login.login2')->with($data);
+        return view('login.login')->with($data);
     }
 
     public function login_backend()
@@ -53,7 +53,7 @@ class LoginController extends Controller
             } else if (Auth::user()->roles == 'Leader') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
-            }  else if (Auth::user()->roles == 'Customer') {
+            } else if (Auth::user()->roles == 'Customer') {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             } else {

@@ -116,7 +116,7 @@ class PelaporanController extends Controller
                 $penanganan = new PenangananModel();
                 $penanganan->kode_penanganan = $kodePenanganan;
                 $penanganan->id_pelaporan = $pelaporan->id;
-                $penanganan->hasil_progres = "Review";
+                $penanganan->hasil_progres = "Belum Ditangani";
                 $penanganan->save();
 
                 DB::commit();
@@ -200,7 +200,7 @@ class PelaporanController extends Controller
 
                 DB::commit();
                 AlertHelper::addAlert(true);
-                return redirect('/pelanggan');
+                return redirect('/pelaporan');
             } catch (\Throwable $err) {
                 DB::rollback();
                 throw $err;

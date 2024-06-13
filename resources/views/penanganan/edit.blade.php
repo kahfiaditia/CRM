@@ -68,9 +68,10 @@
                                         <div class="mb-6">
                                             <label>Status Progress</label>
                                             <select class="form-control select select2 status2" name="status2"
-                                                id="status2">
+                                                id="status2" required>
                                                 <option value=""> -- Pilih --</option>
                                                 <option value="In Progress"> In Progress </option>
+                                                <option value="On Hold"> On Hold </option>
                                                 <option value="Selesai"> Selesai </option>
                                             </select>
                                             <div class="invalid-feedback">

@@ -32,9 +32,9 @@
                                                 maxlength="25" value="{{ $customer->nama_ar->name }}" readonly>
                                             <input type="text" class="form-control" id="ar" name="ar"
                                                 oninput="this.value = this.value.toUpperCase()" autocomplete="off"
-                                                maxlength="25" value="{{ $customer->ar }}" readonly>
+                                                maxlength="25" value="{{ $customer->ar }}" hidden>
                                             <input type="text" class="form-control" id="id_customer" name="id_customer"
-                                                autocomplete="off" value="{{ $customer->id }}" readonly>
+                                                autocomplete="off" value="{{ $customer->id }}" hidden>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -90,9 +90,10 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-sm-12">
-                                        <a href="{{ route('pelanggan.index') }}"
+                                        <a href="{{ route('pelaporan.index') }}"
                                             class="btn btn-secondary waves-effect">Batal</a>
-                                        <button class="btn btn-primary" type="submit" style="float: right">Simpan</button>
+                                        <button class="btn btn-primary" type="submit" style="float: right">Kirim
+                                            laporan</button>
                                     </div>
                                 </div>
 

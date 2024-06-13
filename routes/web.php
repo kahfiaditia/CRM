@@ -57,6 +57,8 @@ Route::group(
         route::resource('/pelaporan', PelaporanController::class);
         route::resource('/penanganan', PenangananController::class);
         route::resource('/hasil', HasilLaporanController::class);
+        Route::get('/cari_data_penanganan', [HasilLaporanController::class, 'cari_data_penanganan'])->name('cari_data_penanganan');
+        Route::get('/export_laporan', [HasilLaporanController::class, 'export_laporan'])->name('hasil.export_laporan');
         route::resource('/pengaduan', HasilLaporanController::class);
     }
 );
