@@ -40,7 +40,7 @@ class MenuSeeder extends Seeder
             ],
             [
                 'menu' => 'Profil',
-                'route_menu' => 'pengguna.profil',
+                'route_menu' => 'akun.profile',
                 'typemenu' => 'view',
                 'icon_menu' => 'bx bx-user font-size-24 text-warning',
                 'status' => '1',

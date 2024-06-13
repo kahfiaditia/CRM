@@ -173,14 +173,16 @@ class UserController extends Controller
 
     public function profile($id)
     {
+        // dd($id);
         $id_decrypted = Crypt::decryptString($id);
         $data = [
             'title' => $this->title,
             'submenu' => $this->menu,
-            'label' => 'ubah akun',
-            // 'school_level' => School_level::all(),
+            'master' => 'Profil',
+            'label' => 'Profil User',
+            'label1' => 'Profil',
             'akun' => User::findorfail($id_decrypted)
         ];
-        return view('akun.edit')->with($data);
+        return view('akun.profil')->with($data);
     }
 }

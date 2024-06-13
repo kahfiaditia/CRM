@@ -64,9 +64,9 @@
                                                 id="tableRelation">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center" style="width: 20%">id Customer</th>
+                                                        <th class="text-center" hidden>id Customer</th>
                                                         <th class="text-center" style="width: 10%">Customer</th>
-                                                        <th class="text-center" style="width: 10%">id Aplikasi</th>
+                                                        <th class="text-center" hidden>id Aplikasi</th>
                                                         <th class="text-center" style="width: 10%">Nama</th>
                                                         <th class="text-center" style="width: 5%">Aksi</th>
                                                     </tr>
@@ -156,9 +156,9 @@
 
                 $("#tableRelation tbody").append(`
                 <tr>
-                    <td class="text-center">${customer_id}</td>
+                    <td class="text-center" hidden>${customer_id}</td>
                     <td class="text-center">${customer_nama}</td>
-                    <td class="text-center">${aplikasi_id}</td>
+                    <td class="text-center" hidden>${aplikasi_id}</td>
                     <td class="text-center">${aplikasi_nama}</td>   
                     <td class="text-center">
                         <a href="#" class="text-danger delete-record">

@@ -31,11 +31,10 @@
                                             <input type="text" class="form-control" id="kode_lapor" name="kode_lapor"
                                                 autocomplete="off" value="{{ $edit[0]->kode }}" readonly>
                                             <input type="text" class="form-control" id="id_pelaporan" name="id_pelaporan"
-                                                value="{{ $edit[0]->lapor_id }}" autocomplete="off" maxlength="25"
-                                                value="" readonly>
+                                                value="{{ $edit[0]->lapor_id }}" autocomplete="off" maxlength="25" hidden>
                                             <input type="text" class="form-control" id="id_penanganan"
                                                 name="id_penanganan" value="{{ $edit[0]->tangani_id }}" autocomplete="off"
-                                                maxlength="25" value="" readonly>
+                                                maxlength="25" hidden>
                                             <div class="invalid-feedback">
                                                 Data wajib diisi.
                                             </div>
@@ -91,7 +90,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-sm-12">
-                                        <a href="{{ route('pelanggan.index') }}"
+                                        <a href="{{ route('penanganan.index') }}"
                                             class="btn btn-secondary waves-effect">Batal</a>
                                         <button class="btn btn-primary" type="submit" style="float: right">Ubah</button>
                                     </div>

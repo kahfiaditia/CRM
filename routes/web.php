@@ -45,7 +45,7 @@ Route::group(
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         route::resource('/data_user', UserController::class);
-        Route::get('/profil', [UserController::class, 'profil'])->name('pengguna.profil');
+        Route::get('/profile/{id}', [UserController::class, 'profile'])->name('akun.profile');
 
 
         route::resource('/leader', LeaderController::class);

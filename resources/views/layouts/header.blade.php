@@ -22,10 +22,11 @@
                 </button>
             </div>
             <div class="dropdown d-inline-block">
-                <form method="GET" action="{{ route('pengguna.profil') }}">
+                <form method="GET" action="{{ route('akun.profile', Crypt::encryptString(Auth::user()->id)) }}">
                     @csrf
                     <button class="btn header-item waves-effect">
                         <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ Auth::user()->name }}</span>
+                        <span class="d-none d-xl-inline-block ms-1" key="t-henry">[{{ Auth::user()->roles }}]</span>
                     </button>
                 </form>
             </div>

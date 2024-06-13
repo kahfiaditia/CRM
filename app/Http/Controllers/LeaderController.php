@@ -48,7 +48,7 @@ class LeaderController extends Controller
                 'label' => 'Users',
                 'dataku' => User::all()
             ];
-            return view('user.tambah')->with($data);
+            return view('leader.create')->with($data);
         } else {
             return view('not_found');
         }

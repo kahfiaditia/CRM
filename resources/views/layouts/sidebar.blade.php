@@ -23,7 +23,8 @@
                                 <span key="t-ecommerce">{{ $menu->menu }}</span>
                             </a>
                         @else
-                            <a href="{{ route($menu->route_menu) }}">
+                            <a
+                                href="{{ route($menu->route_menu, ['id' => Crypt::encryptString(Auth::user()->id)]) }}) }}">
                                 <i class="{{ $menu->icon_menu }}"></i>
                                 <span key="t-ecommerce">{{ $menu->menu }}</span>
                             </a>
